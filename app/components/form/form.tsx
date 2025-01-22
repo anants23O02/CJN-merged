@@ -1,7 +1,8 @@
 'use client'; // Add this to mark the component as a client-side component
 import './form.css';
 import React, { useState } from 'react';
-
+import MainButton from "../mainButton/button"
+import {useRouter} from "next/navigation"
 // Define the form values types
 interface FormValues {
   email: string;
@@ -17,7 +18,7 @@ interface FormValues {
 }
 
 // Define the component
-const Form1: React.FC = ({changePage}) => {
+const Form1: React.FC = () => {
 
 
   const [formValues, setFormValues] = useState<FormValues>({
@@ -66,8 +67,10 @@ const Form1: React.FC = ({changePage}) => {
     }
   };
 
-  function handleclick(){
-    changePage();
+  const router = useRouter();
+
+  function changePage() {
+      router.push('/pages/MasterTablePage');
   }
    
   return (
@@ -300,13 +303,9 @@ const Form1: React.FC = ({changePage}) => {
       </div>
 
       <div className='button-container'>
-      <button
-        type="submit"
-        className="form-button sky-blue-button"
-        onClick = {handleclick}
-      >
+      <MainButton handleClick = {changePage}>
         <span className="button-icon"></span> Search
-      </button>
+      </MainButton>
       </div>
     </form>
   );

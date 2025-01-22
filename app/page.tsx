@@ -7,11 +7,7 @@ import "./page.css";
 import {useRouter} from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
-
-  function changePage() {
-      router.push('/pages/MasterTablePage');
-  }
+ 
 
   return (
     <div className="merge-page">
@@ -20,7 +16,7 @@ export default function Home() {
       <FilterPopup/>
       <p className="form-heading">Primary Master Name Record</p>
       <div className="form">
-        <Form1 changePage = {changePage} />
+        <Form1  />
       </div>
     </div>
   );
