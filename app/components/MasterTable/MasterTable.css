@@ -1,0 +1,18 @@
+/* MasterTable.css */
+.small-table .ant-table-tbody > tr > td {
+    font-size: 12px; /* Reduces the font size */
+    padding: 4px 8px;
+    font-weight: 600; /* Reduces cell padding */
+  }
+  
+  .small-table .ant-table-thead > tr > th {
+    font-size: 14px;  /* Reduces font size of column headers */
+    padding: 6px 10px;
+    color: rgb(122, 145, 161); 
+    font-weight: 600; /* Adjust header padding */
+  }
+  
+  .small-table .ant-table {
+    font-size: 12px; /* Overall font size */
+  }
+  
