@@ -11,7 +11,7 @@
   .label {
     font-weight: bold;
     color: #616264;
-    font-size: 1rem;
+    font-size: 0.75rem;
   }
   
   .input {
@@ -23,7 +23,7 @@
     padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 0.375rem;
-    width: 60px;
+    width: 40px !important;
     
 
   }
@@ -31,7 +31,7 @@
   input[type="number"],
   input[type="password"],
   select {
-    width: 80%;
+    width: 70% !important;
     background-color: rgb(235, 238, 241);
 
   }

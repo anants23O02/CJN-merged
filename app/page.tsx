@@ -1,8 +1,7 @@
 "use client";
 
 import Form1 from "./components/form/form";
-import Cascade from "./components/cascade/cascade";
-import FilterPopup from './components/Modal/modal.tsx';
+import FilterPopup from "./components/Modal/modal";
 import "./page.css";
 import {useRouter} from "next/navigation";
 
