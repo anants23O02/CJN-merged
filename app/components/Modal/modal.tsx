@@ -47,11 +47,11 @@ const FilterPopup: React.FC = () => {
   };
 
   return (
-    <div>
+    <div style={{background:"white"}}>
       <Button
         type="default"
         onClick={() => setIsModalVisible(true)}>
-        Manage Filters
+        #
       </Button>
         {selectedFilters.map((filter) => (
           <span
@@ -60,8 +60,7 @@ const FilterPopup: React.FC = () => {
               display: 'inline-block',
               padding: '5px 10px',
               margin: '5px',
-              background: '#f0f0f0',
-              borderRadius: '15px',
+              background: 'rgb(221, 220, 220)',
               cursor: 'pointer',
               fontSize:'12px'
             }}
