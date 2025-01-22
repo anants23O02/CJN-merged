@@ -303,9 +303,13 @@ const Form1: React.FC = () => {
       </div>
 
       <div className='button-container'>
+
+
       <MainButton handleClick = {changePage}>
         <span className="button-icon"></span> Search
       </MainButton>
+
+      
       </div>
     </form>
   );
