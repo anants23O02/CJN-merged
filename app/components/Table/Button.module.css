@@ -1,0 +1,19 @@
+.mergeButton{
+    margin-bottom: 10px !important;
+    padding: 10px 20px !important;
+   
+}
+.alignRight{
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Define classes for different row colors */
+.secondaryRow {
+    background-color: #d9f7be !important; /* Light green */
+  }
+  
+  .comparableRow {
+    background-color: #bae7ff !important; /* Light blue */
+  }
+  

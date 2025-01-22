@@ -1,0 +1,27 @@
+/* MasterTable.css */
+.small-table .ant-table {
+    font-size: 10px; /* Reduce overall font size */
+}
+
+.small-table .ant-table-tbody > tr > td {
+    font-size: 10px; /* Makes the font size smaller */
+    padding: 2px 4px; /* Reduces cell padding */
+    font-weight: 400; /* Adjusts font weight */
+}
+
+.small-table .ant-table-thead > tr > th {
+    font-size: 12px;  /* Makes the font size of column headers smaller */
+    padding: 4px 6px; /* Reduces header padding */
+    color: rgb(122, 145, 161); 
+    font-weight: 500; /* Adjusts header font weight */
+}
+
+.small-table .ant-table-tbody > tr > td:first-child,
+.small-table .ant-table-thead > tr > th:first-child {
+    width: 40px; /* Allocate space for the checkbox */
+    text-align: center; /* Center align the checkbox */
+}
+
+.small-table .ant-checkbox {
+    transform: scale(0.8); /* Make the checkbox smaller */
+}

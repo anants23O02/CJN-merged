@@ -1,0 +1,17 @@
+.heading{
+  color: rgb(122, 145, 161);
+  font-weight: 600;
+}
+.sub-heading{
+  font-size: 18px;
+  font-weight: 700;
+}
+.form-heading{
+  font-weight: 700;
+}
+
+.form{
+  background-color: #fff;
+  width: 60%;
+  padding: 4px;
+}
