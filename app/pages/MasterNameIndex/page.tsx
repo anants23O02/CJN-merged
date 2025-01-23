@@ -10,7 +10,7 @@ const HomePage: React.FC = () => (
         Master Name Index 
     </h3>
     <SearchForm />
-    <CustomTable />
+    <CustomTable  />
   </div>
 );
 
