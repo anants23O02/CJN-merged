@@ -4,16 +4,24 @@ import MasterTable from '../../components/MasterTable2/MasterTable2';
 import Form1 from '../../components/form2/form2';
 import Button1 from '../../components/buttonSelect/buttonSelect';
 import CaseCard from '../../components/casecard/casecard';
+import VerticalLineWithDrawer from '@/app/components/Line/Line';
 export default function Home() {
 
   return (
 
-    <div className="main">
+   
       <div className='merge-page'>
         <p className='heading'>Master Name Index</p>
         <h3 className='sub-heading'>Master Name Record Merge</h3>
-        <p className="table-heading">Select Name</p>
-        <CaseCard />
+       
+      <div className='part'>
+      <div className='left-part'>
+       <p className="table-heading">Primary Master Name</p>
+       <CaseCard />
+       </div>
+       <div className='line'>
+        <VerticalLineWithDrawer/>
+       </div>
 
       <div className="table-head">
 
@@ -27,8 +35,9 @@ export default function Home() {
         </div>
       </div>
       </div>
+      </div>
 
-    </div>
+  
 
 
   );

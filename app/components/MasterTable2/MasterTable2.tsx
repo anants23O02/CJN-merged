@@ -164,6 +164,7 @@ const MasterTable: React.FC = () => {
       pagination={{ pageSize: 4 }}
       bordered
       className="small-table" // Class to apply custom styles
+      scroll={{ x: "max-content" }}
     />
   );
 };

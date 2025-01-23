@@ -15,15 +15,15 @@
     font-weight: 700;
   }
   .table{
-    width: 60%;
-    padding: 4px;
+    width: 90%;
   }
   .table-head{
-    width: 100%;
+    padding: 4px;
+    width: 50%;
   }
 .table-heading{
     display: block;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     margin-block-start: 10px;
 }
@@ -41,11 +41,22 @@
     font-weight: 600;
     }
     .button-container{
-        width: 60%;
+        width: 90%;
         display: flex;
         justify-content: flex-end;
         
         
         }
+
+        .left-part{
+          width: 50%;
+        }
         
-    
+    .part{
+      width: 100%;
+      margin-top: 5%;
+      display: flex;
+    }
+    .line{
+      padding: 4px;
+    }

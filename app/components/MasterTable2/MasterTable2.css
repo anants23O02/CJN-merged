@@ -25,3 +25,15 @@
 .small-table .ant-checkbox {
     transform: scale(0.8); /* Make the checkbox smaller */
 }
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    white-space: nowrap; /* Prevent text wrapping */
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  }
+  
+  .table-container::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
