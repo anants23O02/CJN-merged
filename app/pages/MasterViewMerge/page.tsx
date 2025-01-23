@@ -43,18 +43,60 @@ const NewPage: React.FC = () => {
           <MainButton handleClick={newSearchHandler}>New Search</MainButton>
         </Col>
       </Row>
+
+      <Row style={{
+          display: "flex",
+          alignItems: "top",
+          justifyContent: "space-between",
+          "margin-top":"5px",
+          "margin-right":"5px"
+        }}>
+        <Col flex="auto">
       <FilterPopup />
-      <CaseCard
-        firstName="Timothy"
-        middleName="James"
-        lastName="Taylor"
-        suffix={null}
-        dob="12/13/1989"
-        cases={2}
-      />
-      <VerticalLineWithDrawer>
+        </Col>
+        <Col >
+      <MainButton handleClick={newSearchHandler}>Merge</MainButton>
         
-      </VerticalLineWithDrawer>
+        </Col>
+      </Row>
+      
+      <Row
+        style={{
+          display: "flex",
+          alignItems: "top",
+          justifyContent: "space-between",
+        }}
+      >
+        <Col flex="auto" style={{ maxWidth: "48%" }}>
+        <Row>
+        <h5 style={{ marginBottom: "5px" }}>Primary Master Name Record</h5>
+      </Row>
+          <CaseCard
+            firstName="Timothy"
+            middleName="James"
+            lastName="Taylor"
+            suffix={null}
+            dob="12/13/1989"
+            cases={2}
+          />
+        </Col>
+        <Col flex="none" style={{ padding: "0 10px" }}>
+          <VerticalLineWithDrawer />
+        </Col>
+        <Col flex="auto" style={{ maxWidth: "48%" }}>
+        <Row>
+        <h5 style={{ marginBottom: "5px" }}>Comparable Record</h5>
+      </Row>
+          <CaseCard
+            firstName="Timothy"
+            middleName="James"
+            lastName="Taylor"
+            suffix={null}
+            dob="12/13/1989"
+            cases={2}
+          />
+        </Col>
+      </Row>
     </div>
   );
 };
