@@ -47,7 +47,7 @@ const FilterPopup: React.FC = () => {
   };
 
   return (
-    <div className='popup' style={{backgroundColor:"#fff",width:"50%",}}>
+    <div className='popup' style={{backgroundColor:"#fff",width:"100%",}}>
       <SlidersOutlined  onClick={() => setIsModalVisible(true)} style={{margin:"5px"}}/>
         {selectedFilters.map((filter) => (
           <span

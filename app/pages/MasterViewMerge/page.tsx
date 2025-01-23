@@ -1,5 +1,5 @@
 "use client";
-import FilterPopup from "../../components/modal/modal";
+import FilterPopup from "@/app/components/Modal2/Modal2";
 import CaseCard from "../../components/casecard/casecard";
 import styles from "./masterviewmerge.module.css";
 import MainButton from "../../components/mainButton/button";
