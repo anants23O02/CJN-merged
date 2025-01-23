@@ -22,19 +22,10 @@ const NewPage: React.FC = () => {
       if (record) {
         const parsedRecord = JSON.parse(record);
         console.log("Parsed Record:", parsedRecord);
-
-        // Find Primary Record
-        const primary = initialData.find(
-          (item) => item.key === parsedRecord.secondaryRecord
-        );
-        setPrimaryRecord(primary || null);
-
-        // Find Comparable Records
-        const comparable = parsedRecord.comparableRecord?.map((compRecord: any) =>
-          initialData.find((item) => item.key === compRecord)
-        );
-        setComparableRecord(comparable || []);
+        setPrimaryRecord(parsedRecord.secondaryRecord || null);
+        setComparableRecord(parsedRecord.comparableRecord || []);
       }
+      
     }
   }, []);
 

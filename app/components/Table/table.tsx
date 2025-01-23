@@ -97,13 +97,13 @@ const CustomTable: React.FC = () => {
     let updatedComparableRecord = comparableRecord;
   
     if (value === "Secondary") {
-      updatedSecondaryRecord = record.key;
-      setSecondaryRecord(record.key);
+      updatedSecondaryRecord = record;
+      setSecondaryRecord(record);
     }
   
     if (value === "Comparable") {
-      updatedComparableRecord = [...new Set([...comparableRecord, record.key])];
-      setComparableRecord((prev) => [...new Set([...prev, record.key])]);
+      updatedComparableRecord = [...new Set([...comparableRecord, record])];
+      setComparableRecord((prev) => [...new Set([...prev, record])]);
     }
   
   
