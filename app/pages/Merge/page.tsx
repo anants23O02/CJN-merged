@@ -1,9 +1,10 @@
-
+"use client"
 import './page.css'
 import MasterTable from '../../components/MasterTable2/MasterTable2';
 import Form1 from '../../components/form2/form2';
 import Button1 from '../../components/buttonSelect/buttonSelect';
 import CaseCard from '../../components/casecard/casecard';
+import { useRouter } from "next/navigation";
 import VerticalLineWithDrawer from '@/app/components/Line/Line';
 export default function Home() {
 
@@ -31,7 +32,7 @@ export default function Home() {
           <MasterTable />
         </div>
         <div className='button-container'>
-          <Button1 />
+          <Button1/>
         </div>
       </div>
       </div>
