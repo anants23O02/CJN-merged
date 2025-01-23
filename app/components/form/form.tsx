@@ -3,6 +3,8 @@ import './form.css';
 import React, { useState } from 'react';
 import MainButton from "../mainButton/button"
 import {useRouter} from "next/navigation"
+import { CheckCircleOutlined } from "@ant-design/icons";
+import { SearchOutlined } from '@ant-design/icons';
 // Define the form values types
 interface FormValues {
   email: string;
@@ -305,7 +307,7 @@ const Form1: React.FC = () => {
       <div className='button-container'>
 
 
-      <MainButton handleClick = {changePage}>
+      <MainButton handleClick = {changePage} icon={<SearchOutlined/>}>
         <span className="button-icon"></span> Search
       </MainButton>
 

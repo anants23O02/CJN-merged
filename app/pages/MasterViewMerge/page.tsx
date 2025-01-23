@@ -1,10 +1,11 @@
 "use client";
-import FilterPopup from "../../components/modal/modal";
+import FilterPopup from "@/app/components/Modal2/Modal";
 import CaseCard from "../../components/casecard/casecard";
 import styles from "./masterviewmerge.module.css";
 import MainButton from "../../components/mainButton/button";
-import VerticalLineWithDrawer from "../../components/Line/Line.tsx";
+import VerticalLineWithDrawer from "@/app/components/Line/Line";
 import CaseRow from "../../components/rows/Rows";
+import { SearchOutlined } from '@ant-design/icons';
 
 import { Row, Col, Button } from "antd";
 
@@ -57,7 +58,7 @@ const NewPage: React.FC = () => {
           <a href="/pages/ManualSearch">Manual Search</a>
         </Col>
         <Col span={3}>
-          <MainButton handleClick={newSearchHandler}>New Search</MainButton>
+          <MainButton handleClick={newSearchHandler} icon={<SearchOutlined/>}>New Search</MainButton>
         </Col>
       </Row>
 

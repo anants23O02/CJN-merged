@@ -1,7 +1,11 @@
 'use client'; // Add this to mark the component as a client-side component
 import './form2.css';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button1 from '../button/button';
+import MainButton from '../mainButton/button';
+import { SearchOutlined } from '@ant-design/icons';
+
 
 // Define the form values types
 interface FormValues {
@@ -19,6 +23,11 @@ interface FormValues {
 
 // Define the component
 const Form1: React.FC = () => {
+   const router=useRouter();
+    function changePage() {
+      router.push('/pages/Merge');
+  }
+   
   const [formValues, setFormValues] = useState<FormValues>({
     email: '',
     password: '',
@@ -295,7 +304,9 @@ const Form1: React.FC = () => {
       </div>
 
       <div className='button-container'>
-      <Button1/>
+      <MainButton handleClick = {changePage} icon={<SearchOutlined/>}>
+        <span className="button-icon"></span> Search
+      </MainButton>
       </div>
     </form>
   );
