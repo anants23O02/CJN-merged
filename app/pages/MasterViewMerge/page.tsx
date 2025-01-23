@@ -8,7 +8,7 @@ import MainButton from "../../components/mainButton/button";
 import VerticalLineWithDrawer from "@/app/components/Line/Line";
 import CaseRow from "../../components/rows/Rows";
 import { SearchOutlined } from "@ant-design/icons";
-import initialData from "../../components/DummyData/searchResult";
+import caseData from "../../components/DummyData/caseData";
 
 import { Row, Col, Button } from "antd";
 
@@ -23,9 +23,22 @@ const NewPage: React.FC = () => {
         const parsedRecord = JSON.parse(record);
         console.log("Parsed Record:", parsedRecord);
         setPrimaryRecord(parsedRecord.secondaryRecord || null);
-        setComparableRecord(parsedRecord.comparableRecord || []);
+        // const primaryrecordDetails = parsedRecord.comparableRecord.map((record) => {
+          
+          // })
+          const comparablerecordDetails = parsedRecord.comparableRecord.map((obj1) => {
+            // Ensure type matching during comparison
+            const matches = caseData.filter((obj2) => String(obj2.key) === String(obj1.key));
+            console.log(matches,'here');
+            // Return an array where the first element is obj1 and the rest are matches
+            return [obj1, ...matches];
+          });
+          
+          // Update the state with the computed details
+          setComparableRecord(comparablerecordDetails || []);
+          
+          
       }
-      
     }
   }, []);
 
@@ -124,8 +137,10 @@ const NewPage: React.FC = () => {
           {comparableRecord.length > 0 ? (
             comparableRecord.map((record, index) =>
               record ? (
-                <CaseCard key={index} data={record}>
-                  <CaseRow {...record} />
+                <CaseCard key={index} data={record[0]}>
+                 {record.slice(1).map((item) => (
+        <CaseRow key={item.id} {...item} />
+      ))}
                 </CaseCard>
               ) : null
             )
