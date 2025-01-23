@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Modal, Button, Checkbox, Row, Col } from 'antd';
-import { SettingOutlined ,SlidersOutlined} from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
 
 const FilterPopup: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -47,17 +47,21 @@ const FilterPopup: React.FC = () => {
   };
 
   return (
-    <div className='popup' style={{backgroundColor:"#fff",width:"50%",}}>
-      <SlidersOutlined  onClick={() => setIsModalVisible(true)} style={{margin:"5px"}}/>
+    <div style={{background:"white",}}>
+      <Button
+        type="default"
+        onClick={() => setIsModalVisible(true)} 
+        style={{border: "1px solid white !important",margin: "5px !important"}}>
+        #
+      </Button>
         {selectedFilters.map((filter) => (
           <span
             key={filter}
             style={{
               display: 'inline-block',
               padding: '5px 10px',
-              margin: '5px',
-              background: '#f0f0f0',
-              borderRadius: '15px',
+              marginLeft:"5px",
+              background: 'rgb(221, 220, 220)',
               cursor: 'pointer',
               fontSize:'12px'
             }}

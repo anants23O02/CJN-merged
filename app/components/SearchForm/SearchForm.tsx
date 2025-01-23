@@ -1,5 +1,5 @@
 "use client";
-
+import MainButton from "../mainButton/button"
 import React from "react";
 import { Form, Input, Button, Row, Col } from "antd";
 import styles from './SearchForm.module.css'
@@ -43,9 +43,10 @@ const SearchForm: React.FC = () => {
         <Col span={8} style={{ display: "flex", alignItems: "end" }}>
           <Form.Item 
           className={styles.formItem}>
-            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+            <MainButton>
               Search
-            </Button>
+            </MainButton>
+
           </Form.Item>
         </Col>
       </Row>
