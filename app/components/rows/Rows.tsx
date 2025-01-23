@@ -52,8 +52,10 @@ const CaseRow: React.FC<RowData> = ({
             <Col>
               <Text style={{ color: "#556d7a", fontWeight: "700" }}>Case:</Text>
               <Text>
-                <a href="">{" " + caseNumber}</a>
-              </Text>
+                <a href="">
+                  {" " + caseNumber}
+                  </a>
+                  </Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a", fontWeight: "700" }}>Date:</Text>
@@ -71,84 +73,71 @@ const CaseRow: React.FC<RowData> = ({
           }}
         >
           <Space size="large">
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}} >
                 First Name
               </Text>
               <br />
               <Text>{firstName}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Middle Name
-              </Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>Middle Name</Text>
               <br />
               <Text>{middleName}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Last Name
-              </Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>Last Name</Text>
               <br />
               <Text>{lastName}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                suffix
-              </Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>suffix</Text>
               <br />
               <Text>{suffix ? suffix : "---"}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>DOB</Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>DOB</Text>
               <br />
               <Text>{dob}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Last Name
-              </Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>Last Name</Text>
               <br />
               <Text>{lastName}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>Sex</Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>Sex</Text>
               <br />
               <Text>{sex}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>Race</Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>Race</Text>
               <br />
               <Text>{race}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Height
-              </Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>Height</Text>
               <br />
               <Text>{height}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>ID</Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>ID</Text>
               <br />
               <Text>{id}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Phone No.
-              </Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>Phone No.</Text>
               <br />
               <Text>{phoneNumber}</Text>
             </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Address
-              </Text>
+            <Col >
+              <Text             style={{color:"#556d7a",fontWeight:"600"}}>Address</Text>
               <br />
               <Text>{address}</Text>
             </Col>
           </Space>
         </Row>
+        
       </div>
     </>
   );

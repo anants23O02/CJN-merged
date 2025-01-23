@@ -44,7 +44,6 @@ const CaseCard: React.FC = ({children}) => {
         display: 'flex', 
       }}
     >
-      {/* CaseCard Column taking 50% width */}
       <Col
         style={{
           flex: 1, 

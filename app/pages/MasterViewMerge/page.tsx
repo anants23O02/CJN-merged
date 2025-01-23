@@ -5,45 +5,12 @@ import styles from "./masterviewmerge.module.css";
 import MainButton from "../../components/mainButton/button";
 import VerticalLineWithDrawer from "../../components/Line/Line.tsx";
 import CaseRow from "../../components/rows/Rows";
-
+import caseData from "../../components/DummyData/caseData";
 import { Row, Col, Button } from "antd";
 
-const caseData = {
-  caseNumber: "25-000123",
-  date: "01/07/2025",
-  firstName: "Timothy",
-  middleName: "James",
-  lastName: "Taylor",
-  suffix: null,
-  dob: "12/13/1989",
-  cases: 2,
-  sex: "M",
-  race: "W",
-  height: "5'11\"",
-  weight: "160",
-  id: "DL12345678910",
-  phoneNumber: "123-456-7890",
-  address: "1234 August Ave St. Paul, MN 55104",
-};
+
 
 const NewPage: React.FC = () => {
-  const data = {
-    caseNumber: "25-000123",
-    date: "01/07/2025",
-    firstName: "Timothy",
-    middleName: "James",
-    lastName: "Taylor",
-    suffix: null,
-    dob: "12/13/1989",
-    sex: "M",
-    race: "W",
-    height: "5'11\"",
-    weight: "160",
-    id: "DL12345678910",
-    phoneNumber: "123-456-7890",
-    address: "1234 August Ave St. Paul MN 55104",
-  };
-
   function newSearchHandler() {
     console.log("new search pressed");
   }

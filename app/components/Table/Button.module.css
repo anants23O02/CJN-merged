@@ -9,11 +9,11 @@
 }
 
 /* Define classes for different row colors */
-.secondaryRow {
-    background-color: #d9f7be !important; /* Light green */
+tr.lightblue {
+    background-color: #77ff00 !important; /* Light green */
   }
   
-  .comparableRow {
+tr.lightcyan {
     background-color: #bae7ff !important; /* Light blue */
   }
   
