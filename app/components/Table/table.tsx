@@ -6,77 +6,8 @@ import { Table, Button, Select } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import styles from "./Button.module.css";
 import { useRouter } from "next/navigation";
-
+import initialData from '../DummyData/searchResult';
 const { Option } = Select;
-
-interface DataType {
-  key: string;
-  lastName: string;
-  firstName: string;
-  middleName: string | null;
-  suffix: string | null;
-  dob: string;
-  age: number;
-  address: string;
-  city: string;
-  state: string;
-  rowColor?: string;
-}
-
-const initialData: DataType[] = [
-  {
-    key: "1",
-    lastName: "Taylor",
-    firstName: "Timothy",
-    middleName: "James",
-    suffix: null,
-    dob: "12/13/1989",
-    age: 35,
-    address: "1234 August Ave",
-    city: "St. Paul",
-    state: "MN",
-    rowColor: "",
-  },
-  {
-    key: "2",
-    lastName: "Taylor 1",
-    firstName: "Timothy 1",
-    middleName: null,
-    suffix: null,
-    dob: "12/13/1990",
-    age: 35,
-    address: "1234 August Ave",
-    city: "St. Paul",
-    state: "MN",
-    rowColor: "",
-  },
-  {
-    key: "3",
-    lastName: "Taylor 2",
-    firstName: "Timothy 2",
-    middleName: "Drew",
-    suffix: null,
-    dob: "10/05/1987",
-    age: 37,
-    address: "1234 First Street",
-    city: "St. Paul",
-    state: "MN",
-    rowColor: "",
-  },
-  {
-    key: "4",
-    lastName: "Taylor 3",
-    firstName: "Timothy 3",
-    middleName: "Drew",
-    suffix: null,
-    dob: "10/05/1987",
-    age: 37,
-    address: "1234 First Street",
-    city: "St. Paul",
-    state: "MN",
-    rowColor: "",
-  },
-];
 
 const initialColumns: ColumnsType<DataType> = [
   {
@@ -141,19 +72,21 @@ const CustomTable: React.FC = () => {
   const router = useRouter();
 
   const handleSelectChange = (value: string, record: DataType) => {
+    console.log('handleselectcalled :>> ');
     const updatedData = dataSource.map((row) =>
       row.key === record.key
         ? {
-            ...row,
-            rowColor:
-              value === "Secondary"
-                ? "secondaryRow"
-                : value === "Comparable"
-                ? "comparableRow "
-                : "",
+          ...row, // Preserve the existing row properties
+          recordValue:
+            value === "Secondary"
+              ? "secondaryRow"
+              : value === "Comparable"
+              ? "comparableRow"
+              : ""
           }
         : row
     );
+    console.log('dataSource :>> ', updatedData);
     setDataSource(updatedData);
     setButtons(!buttons);
     value === 'Secondary' ? setSecondaryRecord(record) : setComparableRecord(record);
@@ -243,7 +176,11 @@ const CustomTable: React.FC = () => {
         columns={columns}
         pagination={{ pageSize: 4 }}
         bordered
-        rowClassName={(record) => record.rowColor}
+        rowClassName={(record) => {
+          if(record.recordValue == "secondaryRow") 
+            {console.log('record :>> ', record); return "lightblue"};
+          if(record.recordValue == "comparableRow") return "lightcyan"
+        }}
       />
     </div>
   );
