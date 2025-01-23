@@ -8,6 +8,7 @@
 }
 .form-heading{
   font-weight: 700;
+  margin-top: 3%;
 }
 
 .form{
@@ -15,4 +16,10 @@
   /* width: 60%; */
   width: 50%;
   padding: 4px;
+}
+
+.sub-container{
+  display: flex;
+  margin-top: 2%;;
+
 }

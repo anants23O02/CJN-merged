@@ -5,6 +5,7 @@ import Cascade from "./components/cascade/cascade";
 import FilterPopup from './components/Modal/modal.tsx';
 import "./page.css";
 import {useRouter} from "next/navigation";
+import VerticalLineWithDrawer from "./components/Line/Line";
 
 export default function Home() {
  
@@ -15,8 +16,13 @@ export default function Home() {
       <h3 className="sub-heading">Master Name Record Merge</h3>
       <FilterPopup/>
       <p className="form-heading">Primary Master Name Record</p>
+      <div className="sub-container">
+        
+      
       <div className="form">
         <Form1  />
+      </div>
+      <VerticalLineWithDrawer/>
       </div>
     </div>
   );
