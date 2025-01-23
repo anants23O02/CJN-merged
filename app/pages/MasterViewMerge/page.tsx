@@ -54,7 +54,7 @@ const NewPage: React.FC = () => {
         <Col
           style={{ display: "flex", justifyContent: "end", alignItems: "end" }}
         >
-          <a href="">Manual Search</a>
+          <a href="/pages/ManualSearch">Manual Search</a>
         </Col>
         <Col span={3}>
           <MainButton handleClick={newSearchHandler}>New Search</MainButton>
