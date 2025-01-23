@@ -3,9 +3,9 @@
 import React from 'react';
 import { Card, Row, Col, Space, Typography, Checkbox, Dropdown, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import CaseRow from '../rows/Rows';
 
 const { Text } = Typography;
+
 
 const data = {
   caseNumber: '25-000123',
@@ -24,7 +24,7 @@ const data = {
   address: '1234 August Ave St. Paul MN 55104',
 };
 
-const CaseCard: React.FC = () => {
+const CaseCard: React.FC = ({children}) => {
   const menu = (
     <Menu
       items={[
@@ -38,19 +38,19 @@ const CaseCard: React.FC = () => {
     <Row
       align="top"
       style={{
-        margin: 0, // No extra margins on the Row
-        padding: 0, // No extra padding on the Row
-        width: '100%', // Full width of parent container
-        display: 'flex', // Flex layout for flexibility
+        margin: 0, 
+        padding: 0, 
+        width: '100%', 
+        display: 'flex', 
       }}
     >
       {/* CaseCard Column taking 50% width */}
       <Col
         style={{
-          flex: 1, // Flexbox behavior to occupy 50% space
-          width: '50%', // Explicitly set width to 50%
-          padding: 0, // Remove padding
-          margin: 0, // Remove margin
+          flex: 1, 
+          width: '50%', 
+          padding: 0, 
+          margin: 0, 
         }}
       >
         <Card
@@ -63,30 +63,30 @@ const CaseCard: React.FC = () => {
           }}
         >
           {/* Header Row for Card */}
-          <Row justify="end" align="middle" style={{ marginBottom: '16px' }}>
+          <Row justify="end" align="middle" style={{ marginBottom: '16px', }}>
             <Space size="large">
               <Col>
-                <Text strong>First:</Text> <br />
+                <Text style={{color:"#556d7a"}} strong>First:</Text> <br />
                 <Text>{data.firstName}</Text>
               </Col>
               <Col>
-                <Text strong>Middle:</Text> <br />
+                <Text style={{color:"#556d7a"}} strong>Middle:</Text> <br />
                 <Text>{data.middleName}</Text>
               </Col>
               <Col>
-                <Text strong>Last:</Text> <br />
+                <Text style={{color:"#556d7a"}} strong>Last:</Text> <br />
                 <Text>{data.lastName}</Text>
               </Col>
               <Col>
-                <Text strong>Suffix:</Text> <br />
+                <Text style={{color:"#556d7a"}} strong>Suffix:</Text> <br />
                 <Text>{data.suffix || '---'}</Text>
               </Col>
               <Col>
-                <Text strong>DOB:</Text> <br />
+                <Text style={{color:"#556d7a"}} strong>DOB:</Text> <br />
                 <Text>{data.dob}</Text>
               </Col>
               <Col>
-                <Text strong>Cases:</Text> <br />
+                <Text style={{color:"#556d7a"}} strong>Cases:</Text> <br />
                 <Text>2</Text>
               </Col>
 
@@ -97,8 +97,8 @@ const CaseCard: React.FC = () => {
               </Dropdown>
             </Space>
           </Row>
-          {/* Add content here */}
-          <CaseRow {...data}></CaseRow>
+      {children}
+
         </Card>
       </Col>
     </Row>
