@@ -44,7 +44,10 @@ const NewPage: React.FC = () => {
     phoneNumber: "123-456-7890",
     address: "1234 August Ave St. Paul MN 55104",
   };
+  function handlefilters(selectedfilters) {
+    console.log('selectedfilters :>> ', selectedfilters);
 
+  }
   function newSearchHandler() {
     console.log("new search pressed");
   }
@@ -72,7 +75,7 @@ const NewPage: React.FC = () => {
         }}
       >
         <Col flex="auto">
-          <FilterPopup />
+          <FilterPopup handlefilters = {handlefilters} />
         </Col>
         <Col
           span={3}
