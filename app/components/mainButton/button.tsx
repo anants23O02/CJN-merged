@@ -4,9 +4,11 @@ import { Button } from "antd";
 interface MainButtonProps {
   children: React.ReactNode;
   handleClick: () => void;
+  icon?: React.ReactNode;
+  
 }
 
-const MainButton: React.FC<MainButtonProps> = ({ children, handleClick }) => {
+const MainButton: React.FC<MainButtonProps> = ({ children, handleClick,icon }) => {
   function handler (){
     handleClick();
   };
@@ -15,8 +17,10 @@ const MainButton: React.FC<MainButtonProps> = ({ children, handleClick }) => {
     <Button
       type="primary"
       htmlType="submit"
-      style={{ width: "100%" }}
+      style={{ width: "100px", padding:"6px", alignContent:"center",alignItems:"center" }}
       onClick={handler}
+      icon={icon}
+      
     >
       {children}
     </Button>

@@ -1,12 +1,34 @@
 "use client"
 import './page.css'
 import MasterTable from '../../components/MasterTable2/MasterTable2';
-import Form1 from '../../components/form2/form2';
-import Button1 from '../../components/buttonSelect/buttonSelect';
+import { CheckCircleOutlined } from "@ant-design/icons";
+import CaseRow from '@/app/components/rows/Rows';
 import CaseCard from '../../components/casecard/casecard';
 import { useRouter } from "next/navigation";
+import MainButton from '@/app/components/mainButton/button';
 import VerticalLineWithDrawer from '@/app/components/Line/Line';
 export default function Home() {
+  const router=useRouter();
+  function changePage() {
+    router.push('/pages/MasterTablePage');
+}
+const caseData = {
+  caseNumber: "25-000123",
+  date: "01/07/2025",
+  firstName: "Timothy",
+  middleName: "James",
+  lastName: "Taylor",
+  suffix: null,
+  dob: "12/13/1989",
+  cases: 2,
+  sex: "M",
+  race: "W",
+  height: "5'11\"",
+  weight: "160",
+  id: "DL12345678910",
+  phoneNumber: "123-456-7890",
+  address: "1234 August Ave St. Paul, MN 55104",
+};
 
   return (
 
@@ -18,7 +40,16 @@ export default function Home() {
       <div className='part'>
       <div className='left-part'>
        <p className="table-heading">Primary Master Name</p>
-       <CaseCard />
+       <CaseCard
+            firstName="Timothy"
+            middleName="James"
+            lastName="Taylor"
+            suffix={null}
+            dob="12/13/1989"
+            cases={2}
+          >
+            <CaseRow {...caseData}> </CaseRow>
+          </CaseCard>
        </div>
        <div className='line'>
         <VerticalLineWithDrawer/>
@@ -32,7 +63,9 @@ export default function Home() {
           <MasterTable />
         </div>
         <div className='button-container'>
-          <Button1/>
+        <MainButton handleClick = {changePage} icon={<CheckCircleOutlined/>}>
+        <span className="button-icon"></span> Search
+      </MainButton>
         </div>
       </div>
       </div>
