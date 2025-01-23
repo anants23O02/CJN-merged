@@ -8,7 +8,6 @@
     justify-content: flex-end;
 }
 
-/* Define classes for different row colors */
 tr.lightblue {
     background-color: #77ff00 !important; /* Light green */
   }

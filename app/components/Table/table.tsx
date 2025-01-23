@@ -68,7 +68,7 @@ const CustomTable: React.FC = () => {
   const [buttons, setButtons] = useState(false);
   const [columns, setColumns] = useState(initialColumns);
   const [secondaryRecord,setSecondaryRecord] = useState();
-  const [ComparableRecord,setComparableRecord] = useState();
+  const [ComparableRecord,setComparableRecord] = useState([]);
   const router = useRouter();
 
   const handleSelectChange = (value: string, record: DataType) => {
@@ -76,7 +76,7 @@ const CustomTable: React.FC = () => {
     const updatedData = dataSource.map((row) =>
       row.key === record.key
         ? {
-          ...row, // Preserve the existing row properties
+          ...row, 
           recordValue:
             value === "Secondary"
               ? "secondaryRow"
@@ -87,9 +87,9 @@ const CustomTable: React.FC = () => {
         : row
     );
     console.log('dataSource :>> ', updatedData);
+    value === 'Secondary' ? setSecondaryRecord(record.key) : setComparableRecord((prevrecord) => [...prevrecord,record.key]);
     setDataSource(updatedData);
     setButtons(!buttons);
-    value === 'Secondary' ? setSecondaryRecord(record) : setComparableRecord(record);
   };
 
   const handleCancelTableEdit = () => {
@@ -122,6 +122,7 @@ const CustomTable: React.FC = () => {
   };
 
   const handleViewMerge = () => {
+    console.log('secondaryRecord,ComparableRecord :>> ', secondaryRecord,ComparableRecord);
     router.push("/pages/MasterViewMerge");
   };
 
@@ -177,9 +178,9 @@ const CustomTable: React.FC = () => {
         pagination={{ pageSize: 4 }}
         bordered
         rowClassName={(record) => {
-          if(record.recordValue == "secondaryRow") 
-            {console.log('record :>> ', record); return "lightblue"};
-          if(record.recordValue == "comparableRow") return "lightcyan"
+          if(record.recordValue === "secondaryRow") 
+            { return "lightblue"};
+          if(record.recordValue === "comparableRow") return "lightcyan"
         }}
       />
     </div>
