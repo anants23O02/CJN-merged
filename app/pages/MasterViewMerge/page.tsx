@@ -1,67 +1,71 @@
 "use client";
+
+import React, { useEffect, useState } from "react";
 import FilterPopup from "@/app/components/Modal2/Modal";
 import CaseCard from "../../components/casecard/casecard";
 import styles from "./masterviewmerge.module.css";
 import MainButton from "../../components/mainButton/button";
 import VerticalLineWithDrawer from "@/app/components/Line/Line";
 import CaseRow from "../../components/rows/Rows";
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from "@ant-design/icons";
+import initialData from "../../components/DummyData/searchResult";
 
 import { Row, Col, Button } from "antd";
 
-const caseData = {
-  caseNumber: "25-000123",
-  date: "01/07/2025",
-  firstName: "Timothy",
-  middleName: "James",
-  lastName: "Taylor",
-  suffix: null,
-  dob: "12/13/1989",
-  cases: 2,
-  sex: "M",
-  race: "W",
-  height: "5'11\"",
-  weight: "160",
-  id: "DL12345678910",
-  phoneNumber: "123-456-7890",
-  address: "1234 August Ave St. Paul, MN 55104",
-};
-
 const NewPage: React.FC = () => {
-  const data = {
-    caseNumber: "25-000123",
-    date: "01/07/2025",
-    firstName: "Timothy",
-    middleName: "James",
-    lastName: "Taylor",
-    suffix: null,
-    dob: "12/13/1989",
-    sex: "M",
-    race: "W",
-    height: "5'11\"",
-    weight: "160",
-    id: "DL12345678910",
-    phoneNumber: "123-456-7890",
-    address: "1234 August Ave St. Paul MN 55104",
-  };
-  function handlefilters(selectedfilters) {
-    console.log('selectedfilters :>> ', selectedfilters);
+  const [primaryRecord, setPrimaryRecord] = useState<any>(null);
+  const [comparableRecord, setComparableRecord] = useState<any[]>([]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const record = sessionStorage.getItem("record");
+      if (record) {
+        const parsedRecord = JSON.parse(record);
+        console.log("Parsed Record:", parsedRecord);
+
+        // Find Primary Record
+        const primary = initialData.find(
+          (item) => item.key === parsedRecord.secondaryRecord
+        );
+        setPrimaryRecord(primary || null);
+
+        // Find Comparable Records
+        const comparable = parsedRecord.comparableRecord?.map((compRecord: any) =>
+          initialData.find((item) => item.key === compRecord)
+        );
+        setComparableRecord(comparable || []);
+      }
+    }
+  }, []);
+
+  // Log state changes for debugging
+  useEffect(() => {
+    console.log("Primary Record Updated:", primaryRecord);
+  }, [primaryRecord]);
+
+  useEffect(() => {
+    console.log("Comparable Records Updated:", comparableRecord);
+  }, [comparableRecord]);
+
+  function handlefilters(selectedFilters: any) {
+    console.log("Selected Filters: ", selectedFilters);
   }
+
   function newSearchHandler() {
-    console.log("new search pressed");
+    console.log("New search pressed");
   }
+
   return (
     <div>
       <h3>Master Name Index</h3>
       <Row gutter={8} style={{ display: "flex", justifyContent: "end" }}>
-        <Col
-          style={{ display: "flex", justifyContent: "end", alignItems: "end" }}
-        >
+        <Col style={{ display: "flex", justifyContent: "end", alignItems: "end" }}>
           <a href="/pages/ManualSearch">Manual Search</a>
         </Col>
         <Col span={3}>
-          <MainButton handleClick={newSearchHandler} icon={<SearchOutlined/>}>New Search</MainButton>
+          <MainButton handleClick={newSearchHandler} icon={<SearchOutlined />}>
+            New Search
+          </MainButton>
         </Col>
       </Row>
 
@@ -70,12 +74,12 @@ const NewPage: React.FC = () => {
           display: "flex",
           alignItems: "middle",
           justifyContent: "space-between",
-          "margin-top": "5px",
-          "margin-right": "5px",
+          marginTop: "5px",
+          marginRight: "5px",
         }}
       >
         <Col flex="auto">
-          <FilterPopup handlefilters = {handlefilters} />
+          <FilterPopup handlefilters={handlefilters} />
         </Col>
         <Col
           span={3}
@@ -110,17 +114,15 @@ const NewPage: React.FC = () => {
           <Row>
             <h5 style={{ marginBottom: "5px" }}>Primary Master Name Record</h5>
           </Row>
-          <CaseCard
-            firstName="Timothy"
-            middleName="James"
-            lastName="Taylor"
-            suffix={null}
-            dob="12/13/1989"
-            cases={2}
-          >
-            <CaseRow {...caseData}> </CaseRow>
-          </CaseCard>
+          {primaryRecord ? (
+            <CaseCard data={primaryRecord}>
+              <CaseRow {...primaryRecord} />
+            </CaseCard>
+          ) : (
+            <p>No Primary Record Found</p>
+          )}
         </Col>
+
         <Col flex="none">
           <VerticalLineWithDrawer />
         </Col>
@@ -128,17 +130,17 @@ const NewPage: React.FC = () => {
           <Row>
             <h5 style={{ marginBottom: "5px" }}>Comparable Record</h5>
           </Row>
-          <CaseCard
-            firstName="Timothy"
-            middleName="James"
-            lastName="Taylor"
-            suffix={null}
-            dob="12/13/1989"
-            cases={2}
-          >
-            <CaseRow {...caseData}> </CaseRow>
-            <CaseRow {...caseData}> </CaseRow>
-          </CaseCard>
+          {comparableRecord.length > 0 ? (
+            comparableRecord.map((record, index) =>
+              record ? (
+                <CaseCard key={index} data={record}>
+                  <CaseRow {...record} />
+                </CaseCard>
+              ) : null
+            )
+          ) : (
+            <p>No Comparable Records Found</p>
+          )}
         </Col>
       </Row>
     </div>

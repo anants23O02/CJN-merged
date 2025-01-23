@@ -1,13 +1,17 @@
 "use client";
 
-import mainButton from "../mainButton/button"
 import React, { useState } from "react";
 import { Table, Button, Select } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import styles from "./Button.module.css";
 import { useRouter } from "next/navigation";
-import initialData from '../DummyData/searchResult';
+import initialData from "../DummyData/searchResult";
+import { DataType } from "./table.types";
+
 const { Option } = Select;
+
+// Add `recordValue` to the DataType
+
 
 const initialColumns: ColumnsType<DataType> = [
   {
@@ -50,16 +54,19 @@ const initialColumns: ColumnsType<DataType> = [
     title: "Address",
     dataIndex: "address",
     key: "address",
+    render: (address) => address || "---",
   },
   {
     title: "City",
     dataIndex: "city",
     key: "city",
+    render: (city) => city || "---",
   },
   {
     title: "State",
     dataIndex: "state",
     key: "state",
+    render: (state) => state || "---",
   },
 ];
 
@@ -67,38 +74,54 @@ const CustomTable: React.FC = () => {
   const [dataSource, setDataSource] = useState(initialData);
   const [buttons, setButtons] = useState(false);
   const [columns, setColumns] = useState(initialColumns);
-  const [secondaryRecord,setSecondaryRecord] = useState();
-  const [ComparableRecord,setComparableRecord] = useState([]);
+  const [secondaryRecord, setSecondaryRecord] = useState<string | undefined>();
+  const [comparableRecord, setComparableRecord] = useState<string[]>([]);
   const router = useRouter();
 
   const handleSelectChange = (value: string, record: DataType) => {
-    console.log('handleselectcalled :>> ');
     const updatedData = dataSource.map((row) =>
       row.key === record.key
         ? {
-          ...row, 
-          recordValue:
-            value === "Secondary"
-              ? "secondaryRow"
-              : value === "Comparable"
-              ? "comparableRow"
-              : ""
+            ...row,
+            recordValue:
+              value === "Secondary"
+                ? "secondaryRow"
+                : value === "Comparable"
+                ? "comparableRow"
+                : "",
           }
         : row
     );
-    console.log('dataSource :>> ', updatedData);
-    value === 'Secondary' ? setSecondaryRecord(record.key) : setComparableRecord((prevrecord) => [...prevrecord,record.key]);
+  
+    let updatedSecondaryRecord = secondaryRecord;
+    let updatedComparableRecord = comparableRecord;
+  
+    if (value === "Secondary") {
+      updatedSecondaryRecord = record.key;
+      setSecondaryRecord(record.key);
+    }
+  
+    if (value === "Comparable") {
+      updatedComparableRecord = [...new Set([...comparableRecord, record.key])];
+      setComparableRecord((prev) => [...new Set([...prev, record.key])]);
+    }
+  
+  
+  
+   
+  
     setDataSource(updatedData);
-    setButtons(!buttons);
+    setButtons(true);
   };
+  
 
   const handleCancelTableEdit = () => {
     setColumns(initialColumns);
-    setButtons(!buttons);
+    setButtons(false);
   };
 
   const handleTableEdit = () => {
-    const columnExists = columns.some((col) => col.key === "select"); //check if dropdown exist or not
+    const columnExists = columns.some((col) => col.key === "select");
     if (!columnExists) {
       setColumns([
         {
@@ -122,8 +145,14 @@ const CustomTable: React.FC = () => {
   };
 
   const handleViewMerge = () => {
-    
-    router.push({pathname:"/MasterViewMerge",query:{secondary:secondaryRecord,comparable:ComparableRecord}});
+    if (typeof window !== "undefined") {
+      const data = {
+        secondaryRecord: secondaryRecord,
+        comparableRecord: comparableRecord,
+      };
+      sessionStorage.setItem("record", JSON.stringify(data));
+    }
+    router.push("/pages/MasterViewMerge");
   };
 
   return (
@@ -178,9 +207,9 @@ const CustomTable: React.FC = () => {
         pagination={{ pageSize: 4 }}
         bordered
         rowClassName={(record) => {
-          if(record.recordValue === "secondaryRow") 
-            { return "lightblue"};
-          if(record.recordValue === "comparableRow") return "lightcyan"
+          if (record.recordValue === "secondaryRow") return "lightblue";
+          if (record.recordValue === "comparableRow") return "lightcyan";
+          return "";
         }}
       />
     </div>
