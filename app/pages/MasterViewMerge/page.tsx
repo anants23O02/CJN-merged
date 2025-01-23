@@ -5,7 +5,7 @@ import styles from "./masterviewmerge.module.css";
 import MainButton from "../../components/mainButton/button";
 import VerticalLineWithDrawer from "../../components/Line/Line.tsx";
 
-import { Row, Col } from "antd";
+import { Row, Col,Button } from "antd";
 
 const caseData = {
   caseNumber: "25-000123",
@@ -55,7 +55,17 @@ const NewPage: React.FC = () => {
       <FilterPopup />
         </Col>
         <Col >
-      <MainButton handleClick={newSearchHandler}>Merge</MainButton>
+        <Button
+            className={styles.mergeButton}
+            type="default"
+            style={{
+              border: "2px solid #678594",
+              backgroundColor: "transparent",
+              color: "#678594",
+            }}
+          >
+            Merge Names
+          </Button>
         
         </Col>
       </Row>
