@@ -22,3 +22,16 @@
   margin-top: 2%;;
 
 }
+/* page.css */
+.breadcrumb {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.breadcrumb .ant-breadcrumb-link {
+  color: #1890ff;
+}
+
+.breadcrumb .ant-breadcrumb-separator {
+  color: #1890ff;
+}
