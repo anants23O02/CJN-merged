@@ -2,12 +2,15 @@ import FilterPopup from "../../components/Modal/modal";
 import "./page.css";
 import Button1 from "../../components/buttonSelect/buttonSelect";
 import MasterTable from "../../components/MasterTable2/MasterTable2";
+import VerticalLineWithDrawer from "@/app/components/Line/Line";
 export default function Home() {
   return (
     <div className="merge-page">
       <p className="heading">Master Name Index</p>
       <h3 className="sub-heading">Master Name Record Merge</h3>
       <FilterPopup />
+      <div className="part">
+      <div className="left-part">
       <p className="form-heading">Primary Master Name Record</p>
       <p className="table-heading">Select Name</p>
       <div className="table">
@@ -15,6 +18,11 @@ export default function Home() {
       </div>
       <div className="button-container">
         <Button1 />
+      </div>
+      </div>
+      <div className="right-part">
+          <VerticalLineWithDrawer/>
+      </div>
       </div>
     </div>
   );

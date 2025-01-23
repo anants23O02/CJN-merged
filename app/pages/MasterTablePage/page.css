@@ -7,19 +7,34 @@
     font-weight: 700;
   }
   .table{
-    width: 50%;
+    width: 100%;
     padding: 4px;
+  }
+  .form-heading{
+    font-weight: 600;
+    font-size: 14px;
   }
 .table-heading{
     color: rgb(122, 145, 161);
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
+  
 }
 .button-container{
-    width: 60%;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     
     
     }
     
+    .part{
+      display: flex;
+    }
+    .left-part{
+      width: 50%;
+    }
+    .right-part{
+      padding: 8px;
+      width: 50%;
+    }

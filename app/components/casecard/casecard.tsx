@@ -40,7 +40,7 @@ const CaseCard: React.FC = () => {
       style={{
         margin: 0, // No extra margins on the Row
         padding: 0, // No extra padding on the Row
-        width: '50%', // Full width of parent container
+        width: '100%', // Full width of parent container
         display: 'flex', // Flex layout for flexibility
       }}
     >
