@@ -122,8 +122,8 @@ const CustomTable: React.FC = () => {
   };
 
   const handleViewMerge = () => {
-    console.log('secondaryRecord,ComparableRecord :>> ', secondaryRecord,ComparableRecord);
-    router.push("/pages/MasterViewMerge");
+    
+    router.push({pathname:"/MasterViewMerge",query:{secondary:secondaryRecord,comparable:ComparableRecord}});
   };
 
   return (
