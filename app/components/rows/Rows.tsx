@@ -67,7 +67,7 @@ const CaseRow: React.FC<RowData> = ({
             <Col>
               <Text style={{ color: "#556d7a", fontWeight: "700" }}>Case:</Text>
               <Text>
-                <a href="">{" " + caseNumber}</a>
+                <a href="./CaseView">{" " + caseNumber}</a>
               </Text>
             </Col>
             <Col>
