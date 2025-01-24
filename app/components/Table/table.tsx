@@ -9,10 +9,6 @@ import initialData from "../DummyData/searchResult";
 import { DataType } from "./table.types";
 
 const { Option } = Select;
-
-// Add `recordValue` to the DataType
-
-
 const initialColumns: ColumnsType<DataType> = [
   {
     title: "Last Name / Business",
@@ -105,11 +101,6 @@ const CustomTable: React.FC = () => {
       updatedComparableRecord = [...new Set([...comparableRecord, record])];
       setComparableRecord((prev) => [...new Set([...prev, record])]);
     }
-  
-  
-  
-   
-  
     setDataSource(updatedData);
     setButtons(true);
   };

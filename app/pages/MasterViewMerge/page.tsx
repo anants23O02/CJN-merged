@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import FilterPopup from "@/app/components/Modal2/Modal";
 import CaseCard from "../../components/casecard/casecard";
@@ -13,44 +12,60 @@ import caseData from "../../components/DummyData/caseData";
 import { Row, Col, Button } from "antd";
 
 const NewPage: React.FC = () => {
-  const [primaryRecord, setPrimaryRecord] = useState<any>(null);
+  const [moverecordDetails, setmoverecordDetails] = useState<any[]>([]);
+  const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
   const [comparableRecord, setComparableRecord] = useState<any[]>([]);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const record = sessionStorage.getItem("record");
       if (record) {
         const parsedRecord = JSON.parse(record);
         console.log("Parsed Record:", parsedRecord);
-        setPrimaryRecord(parsedRecord.secondaryRecord || null);
+        let primaryrecordDetails = [parsedRecord.secondaryRecord];
+        const primarycaserecords = caseData.filter(
+          (obj1) =>
+            String(obj1.Fkey) === String(parsedRecord.secondaryRecord.key)
+        );
+        primaryrecordDetails = [...primaryrecordDetails, ...primarycaserecords];
+        setPrimaryRecord(primaryrecordDetails || null);
         // const primaryrecordDetails = parsedRecord.comparableRecord.map((record) => {
-          
-          // })
-          const comparablerecordDetails = parsedRecord.comparableRecord.map((obj1) => {
-            // Ensure type matching during comparison
-            const matches = caseData.filter((obj2) => String(obj2.key) === String(obj1.key));
-            console.log(matches,'here');
-            // Return an array where the first element is obj1 and the rest are matches
+
+        // })
+        const comparablerecordDetails = parsedRecord.comparableRecord.map(
+          (obj1) => {
+            const matches = caseData.filter(
+              (obj2) => String(obj2.Fkey) === String(obj1.key)
+            );
+            console.log(matches, "here");
             return [obj1, ...matches];
-          });
-          
-          // Update the state with the computed details
-          setComparableRecord(comparablerecordDetails || []);
-          
-          
+          }
+        );
+        setComparableRecord(comparablerecordDetails);
       }
     }
   }, []);
 
-  // Log state changes for debugging
-  useEffect(() => {
-    console.log("Primary Record Updated:", primaryRecord);
-  }, [primaryRecord]);
+  function checkHandler(key) {
+    console.log("key :>> ", key);
+    setmoverecordDetails((previtems) => [...previtems, key]);
+  }
+  function checkremoveHandler(key) {
+    const updatedmoverecordDetails = moverecordDetails.filter(
+      (item) => item !== key
+    );
+    setmoverecordDetails((previtems) => [...updatedmoverecordDetails]);
+  }
 
-  useEffect(() => {
-    console.log("Comparable Records Updated:", comparableRecord);
-  }, [comparableRecord]);
-
+  function handleButtonRightToLeft() {
+    console.log('moverecordDetails :>> ', moverecordDetails);
+    if (moverecordDetails.length > 0) {
+      const moveditem = caseData.find(
+        (record) =>
+          record.caseNumber === moverecordDetails[moverecordDetails.length - 1]
+      );
+      setPrimaryRecord((previtems) => [...previtems, moveditem]);
+    }
+  }
   function handlefilters(selectedFilters: any) {
     console.log("Selected Filters: ", selectedFilters);
   }
@@ -63,7 +78,9 @@ const NewPage: React.FC = () => {
     <div>
       <h3>Master Name Index</h3>
       <Row gutter={8} style={{ display: "flex", justifyContent: "end" }}>
-        <Col style={{ display: "flex", justifyContent: "end", alignItems: "end" }}>
+        <Col
+          style={{ display: "flex", justifyContent: "end", alignItems: "end" }}
+        >
           <a href="/pages/ManualSearch">Manual Search</a>
         </Col>
         <Col span={3}>
@@ -118,9 +135,16 @@ const NewPage: React.FC = () => {
           <Row>
             <h5 style={{ marginBottom: "5px" }}>Primary Master Name Record</h5>
           </Row>
-          {primaryRecord ? (
-            <CaseCard data={primaryRecord}>
-              <CaseRow {...primaryRecord} />
+          {primaryRecord.length > 0 ? (
+            <CaseCard data={primaryRecord[0]}>
+              {primaryRecord.slice(1).map((item) => (
+                <CaseRow
+                  key={item.id}
+                  {...item}
+                  checkHandler={checkHandler}
+                  checkremoveHandler={checkremoveHandler}
+                />
+              ))}
             </CaseCard>
           ) : (
             <p>No Primary Record Found</p>
@@ -128,7 +152,7 @@ const NewPage: React.FC = () => {
         </Col>
 
         <Col flex="none">
-          <VerticalLineWithDrawer />
+          <VerticalLineWithDrawer rightbutton={handleButtonRightToLeft} />
         </Col>
         <Col flex="auto" style={{ maxWidth: "48%" }}>
           <Row>
@@ -138,9 +162,14 @@ const NewPage: React.FC = () => {
             comparableRecord.map((record, index) =>
               record ? (
                 <CaseCard key={index} data={record[0]}>
-                 {record.slice(1).map((item) => (
-        <CaseRow key={item.id} {...item} />
-      ))}
+                  {record.slice(1).map((item) => (
+                    <CaseRow
+                      key={item.id}
+                      {...item}
+                      checkHandler={checkHandler}
+                      checkremoveHandler={checkremoveHandler}
+                    />
+                  ))}
                 </CaseCard>
               ) : null
             )

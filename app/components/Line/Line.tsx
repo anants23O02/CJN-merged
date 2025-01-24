@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import { Drawer, Button, Divider } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-const VerticalLineWithDrawer: React.FC = () => {
+const VerticalLineWithDrawer: React.FC = ({rightbutton}) => {
   const [visible, setVisible] = useState(false);
-
+  function rightbuttonhandler() {
+    rightbutton();
+  }
   return (
     <div style={{ display: "flex", alignItems: "center", height: "100vh" }}>
       {/* Vertical dashed line */}
@@ -34,7 +36,7 @@ const VerticalLineWithDrawer: React.FC = () => {
             transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
-         
+          onClick ={rightbuttonhandler}
         />
          <Button
           type="primary"
