@@ -8,11 +8,25 @@ import VerticalLineWithDrawer from "@/app/components/Line/Line";
 import CaseRow from "../../components/rows/Rows";
 import { SearchOutlined } from "@ant-design/icons";
 import caseData from "../../components/DummyData/caseData";
+import Popup from "@/app/components/popUp/popUp";
+import { useRouter } from "next/navigation";
+import { Modal } from 'antd';
 
 import { Row, Col, Button } from "antd";
 
 const NewPage: React.FC = () => {
   const percentage = ['100 ',"40 ",'20 ']
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+const router=useRouter();
+
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
+
   const [moverecordDetails, setmoverecordDetails] = useState<any[]>([]);
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
   const [comparableRecord, setComparableRecord] = useState<any[]>([]);
@@ -83,16 +97,28 @@ const NewPage: React.FC = () => {
   function newSearchHandler() {
     console.log("New search pressed");
   }
+  
 
+  function handlePopup(){
 
+router.push("/pages/ManualSearch")
+  }
+  function handleCancel(){
+    setIsModalOpen(false);
+    console.log("clicked")
+  }
   return (
     <div>
       <h3>Master Name Index</h3>
       <Row gutter={8} style={{ display: "flex", justifyContent: "end" }}>
         <Col
           style={{ display: "flex", justifyContent: "end", alignItems: "end" }}
-        >
-          <a href="/pages/ManualSearch">Manual Search</a>
+        > <a  onClick={showModal}>Manual Search</a>
+            <Modal title="Manual Search" open={isModalOpen} onOk={handlePopup} onCancel={handleCancel}>
+              <p>Are you sure you should like to create a manual search? </p>
+            </Modal>
+
+
         </Col>
         <Col span={3}>
           <MainButton handleClick={newSearchHandler} icon={<SearchOutlined />}>
