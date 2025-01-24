@@ -1,8 +1,23 @@
 "use client";
 
+// 'Last Name',
+// 'First Name',
+// 'Middle Name',
+// 'Suffix',
+// 'DOB',
+// 'Sex',
+// 'Race',
+// 'Height',
+// 'Weight',
+// 'ID',
+// 'Phone Number',
+// 'Address',
+
+
+
 import React from "react";
 import { Row, Col, Checkbox, Typography, Space } from "antd";
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 const { Text } = Typography;
 
 interface RowData {
@@ -23,6 +38,7 @@ interface RowData {
 }
 
 const CaseRow: React.FC<RowData> = ({
+  filterData,
   checkremoveHandler,
   checkHandler,
   Fkey,
@@ -42,6 +58,7 @@ const CaseRow: React.FC<RowData> = ({
   address,
 }) => {
   const [isClicked,setIsClicked] = useState(false);
+  const [localSelectedFilters, setLocalSelectedFilters] = useState(filterData);
   function handleCheckbox(e: React.ChangeEvent<HTMLInputElement>) {
     const isChecked = e.target.checked;
     setIsClicked(isChecked);
@@ -52,7 +69,14 @@ const CaseRow: React.FC<RowData> = ({
     else{
       checkremoveHandler(caseNumber);
     }
+    console.log('filterData :>> ', localSelectedFilters);
   }
+
+
+  useEffect(() => {
+    // Sync the state with prop changes (if the prop changes over time)
+    setLocalSelectedFilters(filterData);
+  }, [filterData]); 
   return (
     <>
       <div
@@ -83,24 +107,26 @@ const CaseRow: React.FC<RowData> = ({
             marginBottom: "16px",
             whiteSpace: "nowrap", // Prevent wrapping
             width: "max-content",
+         
           }}
         >
           <Space size="large">
-            <Col>
+           
+            <Col style={{background: '#b1ffc6' }}>
               <Text style={{ color: "#556d7a", fontWeight: "600" }}>
                 First Name
               </Text>
               <br />
               <Text>{firstName}</Text>
             </Col>
-            <Col>
+            <Col style={{background: '#b1ffc6' }}>
               <Text style={{ color: "#556d7a", fontWeight: "600" }}>
                 Middle Name
               </Text>
               <br />
               <Text>{middleName}</Text>
             </Col>
-            <Col>
+            <Col style={{background: '#b1ffc6' }}>
               <Text style={{ color: "#556d7a", fontWeight: "600" }}>
                 Last Name
               </Text>
@@ -114,7 +140,7 @@ const CaseRow: React.FC<RowData> = ({
               <br />
               <Text>{suffix ? suffix : "---"}</Text>
             </Col>
-            <Col>
+            <Col style={{background: '#b1ffc6' }}>
               <Text style={{ color: "#556d7a", fontWeight: "600" }}>DOB</Text>
               <br />
               <Text>{dob}</Text>

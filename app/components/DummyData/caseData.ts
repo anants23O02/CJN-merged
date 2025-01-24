@@ -104,7 +104,7 @@ const caseData =[
         address: "1234 August Ave St. Paul, MN 55104",
       },{
         Fkey:3, 
-        caseNumber: "25-000123",
+        caseNumber: "25-000129",
         date: "01/07/2025",
         firstName: "Timothy 2",
         middleName: "James 2",
@@ -122,7 +122,7 @@ const caseData =[
       },
       {
         Fkey:3, 
-        caseNumber: "25-000123",
+        caseNumber: "25-000130",
         date: "01/07/2025",
         firstName: "Timothy 2",
         middleName: "James 2",
@@ -139,7 +139,7 @@ const caseData =[
         address: "1234 August Ave St. Paul, MN 55104",
       },{
         Fkey:4, 
-        caseNumber: "25-000123",
+        caseNumber: "25-000131",
         date: "01/07/2025",
         firstName: "Timothy 2",
         middleName: "James 2",
@@ -156,7 +156,7 @@ const caseData =[
         address: "1234 August Ave St. Paul, MN 55104",
       },{
         Fkey:4, 
-        caseNumber: "25-000123",
+        caseNumber: "25-000132",
         date: "01/07/2025",
         firstName: "Timothy 2",
         middleName: "James 2",

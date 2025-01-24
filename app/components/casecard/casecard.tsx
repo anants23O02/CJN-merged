@@ -7,7 +7,7 @@ import { UserOutlined } from '@ant-design/icons';
 const { Text } = Typography;
 
 
-const CaseCard: React.FC = ({children,data}) => {
+const CaseCard: React.FC = ({children,data,value}) => {
   const menu = (
     <Menu
       items={[
@@ -46,7 +46,12 @@ const CaseCard: React.FC = ({children,data}) => {
         >
           {/* Header Row for Card */}
           <Row justify="end" align="middle" style={{ marginBottom: '16px', }}>
-            <Space size="large">
+            <Space size="middle">
+            <Col>
+            <Text style={{fontSize:"20px",marginRight:"15px",padding:"10px",background:(value >= 75 ? '#b1ffc6':value>=50?"#fefcb4":value>=25?"#ffdabb":value ==''? "":"#ffbab9" ) }}>
+              {value}
+            </Text>
+            </Col>
               <Col>
                 <Text style={{color:"#556d7a"}} strong>First:</Text> <br />
                 <Text>{data.firstName}</Text>

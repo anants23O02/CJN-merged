@@ -1,14 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-import { Drawer, Button, Divider } from "antd";
+import { Button, Divider } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import CustomModal from "./CustomModal"; // Import the new modal component
 
 const VerticalLineWithDrawer: React.FC = ({rightbutton}) => {
-  const [visible, setVisible] = useState(false);
-  function rightbuttonhandler() {
-    rightbutton();
-  }
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // Handler for opening the modal
+  const handleModalOpen = () => {
+    setIsModalVisible(true);
+  };
+
+  // Handler for closing the modal (passed as a prop to CustomModal)
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div style={{ display: "flex", alignItems: "center", height: "100vh" }}>
       {/* Vertical dashed line */}
@@ -21,7 +30,8 @@ const VerticalLineWithDrawer: React.FC = ({rightbutton}) => {
             margin: 0,
           }}
         />
-        {/* Drawer Button */}
+
+        {/* Left Button to Open Modal */}
         <Button
           type="primary"
           icon={<LeftOutlined />}
@@ -29,34 +39,38 @@ const VerticalLineWithDrawer: React.FC = ({rightbutton}) => {
             position: "absolute",
             top: "40%",
             left: "50%",
-            border:"none",
-            borderRadius:"20px",
-            height:"40px",
-            width:"20px",
+            border: "none",
+            borderRadius: "20px",
+            height: "40px",
+            width: "20px",
             transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
-          onClick ={rightbuttonhandler}
+          onClick={handleModalOpen} // Open modal on button click
         />
-         <Button
+
+        {/* Right Button (optional, with no functionality in this example) */}
+        <Button
           type="primary"
-          icon={<RightOutlined/>}
+          icon={<RightOutlined />}
           style={{
             position: "absolute",
             top: "60%",
             left: "50%",
-            border:"none",
-            borderRadius:"20px",
-            height:"40px",
-            width:"20px",
+            border: "none",
+            borderRadius: "20px",
+            height: "40px",
+            width: "20px",
             transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
-         
         />
       </div>
 
-      
+      {/* Render the modal */}
+      <CustomModal visible={isModalVisible} onClose={handleModalClose} rightbutton={rightbutton}>
+        <p>Confirrm merging these records</p>
+      </CustomModal>
     </div>
   );
 };

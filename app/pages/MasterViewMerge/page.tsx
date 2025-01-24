@@ -12,9 +12,11 @@ import caseData from "../../components/DummyData/caseData";
 import { Row, Col, Button } from "antd";
 
 const NewPage: React.FC = () => {
+  const percentage = ['100 ',"40 ",'20 ']
   const [moverecordDetails, setmoverecordDetails] = useState<any[]>([]);
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
   const [comparableRecord, setComparableRecord] = useState<any[]>([]);
+  const [selectedFilters,setSelectedFilters] = useState<any[]>([]) 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const record = sessionStorage.getItem("record");
@@ -57,22 +59,31 @@ const NewPage: React.FC = () => {
   }
 
   function handleButtonRightToLeft() {
-    console.log('moverecordDetails :>> ', moverecordDetails);
-    if (moverecordDetails.length > 0) {
+    console.log("moverecordDetails :>> ", moverecordDetails);
+    for(let i = 1;i<=moverecordDetails.length;i++) {   if (moverecordDetails.length > 0) {
       const moveditem = caseData.find(
         (record) =>
-          record.caseNumber === moverecordDetails[moverecordDetails.length - 1]
+          record.caseNumber === moverecordDetails[moverecordDetails.length - i]
       );
       setPrimaryRecord((previtems) => [...previtems, moveditem]);
+    }}
+    for(let i = 1;i<=moverecordDetails.length;i++) { 
+    const updatedcomparablerecords = comparableRecord.filter((item) => item.caseNumber !== moverecordDetails[moverecordDetails.length - i])
+    console.log('updatedcomparablerecords :>> ', updatedcomparablerecords);
+      setComparableRecord(updatedcomparablerecords)
     }
+    setmoverecordDetails([])
   }
+
   function handlefilters(selectedFilters: any) {
-    console.log("Selected Filters: ", selectedFilters);
+    console.log('selectedFilters :>> ', selectedFilters);
+    setSelectedFilters(selectedFilters);
   }
 
   function newSearchHandler() {
     console.log("New search pressed");
   }
+
 
   return (
     <div>
@@ -136,13 +147,15 @@ const NewPage: React.FC = () => {
             <h5 style={{ marginBottom: "5px" }}>Primary Master Name Record</h5>
           </Row>
           {primaryRecord.length > 0 ? (
-            <CaseCard data={primaryRecord[0]}>
+            <CaseCard data={primaryRecord[0]} value={''}>
               {primaryRecord.slice(1).map((item) => (
                 <CaseRow
                   key={item.id}
                   {...item}
                   checkHandler={checkHandler}
                   checkremoveHandler={checkremoveHandler}
+                  filterData = {selectedFilters}
+                  value ={''}
                 />
               ))}
             </CaseCard>
@@ -152,7 +165,7 @@ const NewPage: React.FC = () => {
         </Col>
 
         <Col flex="none">
-          <VerticalLineWithDrawer rightbutton={handleButtonRightToLeft} />
+          <VerticalLineWithDrawer rightbutton={handleButtonRightToLeft}/>
         </Col>
         <Col flex="auto" style={{ maxWidth: "48%" }}>
           <Row>
@@ -161,13 +174,15 @@ const NewPage: React.FC = () => {
           {comparableRecord.length > 0 ? (
             comparableRecord.map((record, index) =>
               record ? (
-                <CaseCard key={index} data={record[0]}>
+                <CaseCard key={index} data={record[0]} value = {percentage[index]} >
                   {record.slice(1).map((item) => (
                     <CaseRow
                       key={item.id}
                       {...item}
                       checkHandler={checkHandler}
                       checkremoveHandler={checkremoveHandler}
+                      filterData={selectedFilters}
+                      value = {percentage[index]}
                     />
                   ))}
                 </CaseCard>
