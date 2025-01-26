@@ -9,6 +9,7 @@ import initialData from "../DummyData/searchResult";
 import { DataType } from "./table.types";
 
 const { Option } = Select;
+
 const initialColumns: ColumnsType<DataType> = [
   {
     title: "Last Name / Business",
@@ -26,12 +27,14 @@ const initialColumns: ColumnsType<DataType> = [
     title: "Middle Name",
     dataIndex: "middleName",
     key: "middleName",
+    sorter: (a, b) => (a.middleName || "").localeCompare(b.middleName || ""),
     render: (middleName) => (middleName ? middleName : "---"),
   },
   {
     title: "Suffix",
     dataIndex: "suffix",
     key: "suffix",
+    sorter: (a, b) => (a.suffix || "").localeCompare(b.suffix || ""),
     render: (suffix) => (suffix ? suffix : "---"),
   },
   {
@@ -50,18 +53,21 @@ const initialColumns: ColumnsType<DataType> = [
     title: "Address",
     dataIndex: "address",
     key: "address",
+    sorter: (a, b) => (a.address || "").localeCompare(b.address || ""),
     render: (address) => address || "---",
   },
   {
     title: "City",
     dataIndex: "city",
     key: "city",
+    sorter: (a, b) => (a.city || "").localeCompare(b.city || ""),
     render: (city) => city || "---",
   },
   {
     title: "State",
     dataIndex: "state",
     key: "state",
+    sorter: (a, b) => (a.state || "").localeCompare(b.state || ""),
     render: (state) => state || "---",
   },
 ];
@@ -70,8 +76,8 @@ const CustomTable: React.FC = () => {
   const [dataSource, setDataSource] = useState(initialData);
   const [buttons, setButtons] = useState(false);
   const [columns, setColumns] = useState(initialColumns);
-  const [secondaryRecord, setSecondaryRecord] = useState<string | undefined>();
-  const [comparableRecord, setComparableRecord] = useState<string[]>([]);
+  const [secondaryRecord, setSecondaryRecord] = useState<DataType | undefined>();
+  const [comparableRecord, setComparableRecord] = useState<DataType[]>([]);
   const router = useRouter();
 
   const handleSelectChange = (value: string, record: DataType) => {
@@ -88,23 +94,18 @@ const CustomTable: React.FC = () => {
           }
         : row
     );
-  
-    let updatedSecondaryRecord = secondaryRecord;
-    let updatedComparableRecord = comparableRecord;
-  
+
     if (value === "Secondary") {
-      updatedSecondaryRecord = record;
       setSecondaryRecord(record);
     }
-  
+
     if (value === "Comparable") {
-      updatedComparableRecord = [...new Set([...comparableRecord, record])];
       setComparableRecord((prev) => [...new Set([...prev, record])]);
     }
+
     setDataSource(updatedData);
     setButtons(true);
   };
-  
 
   const handleCancelTableEdit = () => {
     setColumns(initialColumns);

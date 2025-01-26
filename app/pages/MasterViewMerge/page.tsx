@@ -81,11 +81,17 @@ const router=useRouter();
       );
       setPrimaryRecord((previtems) => [...previtems, moveditem]);
     }}
-    for(let i = 1;i<=moverecordDetails.length;i++) { 
-    const updatedcomparablerecords = comparableRecord.filter((item) => item.caseNumber !== moverecordDetails[moverecordDetails.length - i])
-    console.log('updatedcomparablerecords :>> ', updatedcomparablerecords);
-      setComparableRecord(updatedcomparablerecords)
+    let updatedComparableRecords = [...comparableRecord]; // Make a local copy of the current state
+
+    for (let i = 1; i <= moverecordDetails.length; i++) {
+      updatedComparableRecords = updatedComparableRecords.filter(
+        (item) => item.caseNumber !== String(moverecordDetails[moverecordDetails.length - i])
+      );
     }
+    console.log(updatedComparableRecords,comparableRecord);
+    // After the loop, set the updated state
+    setComparableRecord(updatedComparableRecords);
+    
     setmoverecordDetails([])
   }
 
