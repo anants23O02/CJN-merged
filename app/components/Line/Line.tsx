@@ -5,7 +5,7 @@ import { Button, Divider } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import CustomModal from "./CustomModal"; // Import the new modal component
 
-const VerticalLineWithDrawer: React.FC = ({rightbutton}) => {
+const VerticalLineWithDrawer: React.FC<{ rightbutton: () => void }> = ({ rightbutton }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Handler for opening the modal
@@ -68,8 +68,12 @@ const VerticalLineWithDrawer: React.FC = ({rightbutton}) => {
       </div>
 
       {/* Render the modal */}
-      <CustomModal visible={isModalVisible} onClose={handleModalClose} rightbutton={rightbutton}>
-        <p>Confirrm merging these records</p>
+      <CustomModal
+        visible={isModalVisible}
+        handleClose={handleModalClose} // Pass `handleClose` correctly
+        rightbutton={rightbutton}
+      >
+        <p>Confirm merging these records</p>
       </CustomModal>
     </div>
   );

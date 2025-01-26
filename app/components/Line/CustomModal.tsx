@@ -5,27 +5,30 @@ import { Modal, Button } from "antd";
 
 interface CustomModalProps {
   visible: boolean;
-  onClose: () => void;
+  handleClose: () => void; // Use `handleClose` here for consistency
   children: React.ReactNode;
+  rightbutton: () => void; // Ensure `rightbutton` is included
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ visible, onClose, children,rightbutton }) => {
-    function rightbuttonhandler() {
-        rightbutton();
-        onClose();
-        
-    }
+const CustomModal: React.FC<CustomModalProps> = ({ visible, handleClose, children, rightbutton }) => {
+  const rightbuttonhandler = () => {
+    rightbutton();
+    console.log('closing');
+    handleClose();     
+    console.log('closed');
+  };
+
   return (
     <Modal
       title="Custom Modal"
-      visible={visible}
-      onCancel={onClose}
+      open={visible}
+      onCancel={handleClose} // Use handleClose here
       footer={[
-        <Button key="close" onClick={onClose}>
+        <Button key="close" onClick={handleClose}>
           Close
         </Button>,
         <Button key="action" type="primary" onClick={rightbuttonhandler}>
-          Confirm Action
+          Confirm 
         </Button>,
       ]}
     >

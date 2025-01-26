@@ -7,7 +7,7 @@ import styles from "./Button.module.css";
 import { useRouter } from "next/navigation";
 import initialData from "../DummyData/searchResult";
 import { DataType } from "./table.types";
-
+import caseData from "../DummyData/caseData";
 const { Option } = Select;
 
 const initialColumns: ColumnsType<DataType> = [
@@ -76,8 +76,8 @@ const CustomTable: React.FC = () => {
   const [dataSource, setDataSource] = useState(initialData);
   const [buttons, setButtons] = useState(false);
   const [columns, setColumns] = useState(initialColumns);
-  const [secondaryRecord, setSecondaryRecord] = useState<DataType | undefined>();
-  const [comparableRecord, setComparableRecord] = useState<DataType[]>([]);
+  const [secondaryRecord, setSecondaryRecord] = useState<any[]>([]);
+  const [comparableRecord, setComparableRecord] = useState<any[]>([]);
   const router = useRouter();
 
   const handleSelectChange = (value: string, record: DataType) => {
@@ -96,11 +96,22 @@ const CustomTable: React.FC = () => {
     );
 
     if (value === "Secondary") {
-      setSecondaryRecord(record);
+      let primaryrecordDetails = [record]
+      const primarycaserecords = caseData.filter(
+        (obj1) =>
+          String(obj1.Fkey) === String(record.key)
+      );
+      primaryrecordDetails = [...primaryrecordDetails, ...primarycaserecords];
+      setSecondaryRecord(primaryrecordDetails);
     }
 
     if (value === "Comparable") {
-      setComparableRecord((prev) => [...new Set([...prev, record])]);
+      const primarycaserecords = caseData.filter(
+        (obj1) =>
+          String(obj1.Fkey) === String(record.key)
+      );
+      const primaryrecordDetails = [record, ...primarycaserecords];
+      setComparableRecord((prevrecords) => [...prevrecords,primaryrecordDetails]);
     }
 
     setDataSource(updatedData);
@@ -144,6 +155,7 @@ const CustomTable: React.FC = () => {
       };
       sessionStorage.setItem("record", JSON.stringify(data));
     }
+    console.log(secondaryRecord,comparableRecord);
     router.push("/pages/MasterViewMerge");
   };
 
