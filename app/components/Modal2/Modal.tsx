@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Modal, Button, Checkbox, Row, Col } from 'antd';
-import { SettingOutlined ,SlidersOutlined} from '@ant-design/icons';
+import { Modal, Button, Checkbox, Row, Col,Card } from 'antd';
+import { SettingOutlined ,SlidersOutlined,CloseOutlined} from '@ant-design/icons';
+import { SlidersFilled } from '@ant-design/icons';
 
 const FilterPopup: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -27,6 +28,8 @@ const FilterPopup: React.FC = () => {
     'ID',
     'Phone Number',
     'Address',
+    'ww',
+    
   ];
 
   const handleOk = () => {
@@ -47,15 +50,25 @@ const FilterPopup: React.FC = () => {
   };
 
   return (
+      <Card
+          bordered
+          style={{
+            borderColor: "#d9d9d9",
+            borderRadius: "8px",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+            marginBottom: "16px",
+          }}
+        >
     <div className='popup' style={{backgroundColor:"#fff",width:"100%",}}>
-      <SlidersOutlined  onClick={() => setIsModalVisible(true)} style={{margin:"5px"}}/>
+      <SlidersOutlined  onClick={() => setIsModalVisible(true)} style={{margin:"12px"}}/>
+          <>
         {selectedFilters.map((filter) => (
           <span
             key={filter}
             style={{
               display: 'inline-block',
               padding: '5px 10px',
-              margin: '5px',
+              marginRight: '5px',
               background: '#f0f0f0',
               borderRadius: '15px',
               cursor: 'pointer',
@@ -65,10 +78,11 @@ const FilterPopup: React.FC = () => {
               setSelectedFilters((prev) => prev.filter((item) => item !== filter))
             }
           >
-            {filter} ✖
+            {filter} 
+            <CloseOutlined style={{ marginLeft: '5px', fontSize: '14px',backgroundColor:'#f0f0f0'}} />
           </span>
         ))}
-      
+        </>
       <Modal
         title="Manage Filters"
         visible={isModalVisible}
@@ -82,7 +96,7 @@ const FilterPopup: React.FC = () => {
             OK
           </Button>,
         ]}
-      >
+        >
         <Row gutter={[16, 16]}>
           {filterOptions.map((filter) => (
             <Col span={8} key={filter}>
@@ -91,7 +105,7 @@ const FilterPopup: React.FC = () => {
                 onChange={(e) =>
                   handleCheckboxChange(filter, e.target.checked)
                 }
-              >
+                >
                 {filter}
               </Checkbox>
             </Col>
@@ -102,7 +116,9 @@ const FilterPopup: React.FC = () => {
         </div>
       </Modal>
     </div>
+          </Card>
   );
 };
+
 
 export default FilterPopup;

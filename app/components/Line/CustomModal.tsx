@@ -10,12 +10,19 @@ interface CustomModalProps {
   rightbutton: () => void; 
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ visible, handleClose, children, rightbutton }) => {
-  const rightbuttonhandler = () => {
-    rightbutton();
-    console.log('closing');
-    handleClose();     
-    console.log('closed');
+const CustomModal: React.FC<CustomModalProps> = ({ visible, value,handleClose, children, rightbutton,leftbutton }) => {
+  const buttonhandler = () => {
+    if(value === 'Right') {
+      rightbutton();
+      console.log('closing');
+      handleClose();     
+    }
+    else if(value === 'Left') {
+      leftbutton();
+      handleClose();
+      console.log('closed');
+
+    }
   };
 
   return (
@@ -27,7 +34,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ visible, handleClose, childre
         <Button key="close" onClick={handleClose}>
           Close
         </Button>,
-        <Button key="action" type="primary" onClick={rightbuttonhandler}>
+        <Button key="action" type="primary" onClick={buttonhandler}>
           Confirm 
         </Button>,
       ]}

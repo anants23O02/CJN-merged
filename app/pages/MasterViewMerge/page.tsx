@@ -11,7 +11,6 @@ import caseData from "../../components/DummyData/caseData";
 import Popup from "@/app/components/popUp/popUp";
 import { useRouter } from "next/navigation";
 import { Modal } from "antd";
-
 import { Row, Col, Button } from "antd";
 
 const NewPage: React.FC = () => {
@@ -91,18 +90,22 @@ const NewPage: React.FC = () => {
 
 
   function handleButtonLeftToRight() {
-    setPrimaryRecord((prevPrimary) => 
-      prevPrimary.filter(
-          (record) => !moverecordL2RDetails.includes(record.caseNumber)
-        )
-  );
-    setComparableRecord((prevComparable) =>{
-      const movedItems = comparableRecord
-      .flat()
-      .filter((record) => moverecordR2LDetails.includes(record.caseNumber));
+    setPrimaryRecord((prevPrimary) =>
+      prevPrimary.filter((record) => !moverecordL2RDetails.includes(record.caseNumber))
+    );
+  
+    setComparableRecord((prevComparable) => {
+      const movedItems = primaryRecord.filter((item) =>
+        moverecordL2RDetails.includes(item.caseNumber)
+      );
+      const uniqueItems = movedItems.filter(
+        (item) => !prevComparable[0].some((existing) => existing.caseNumber === item.caseNumber)
+      );
+      prevComparable[0].push(...uniqueItems);
+      return prevComparable;
     });
-
-    setmoverecordR2LDetails([]);
+  
+    setmoverecordL2RDetails([]);
 
     if (typeof window !== "undefined") {
       const updatedRecord = {
@@ -138,7 +141,7 @@ const NewPage: React.FC = () => {
         <Col
           style={{ display: "flex", justifyContent: "end", alignItems: "end" }}
         >
-          {" "}
+
           <a onClick={showModal}>Manual Search</a>
           <Modal
             title="Manual Search"
@@ -150,7 +153,7 @@ const NewPage: React.FC = () => {
           </Modal>
         </Col>
         <Col span={3}>
-          <MainButton handleClick={newSearchHandler} icon={<SearchOutlined />}>
+          <MainButton handleClick={newSearchHandler} icon={<SearchOutlined />} >
             New Search
           </MainButton>
         </Col>
