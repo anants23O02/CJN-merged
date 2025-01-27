@@ -71,7 +71,7 @@ const Form1: React.FC = () => {
       console.log('Form Submitted', formValues);
     }
   };
-  const router = useRouter();
+
   function handlePage() {
     console.log(' :>> ', );
     router.push('/pages/MasterTablePage');
@@ -307,13 +307,8 @@ const Form1: React.FC = () => {
       </div>
 
       <div className='button-container'>
-<<<<<<< HEAD
-      <MainButton handleClick = {changePage} icon={<SearchOutlined/>}>
-        <span className="button-icon"></span> Search
-=======
       <MainButton handleClick={handlePage} icon={<SearchOutlined/>}>
         search
->>>>>>> d7edef7d864a7ebff1afb954b12d2e596ba68631
       </MainButton>
       </div>
     </form>
