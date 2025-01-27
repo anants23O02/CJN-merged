@@ -45,9 +45,6 @@ const CaseCard: React.FC = ({children,data,value}) => {
             marginBottom: '16px',
           }}
         >
-       
-
-          {/* Header Row for Card */}
           <Row justify="end" align="middle" style={{ marginBottom: '16px', }}>
             <Space size="middle">
             <Col>
@@ -79,7 +76,6 @@ const CaseCard: React.FC = ({children,data,value}) => {
                 <Text style={{color:"#556d7a"}} strong>Cases:</Text> <br />
                 <Text>2</Text>
               </Col>
-
               <UserOutlined style={{ fontSize: '16px', cursor: 'pointer' }} />
               <Checkbox />
               <Dropdown overlay={menu} placement="bottomRight" arrow>
@@ -88,8 +84,6 @@ const CaseCard: React.FC = ({children,data,value}) => {
             </Space>
           </Row>
       {children}
-
-
         </Card>
       </Col>
     </Row>

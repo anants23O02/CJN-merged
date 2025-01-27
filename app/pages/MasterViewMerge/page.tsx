@@ -46,6 +46,8 @@ const NewPage: React.FC = () => {
       setmoverecordL2RDetails((previtems) => [...previtems, key])
     }
   }
+
+
   function checkremoveHandler(key,btn) {
     if(btn==='Right'){
     const updatedmoverecordDetails = moverecordR2LDetails.filter(
@@ -61,6 +63,8 @@ const NewPage: React.FC = () => {
   }
   }
 
+
+
   function handleButtonRightToLeft() {
     setPrimaryRecord((prevPrimary) => {
       const movedItems = comparableRecord
@@ -68,17 +72,14 @@ const NewPage: React.FC = () => {
         .filter((record) => moverecordR2LDetails.includes(record.caseNumber));
       return [...prevPrimary, ...movedItems];
     });
-
     setComparableRecord((prevComparable) =>
       prevComparable.map((comparableArray) =>
         comparableArray.filter(
           (record) => !moverecordR2LDetails.includes(record.caseNumber)
         )
-      )
-    );
-
+      ));
     setmoverecordR2LDetails([]);
-
+    
     if (typeof window !== "undefined") {
       const updatedRecord = {
         secondaryRecord: primaryRecord,
@@ -95,14 +96,11 @@ const NewPage: React.FC = () => {
           (record) => !moverecordL2RDetails.includes(record.caseNumber)
         )
   );
-
     setComparableRecord((prevComparable) =>{
       const movedItems = comparableRecord
       .flat()
       .filter((record) => moverecordR2LDetails.includes(record.caseNumber));
-    }
-
-    );
+    });
 
     setmoverecordR2LDetails([]);
 
@@ -131,7 +129,6 @@ const NewPage: React.FC = () => {
 
   function handleCancel() {
     setIsModalOpen(false);
-    console.log("clicked");
   }
 
   return (
