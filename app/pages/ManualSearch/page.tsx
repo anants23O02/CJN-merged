@@ -42,7 +42,7 @@ export default function Home() {
   }, []);
 
   function  handlePage(){
-    router.push('/pages/MasterViewMerge')
+    router.push('/pages/Automated')
   }
 
  
