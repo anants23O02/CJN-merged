@@ -7,6 +7,7 @@ import Form1 from '../../components/form/form';
 import CaseCard from '../../components/casecard/casecard';
 import { useRouter } from "next/navigation";
 import VerticalLineWithDrawer from '@/app/components/Line/Line';
+import Button1 from "@/app/components/buttonSelect/buttonSelect";
 
 export default function Home() {
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
@@ -78,6 +79,9 @@ export default function Home() {
             {/* Conditionally render Form1 or MasterTable based on showMasterTable */}
             <MasterTable filters={selectedFilters} />
           </div>
+          <div className="button-container">
+        <Button1 />
+      </div>
         </div>
             )}
         
