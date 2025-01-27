@@ -15,6 +15,9 @@
     color: rgb(122, 145, 161); 
     font-weight: 500; /* Adjusts header font weight */
 }
+.selected-row  {
+  background-color: #d0ebff; /* Custom blue shade */
+}
 
 .small-table .ant-table-tbody > tr > td:first-child,
 .small-table .ant-table-thead > tr > th:first-child {
