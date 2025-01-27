@@ -1,11 +1,13 @@
-"use client"
-import React from 'react';
-import { Table, Checkbox } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import './MasterTable2.css';
+"use client";
+import React, { useState, useEffect } from "react";
+import { Table, Checkbox } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import "./MasterTable2.css";
+import caseData from "../DummyData/caseData2";
 
 interface DataType {
   key: string;
+  Fkey: number;
   lastName: string;
   firstName: string;
   middleName: string | null;
@@ -20,151 +22,94 @@ interface DataType {
   id: number;
 }
 
-const data: DataType[] = [
-  {
-    key: '1',
-    lastName: 'Taylor',
-    firstName: 'Timothy',
-    middleName: 'James',
-    suffix: null,
-    dob: '12/13/1989',
-    age: 35,
-    address: '1234 August Ave',
-    phoneNumber: '555-1234',
-    sex: 'Male',
-    city: 'St. Paul',
-    state: 'MN',
-    id: 1,
-  },
-  {
-    key: '2',
-    lastName: 'Taylor',
-    firstName: 'Timothy',
-    middleName: null,
-    suffix: null,
-    dob: '12/13/1989',
-    age: 35,
-    address: '1234 August Ave',
-    phoneNumber: '555-5678',
-    sex: 'Male',
-    city: 'St. Paul',
-    state: 'MN',
-    id: 2,
-  },
-  {
-    key: '3',
-    lastName: 'Taylor',
-    firstName: 'Timothy',
-    middleName: 'Drew',
-    suffix: null,
-    dob: '10/05/1987',
-    age: 37,
-    address: '1234 First Street',
-    phoneNumber: '555-8765',
-    sex: 'Male',
-    city: 'St. Paul',
-    state: 'MN',
-    id: 3,
-  },
-  {
-    key: '4',
-    lastName: 'Taylor',
-    firstName: 'Timothy',
-    middleName: 'Drew',
-    suffix: null,
-    dob: '10/05/1987',
-    age: 37,
-    address: '1234 First Street',
-    phoneNumber: '555-4321',
-    sex: 'Male',
-    city: 'St. Paul',
-    state: 'MN',
-    id: 4,
-  },
-];
+interface MasterTableProps {
+  filters: { key: keyof DataType; value: string }[];
+}
 
-const columns: ColumnsType<DataType> = [
-  {
-    title: '',
-    dataIndex: 'checkbox',
-    key: 'checkbox',
-    render: (_, record) => <Checkbox />, // Render a checkbox in the first column
-    width: 40, // Adjust width for the checkbox column
-  },
-  {
-    title: 'First Name',
-    dataIndex: 'firstName',
-    key: 'firstName',
-  },
-  {
-    title: 'Middle Name',
-    dataIndex: 'middleName',
-    key: 'middleName',
-    render: (middleName) => (middleName ? middleName : '---'),
-  },
-  {
-    title: 'Last Name',
-    dataIndex: 'lastName',
-    key: 'lastName',
-  },
-  {
-    title: 'Suffix',
-    dataIndex: 'suffix',
-    key: 'suffix',
-    render: (suffix) => (suffix ? suffix : '---'),
-  },
-  {
-    title: 'DOB',
-    dataIndex: 'dob',
-    key: 'dob',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Phone Number',
-    dataIndex: 'phoneNumber',
-    key: 'phoneNumber',
-    className: 'address',
-  },
-  {
-    title: 'Sex',
-    dataIndex: 'sex',
-    key: 'sex',
-  },
-  {
-    title: 'City',
-    dataIndex: 'city',
-    key: 'city',
-  },
-  {
-    title: 'State',
-    dataIndex: 'state',
-    key: 'state',
-  },
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
-  },
-];
+const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  const [selectedRows, setSelectedRows] = useState<DataType[]>([]);
 
-const MasterTable: React.FC = () => {
+  useEffect(() => {
+    const data = {
+      secondaryRecord: selectedRows[0] || {}, // only the first selected row
+      comparableRecord: selectedRows.length ? [selectedRows[0]] : [], // put the first selected row in the comparableRecord array
+    };
+    sessionStorage.setItem("record", JSON.stringify(data));
+  }, [selectedRows]);
+
+  const handleCheckboxChange = (checked: boolean, record: DataType) => {
+    if (checked) {
+      setSelectedKeys([record.key]);
+      setSelectedRows([record]); // Store the selected row as the new `secondaryRecord`
+    } else {
+      setSelectedKeys([]);
+      setSelectedRows([]); // Clear the selection when unchecked
+    }
+  };
+
+  const filteredData = caseData.filter((record) => {
+    return filters.every((filter) => {
+      const { key, value } = filter;
+      return record[key]?.toString().toLowerCase().includes(value.toLowerCase());
+    });
+  });
+
+  const columns: ColumnsType<DataType> = [
+    {
+      title: "",
+      dataIndex: "checkbox",
+      key: "checkbox",
+      render: (_, record) => (
+        <Checkbox
+          checked={selectedKeys.includes(record.key)}
+          onChange={(e) => handleCheckboxChange(e.target.checked, record)}
+        />
+      ),
+      width: 40,
+      className: "checkbox-column",
+    },
+    { title: "First Name", dataIndex: "firstName", key: "firstName" },
+    {
+      title: "Middle Name",
+      dataIndex: "middleName",
+      key: "middleName",
+      render: (middleName) => (middleName ? middleName : "---"),
+    },
+    { title: "Last Name", dataIndex: "lastName", key: "lastName" },
+    {
+      title: "Suffix",
+      dataIndex: "suffix",
+      key: "suffix",
+      render: (suffix) => (suffix ? suffix : "---"),
+    },
+    { title: "DOB", dataIndex: "dob", key: "dob" },
+    { title: "Age", dataIndex: "age", key: "age" },
+    { title: "Address", dataIndex: "address", key: "address" },
+    {
+      title: "Phone Number",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+      className: "address",
+    },
+    { title: "Sex", dataIndex: "sex", key: "sex" },
+    { title: "City", dataIndex: "city", key: "city" },
+    { title: "State", dataIndex: "state", key: "state" },
+    { title: "ID", dataIndex: "id", key: "id" },
+  ];
+
   return (
     <Table
-      dataSource={data}
+      dataSource={filteredData}
       columns={columns}
+      rowClassName={(record) =>
+        selectedKeys.includes(record.key) ? "selected-row" : ""
+      }
       pagination={{ pageSize: 4 }}
       bordered
-      className="small-table" // Class to apply custom styles
+      className="small-table"
       scroll={{ x: "max-content" }}
+      rowKey="key"
     />
   );
 };

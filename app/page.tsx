@@ -2,7 +2,7 @@
 
 import { Breadcrumb } from "antd";
 import Link from "next/link";
-import Form1 from "./components/form/form";
+import Form1 from "./components/form2/form2";
 import FilterPopup from "./components/Modal/modal";
 import "./page.css";
 import { useRouter } from "next/navigation";
