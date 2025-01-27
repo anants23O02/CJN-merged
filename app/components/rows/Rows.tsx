@@ -1,11 +1,13 @@
 "use client";
 
+
 import React from "react";
 import { Row, Col, Checkbox, Typography, Space } from "antd";
-
+import {useState, useEffect} from 'react';
 const { Text } = Typography;
 
 interface RowData {
+  direction:string;
   caseNumber: string;
   date: string;
   firstName: string;
@@ -23,6 +25,11 @@ interface RowData {
 }
 
 const CaseRow: React.FC<RowData> = ({
+  direction,
+  filterData,
+  checkremoveHandler,
+  checkHandler,
+  Fkey,
   caseNumber,
   date,
   firstName,
@@ -38,21 +45,43 @@ const CaseRow: React.FC<RowData> = ({
   phoneNumber,
   address,
 }) => {
+  const [isClicked,setIsClicked] = useState(false);
+  const [localSelectedFilters, setLocalSelectedFilters] = useState(filterData);
+  function handleCheckbox(e: React.ChangeEvent<HTMLInputElement>,btn) {
+    const isChecked = e.target.checked;
+    setIsClicked(isChecked);
+    console.log('isClicked :>> ', isChecked,direction);
+    if (isChecked ){        
+      checkHandler(caseNumber,direction);
+    }
+    else{
+      checkremoveHandler(caseNumber,direction);
+    }
+    console.log('filterData :>> ', localSelectedFilters);
+  }
+
+
+  useEffect(() => {
+  
+    setLocalSelectedFilters(filterData);
+  }, [filterData]); 
+
+
   return (
     <>
       <div
         style={{
-          overflowX: "auto", // Enable horizontal scrolling
+          overflowX: "auto", 
           padding: "8px",
         }}
       >
         <Row justify="start" align="middle" style={{ marginBottom: "8px" }}>
           <Space size="large">
-            <Checkbox></Checkbox>
+            <Checkbox onChange={handleCheckbox}></Checkbox>
             <Col>
               <Text style={{ color: "#556d7a", fontWeight: "700" }}>Case:</Text>
               <Text>
-                <a href="">{" " + caseNumber}</a>
+                <a href="./CaseView">{" " + caseNumber}</a>
               </Text>
             </Col>
             <Col>
@@ -66,26 +95,27 @@ const CaseRow: React.FC<RowData> = ({
           align="middle"
           style={{
             marginBottom: "16px",
-            whiteSpace: "nowrap", // Prevent wrapping
+            whiteSpace: "nowrap", 
             width: "max-content",
           }}
         >
           <Space size="large">
-            <Col>
+           
+            <Col style={{background: '#b1ffc6' }}>
               <Text style={{ color: "#556d7a", fontWeight: "600" }}>
                 First Name
               </Text>
               <br />
               <Text>{firstName}</Text>
             </Col>
-            <Col>
+            <Col style={{background: '#b1ffc6' }}>
               <Text style={{ color: "#556d7a", fontWeight: "600" }}>
                 Middle Name
               </Text>
               <br />
               <Text>{middleName}</Text>
             </Col>
-            <Col>
+            <Col style={{background: '#b1ffc6' }}>
               <Text style={{ color: "#556d7a", fontWeight: "600" }}>
                 Last Name
               </Text>
@@ -99,7 +129,7 @@ const CaseRow: React.FC<RowData> = ({
               <br />
               <Text>{suffix ? suffix : "---"}</Text>
             </Col>
-            <Col>
+            <Col style={{background: '#b1ffc6' }}>
               <Text style={{ color: "#556d7a", fontWeight: "600" }}>DOB</Text>
               <br />
               <Text>{dob}</Text>

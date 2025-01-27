@@ -19,8 +19,7 @@ const MainButton: React.FC<MainButtonProps> = ({ children, handleClick,icon }) =
       htmlType="submit"
       style={{ width: "100px", padding:"6px", alignContent:"center",alignItems:"center" }}
       onClick={handler}
-      icon={icon}
-      
+      icon={icon}  
     >
       {children}
     </Button>

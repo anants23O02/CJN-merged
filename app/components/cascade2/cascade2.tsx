@@ -30,7 +30,6 @@ const CustomCascader: React.FC<CascaderProps> = ({ options, multiple, maxTagCoun
 
   const renderOptions = (options: Option[], level: number = 0): React.ReactNode => {
     return options.map((option) => {
-      // Render each option using React.createElement instead of JSX
       const childrenElements = option.children && option.children.length > 0 ? renderOptions(option.children, level + 1) : null;
 
       return React.createElement(

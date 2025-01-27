@@ -3,28 +3,11 @@
 import React from 'react';
 import { Card, Row, Col, Space, Typography, Checkbox, Dropdown, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-
+import styles from './casecard.module.css';
 const { Text } = Typography;
 
 
-const data = {
-  caseNumber: '25-000123',
-  date: '01/07/2025',
-  firstName: 'Timothy',
-  middleName: 'James',
-  lastName: 'Taylor',
-  suffix: null,
-  dob: '12/13/1989',
-  sex: 'M',
-  race: 'W',
-  height: "5'11\"",
-  weight: '160',
-  id: 'DL12345678910',
-  phoneNumber: '123-456-7890',
-  address: '1234 August Ave St. Paul MN 55104',
-};
-
-const CaseCard: React.FC = ({children}) => {
+const CaseCard: React.FC = ({children,data,value}) => {
   const menu = (
     <Menu
       items={[
@@ -44,7 +27,6 @@ const CaseCard: React.FC = ({children}) => {
         display: 'flex', 
       }}
     >
-      {/* CaseCard Column taking 50% width */}
       <Col
         style={{
           flex: 1, 
@@ -55,6 +37,7 @@ const CaseCard: React.FC = ({children}) => {
       >
         <Card
           bordered
+          className={styles.cardstyle}
           style={{
             borderColor: '#d9d9d9',
             borderRadius: '8px',
@@ -62,9 +45,16 @@ const CaseCard: React.FC = ({children}) => {
             marginBottom: '16px',
           }}
         >
+       
+
           {/* Header Row for Card */}
           <Row justify="end" align="middle" style={{ marginBottom: '16px', }}>
-            <Space size="large">
+            <Space size="middle">
+            <Col>
+            <Text style={{fontSize:"20px",marginRight:"15px",padding:"10px",background:(value >= 75 ? '#b1ffc6':value>=50?"#fefcb4":value>=25?"#ffdabb":value ==''? "":"#ffbab9" ) }}>
+              {value}
+            </Text>
+            </Col>
               <Col>
                 <Text style={{color:"#556d7a"}} strong>First:</Text> <br />
                 <Text>{data.firstName}</Text>
@@ -98,6 +88,7 @@ const CaseCard: React.FC = ({children}) => {
             </Space>
           </Row>
       {children}
+
 
         </Card>
       </Col>

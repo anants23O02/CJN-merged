@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Checkbox, Row, Col } from 'antd';
 import { SettingOutlined ,SlidersOutlined} from '@ant-design/icons';
 
-const FilterPopup: React.FC = () => {
+const FilterPopup: React.FC = ({handlefilters}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([
     'Last Name',
@@ -44,6 +44,7 @@ const FilterPopup: React.FC = () => {
     } else {
       setSelectedFilters((prev) => prev.filter((item) => item !== filter));
     }
+    handlefilters(selectedFilters);
   };
 
   return (
@@ -62,7 +63,11 @@ const FilterPopup: React.FC = () => {
               fontSize:'12px'
             }}
             onClick={() =>
-              setSelectedFilters((prev) => prev.filter((item) => item !== filter))
+            {
+              // create a new function for onclick then call setselectedfilters after that handlefilters
+              handlefilters(selectedFilters);
+              setSelectedFilters((prev) => prev.filter((item) => item !== filter));
+            }
             }
           >
             {filter} ✖

@@ -5,18 +5,29 @@ import MainButton from "../mainButton/button"
 import {useRouter} from "next/navigation"
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { SearchOutlined } from '@ant-design/icons';
+import caseData from '../DummyData/caseData';
 // Define the form values types
+
+const caseDataArray = Object.entries(caseData);
+console.log(caseDataArray)
 interface FormValues {
-  email: string;
-  password: string;
-  confirm: string;
-  nickname: string;
-  phone: string;
-  donation: number;
-  website: string;
-  intro: string;
-  gender: string;
-  agreement: boolean;
+  caseNumber: string;
+  date: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  suffix: string ;
+  dob: string;
+  cases: number;
+  sex: string;
+  race: string;
+  height: string;
+  weight: string;
+  id: string;
+  phoneNumber: string;
+  address: string;
+  zip:string;
+  country:string;
 }
 
 // Define the component
@@ -24,57 +35,107 @@ const Form1: React.FC = () => {
 
 
   const [formValues, setFormValues] = useState<FormValues>({
-    email: '',
-    password: '',
-    confirm: '',
-    nickname: '',
-    phone: '',
-    donation: 0,
-    website: '',
-    intro: '',
-    gender: '',
-    agreement: false,
+    caseNumber: '',
+    date: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    suffix: '',
+    dob: '',
+    cases: 0,
+    sex: '',
+    race: '',
+    height: '',
+    weight: '',
+    id:'',
+    phoneNumber: '',
+    address: '',
+    zip:'',
+    country:''
   });
 
-  const [errors, setErrors] = useState<Partial<FormValues>>({});
-
+  //const [errors, setErrors] = useState<Partial<FormValues>>({});
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target; // Destructure name and value from the event target
     setFormValues({
-      ...formValues,
-      
+      ...formValues,       // Spread the existing state
+      [name]: value,       // Update the specific field with the new value
     });
   };
-
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     // Form validation
-    const newErrors: Partial<FormValues> = {};
-    if (!formValues.email) newErrors.email = 'Please input your email.';
-    if (!formValues.password) newErrors.password = 'Please input your password.';
-    if (formValues.password !== formValues.confirm) newErrors.confirm = 'Passwords do not match.';
-    if (!formValues.nickname) newErrors.nickname = 'Please input your nickname.';
-    if (!formValues.phone) newErrors.phone = 'Please input your phone number.';
-    // if (formValues.donation <= 0) newErrors.donation = 'Please input a valid donation amount.';
-    if (!formValues.website) newErrors.website = 'Please input your website.';
-    if (!formValues.intro) newErrors.intro = 'Please provide an intro.';
-    if (!formValues.gender) newErrors.gender = 'Please select a gender.';
+    // const newErrors: Partial<FormValues> = {};
+    // if (!formValues.email) newErrors.email = 'Please input your email.';
+    // if (!formValues.password) newErrors.password = 'Please input your password.';
+    // if (formValues.password !== formValues.confirm) newErrors.confirm = 'Passwords do not match.';
+    // if (!formValues.nickname) newErrors.nickname = 'Please input your nickname.';
+    // if (!formValues.phone) newErrors.phone = 'Please input your phone number.';
+    // // if (formValues.donation <= 0) newErrors.donation = 'Please input a valid donation amount.';
+    // if (!formValues.website) newErrors.website = 'Please input your website.';
+    // if (!formValues.intro) newErrors.intro = 'Please provide an intro.';
+    // if (!formValues.gender) newErrors.gender = 'Please select a gender.';
     // if (!formValues.agreement) newErrors.agreement = 'You must agree to the terms.';
 
-    setErrors(newErrors);
+    // setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0) {
-      console.log('Form Submitted', formValues);
-    }
+  //   if (Object.keys(newErrors).length === 0) {
+  //     console.log('Form Submitted', formValues);
+  //   }
   };
+  console.log('Form Submitted', formValues);
 
   const router = useRouter();
 
   function changePage() {
       router.push('/pages/MasterTablePage');
+      console.log(formValues);
   }
-   
+  const handleSearch = () => {
+    let matches = []; // Initialize an empty array to store the matched entries
+  
+    // Iterate over each form value and find the corresponding match in caseDataArray
+    Object.entries(formValues).forEach(([key, formValue]) => {
+      if (formValue) {
+        // Filter matches based on the current key and value from the form
+        const filteredMatches = caseDataArray.filter(([dataKey, dataValue]) => {
+          return dataKey === key && dataValue.toString().toLowerCase() === formValue.toString().toLowerCase();
+        });
+  
+        // Add unique matches to the matches array
+        filteredMatches.forEach((match) => {
+          if (!matches.some((m) => m[0] === match[0])) { // Compare based on the key
+            matches.push(match);
+          }
+        });
+      }
+    });
+  
+    // Now, extract the IDs from the filtered matches
+    let idArr = []; // This will hold the unique ids
+  
+    // Loop through the matches to extract the ID
+    matches.forEach(([matchKey, matchValue]) => {
+      // Find the id key-value pair in the caseDataArray
+      const caseIdEntry = caseDataArray.find(([key, value]) => key === 'id');
+      
+      // If the ID is found and it's not already in idArr, add it
+      if (caseIdEntry && !idArr.includes(caseIdEntry[1])) {
+        idArr.push(caseIdEntry[1]); // caseIdEntry[1] is the value of 'id'
+      }
+    });
+    router.push('/pages/MasterTablePage');
+    console.log(formValues);
+    sessionStorage.setItem('idArr', JSON.stringify(idArr));
+    console.log(idArr); // Log the array of IDs
+  
+    // Add further logic after extracting the ids, if needed
+  };
+  
+  
+ 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="form form-search">
@@ -87,7 +148,7 @@ const Form1: React.FC = () => {
           className="input"
           type="text"
           name="Id"
-          value={formValues.password}
+          //value={}
           onChange={handleChange}
         />
       </div>
@@ -98,8 +159,8 @@ const Form1: React.FC = () => {
           <input
             className="input"
             type="text"
-            name="Id"
-            value={formValues.password}
+            name="lastName"
+            value={formValues.lastName}
             onChange={handleChange}
           />
         </div>
@@ -108,8 +169,8 @@ const Form1: React.FC = () => {
           <input
             className="input"
             type="text"
-            name="Id"
-            value={formValues.password}
+            name="firstName"
+            value={formValues.firstName}
             onChange={handleChange}
           />
         </div>
@@ -118,8 +179,8 @@ const Form1: React.FC = () => {
           <input
             className="input"
             type="text"
-            name="Id"
-            value={formValues.password}
+            name="middleName"
+            value={formValues.middleName}
             onChange={handleChange}
           />
         </div>
@@ -128,8 +189,8 @@ const Form1: React.FC = () => {
           <input
             className="input"
             type="text"
-            name="Id"
-            value={formValues.password}
+            name="suffix"
+            value={formValues.suffix}
             onChange={handleChange}
           />
         </div>
@@ -138,8 +199,8 @@ const Form1: React.FC = () => {
           <input
             className="input"
             type="text"
-            name="Id"
-            value={formValues.password}
+            name="dob"
+            value={formValues.dob}
             onChange={handleChange}
           />
         </div>
@@ -151,8 +212,8 @@ const Form1: React.FC = () => {
           <input
             className="input"
             type="text"
-            name="Id"
-            value={formValues.password}
+            name="id"
+            value={formValues.id}
             onChange={handleChange}
           />
         </div>
@@ -161,8 +222,8 @@ const Form1: React.FC = () => {
           <input
             className="input"
             type="text"
-            name="Phone"
-            value={formValues.password}
+            name="PhoneNumber"
+            value={formValues.phoneNumber}
             onChange={handleChange}
           />
         </div>
@@ -193,8 +254,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="Id"
-              value={formValues.password}
+              name="height"
+              value={formValues.height}
               onChange={handleChange}
             />
           </div>
@@ -203,8 +264,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="Id"
-              value={formValues.password}
+              name="weight"
+              value={formValues.weight}
               onChange={handleChange}
             />
           </div>
@@ -219,8 +280,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="Id"
-              value={formValues.password}
+              name="address"
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -239,8 +300,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="Id"
-              value={formValues.password}
+              name="address"
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -250,8 +311,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="Id"
-              value={formValues.password}
+              name="address"
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -264,8 +325,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="Id"
-              value={formValues.password}
+              name="address"
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -284,8 +345,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="Id"
-              value={formValues.password}
+              name="zip"
+              value={formValues.zip}
               onChange={handleChange}
             />
 
@@ -295,8 +356,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="Id"
-              value={formValues.password}
+              name="country"
+              value={formValues.country}
               onChange={handleChange}
             />
 
@@ -307,7 +368,11 @@ const Form1: React.FC = () => {
       <div className='button-container'>
 
 
+<<<<<<< HEAD
       <MainButton handleClick = {changePage} icon={<SearchOutlined/>}>
+=======
+      <MainButton handleClick = {handleSearch} icon={<SearchOutlined/>}>
+>>>>>>> d7edef7d864a7ebff1afb954b12d2e596ba68631
         <span className="button-icon"></span> Search
       </MainButton>
 
@@ -316,5 +381,4 @@ const Form1: React.FC = () => {
     </form>
   );
 };
-
 export default Form1;
