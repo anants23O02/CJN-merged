@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, Row, Col, Space, Typography, Checkbox, Dropdown, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-
+import styles from './casecard.module.css';
 const { Text } = Typography;
 
 
@@ -37,6 +37,7 @@ const CaseCard: React.FC = ({children,data,value}) => {
       >
         <Card
           bordered
+          className={styles.cardstyle}
           style={{
             borderColor: '#d9d9d9',
             borderRadius: '8px',
@@ -44,6 +45,8 @@ const CaseCard: React.FC = ({children,data,value}) => {
             marginBottom: '16px',
           }}
         >
+       
+
           {/* Header Row for Card */}
           <Row justify="end" align="middle" style={{ marginBottom: '16px', }}>
             <Space size="middle">
@@ -85,6 +88,7 @@ const CaseCard: React.FC = ({children,data,value}) => {
             </Space>
           </Row>
       {children}
+
 
         </Card>
       </Col>

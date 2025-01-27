@@ -7,8 +7,9 @@ import styles from "./Button.module.css";
 import { useRouter } from "next/navigation";
 import initialData from "../DummyData/searchResult";
 import { DataType } from "./table.types";
-
+import caseData from "../DummyData/caseData";
 const { Option } = Select;
+
 const initialColumns: ColumnsType<DataType> = [
   {
     title: "Last Name / Business",
@@ -26,12 +27,14 @@ const initialColumns: ColumnsType<DataType> = [
     title: "Middle Name",
     dataIndex: "middleName",
     key: "middleName",
+    sorter: (a, b) => (a.middleName || "").localeCompare(b.middleName || ""),
     render: (middleName) => (middleName ? middleName : "---"),
   },
   {
     title: "Suffix",
     dataIndex: "suffix",
     key: "suffix",
+    sorter: (a, b) => (a.suffix || "").localeCompare(b.suffix || ""),
     render: (suffix) => (suffix ? suffix : "---"),
   },
   {
@@ -50,18 +53,21 @@ const initialColumns: ColumnsType<DataType> = [
     title: "Address",
     dataIndex: "address",
     key: "address",
+    sorter: (a, b) => (a.address || "").localeCompare(b.address || ""),
     render: (address) => address || "---",
   },
   {
     title: "City",
     dataIndex: "city",
     key: "city",
+    sorter: (a, b) => (a.city || "").localeCompare(b.city || ""),
     render: (city) => city || "---",
   },
   {
     title: "State",
     dataIndex: "state",
     key: "state",
+    sorter: (a, b) => (a.state || "").localeCompare(b.state || ""),
     render: (state) => state || "---",
   },
 ];
@@ -70,8 +76,8 @@ const CustomTable: React.FC = () => {
   const [dataSource, setDataSource] = useState(initialData);
   const [buttons, setButtons] = useState(false);
   const [columns, setColumns] = useState(initialColumns);
-  const [secondaryRecord, setSecondaryRecord] = useState<string | undefined>();
-  const [comparableRecord, setComparableRecord] = useState<string[]>([]);
+  const [secondaryRecord, setSecondaryRecord] = useState<any[]>([]);
+  const [comparableRecord, setComparableRecord] = useState<any[]>([]);
   const router = useRouter();
 
   const handleSelectChange = (value: string, record: DataType) => {
@@ -88,23 +94,29 @@ const CustomTable: React.FC = () => {
           }
         : row
     );
-  
-    let updatedSecondaryRecord = secondaryRecord;
-    let updatedComparableRecord = comparableRecord;
-  
+
     if (value === "Secondary") {
-      updatedSecondaryRecord = record;
-      setSecondaryRecord(record);
+      let primaryrecordDetails = [record]
+      const primarycaserecords = caseData.filter(
+        (obj1) =>
+          String(obj1.Fkey) === String(record.key)
+      );
+      primaryrecordDetails = [...primaryrecordDetails, ...primarycaserecords];
+      setSecondaryRecord(primaryrecordDetails);
     }
-  
+
     if (value === "Comparable") {
-      updatedComparableRecord = [...new Set([...comparableRecord, record])];
-      setComparableRecord((prev) => [...new Set([...prev, record])]);
+      const primarycaserecords = caseData.filter(
+        (obj1) =>
+          String(obj1.Fkey) === String(record.key)
+      );
+      const primaryrecordDetails = [record, ...primarycaserecords];
+      setComparableRecord((prevrecords) => [...prevrecords,primaryrecordDetails]);
     }
+
     setDataSource(updatedData);
     setButtons(true);
   };
-  
 
   const handleCancelTableEdit = () => {
     setColumns(initialColumns);
@@ -143,6 +155,7 @@ const CustomTable: React.FC = () => {
       };
       sessionStorage.setItem("record", JSON.stringify(data));
     }
+    console.log(secondaryRecord,comparableRecord);
     router.push("/pages/MasterViewMerge");
   };
 

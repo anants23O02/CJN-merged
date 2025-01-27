@@ -28,64 +28,79 @@ const NewPage: React.FC = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const record = sessionStorage.getItem("record");
-      if (record) {
+      
         const parsedRecord = JSON.parse(record);
-        console.log("Parsed Record:", parsedRecord);
-
-        // Primary Record Initialization
-        let primaryrecordDetails = [parsedRecord.secondaryRecord];
-        const primarycaserecords = caseData.filter(
-          (obj) => String(obj.Fkey) === String(parsedRecord.secondaryRecord.key)
-        );
-        primaryrecordDetails = [...primaryrecordDetails, ...primarycaserecords];
-        setPrimaryRecord(primaryrecordDetails);
-
-        // Comparable Record Initialization
-        const comparablerecordDetails = parsedRecord.comparableRecord.map(
-          (obj) => {
-            const matches = caseData.filter(
-              (caseObj) => String(caseObj.Fkey) === String(obj.key)
-            );
-            return [obj, ...matches];
-          }
-        );
-        setComparableRecord(comparablerecordDetails);
-      }
+        console.log(parsedRecord);
+        setPrimaryRecord(parsedRecord.secondaryRecord || []); 
+        setComparableRecord(parsedRecord.comparableRecord || []);
+      
     }
   }, []);
+  
 
   const checkHandler = (key: string) => {
     setmoverecordDetails((prev) => [...prev, key]);
   };
 
-  const checkremoveHandler = (key: string) => {
-    setmoverecordDetails((prev) => prev.filter((item) => item !== key));
-  };
-
-  const handleButtonRightToLeft = () => {
-    if (moverecordDetails.length > 0) {
-      const movedItems = moverecordDetails.map((key) =>
-        caseData.find((record) => record.caseNumber === key)
-      );
-
-      setPrimaryRecord((prev) => [...prev, ...movedItems]);
-
-      const updatedComparableRecords = comparableRecord.map((group) =>
-        group.filter(
-          (record) =>
-            !moverecordDetails.includes(record.caseNumber)
+  // console.log("moverecordDetails :>> ", moverecordDetails);
+  // for(let i = 1;i<=moverecordDetails.length;i++) { 
+  //     if (moverecordDetails.length > 0) {
+  //   const moveditem = caseData.find(
+  //     (record) =>
+  //       record.caseNumber === moverecordDetails[moverecordDetails.length - i]
+  //   );
+  //   setPrimaryRecord((previtems) => [...previtems, moveditem]);
+  // }}
+  // let updatedComparableRecords = [...comparableRecord];
+  // for (let i = 1; i <= moverecordDetails.length; i++) {
+  //   updatedComparableRecords = updatedComparableRecords.filter(
+  //     (item) => item.caseNumber !== String(moverecordDetails[moverecordDetails.length - i])
+  //   );
+  // }
+  // console.log(updatedComparableRecords,comparableRecord);
+  // setComparableRecord(updatedComparableRecords);
+  // setmoverecordDetails([])
+  function handleButtonRightToLeft() {
+    
+      // Step 1: Update primaryRecord by appending the moved items
+      setPrimaryRecord((prevPrimary) => {
+        const movedItems = comparableRecord
+          .flat() // Flatten the array of arrays to make filtering easier
+          .filter((record) => moverecordDetails.includes(record.caseNumber));
+    
+        return [...prevPrimary, ...movedItems];
+      });
+    
+      // Step 2: Remove the moved items from comparableRecord
+      setComparableRecord((prevComparable) =>
+        prevComparable.map((comparableArray) =>
+          comparableArray.filter(
+            (record) => !moverecordDetails.includes(record.caseNumber)
+          )
         )
       );
-      setComparableRecord(updatedComparableRecords.filter((group) => group.length > 0));
-
+    
+      // Step 3: Clear moverecordDetails (if needed elsewhere in the code)
       setmoverecordDetails([]);
-    }
-  };
+      if (typeof window !== "undefined") {
+        const updatedRecord = {
+          secondaryRecord: primaryRecord,
+          comparableRecord: comparableRecord,
+        };
+        sessionStorage.setItem("record", JSON.stringify(updatedRecord));
+      }
+    };
+    
+    // useEffect to sync session storage whenever state changes
+    
+  
 
   const handlefilters = (selectedFilters: any) => {
     setSelectedFilters(selectedFilters);
   };
-
+  const checkremoveHandler = (key: string) => {
+    setmoverecordDetails((prev) => prev.filter((item) => item !== key));
+  };
   const handlePopup = () => {
     router.push("/pages/ManualSearch");
   };
