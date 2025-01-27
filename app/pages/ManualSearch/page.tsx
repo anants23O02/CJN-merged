@@ -8,6 +8,8 @@ import CaseCard from '../../components/casecard/casecard';
 import { useRouter } from "next/navigation";
 import VerticalLineWithDrawer from '@/app/components/Line/Line';
 import Button1 from "@/app/components/buttonSelect/buttonSelect";
+import MainButton from "@/app/components/mainButton/button";
+import { SearchOutlined } from '@ant-design/icons';
 
 export default function Home() {
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
@@ -25,6 +27,8 @@ export default function Home() {
     console.log(isShown)
   }
 
+  const router=useRouter();
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const record = sessionStorage.getItem("record");
@@ -35,6 +39,10 @@ export default function Home() {
       }
     }
   }, []);
+
+  function  handlePage(){
+    router.push('/pages/MasterViewMerge')
+  }
 
  
 
@@ -80,7 +88,9 @@ export default function Home() {
             <MasterTable filters={selectedFilters} />
           </div>
           <div className="button-container">
-        <Button1 />
+          <MainButton handleClick={handlePage} icon={<SearchOutlined />}>
+          Select
+        </MainButton>
       </div>
         </div>
             )}
