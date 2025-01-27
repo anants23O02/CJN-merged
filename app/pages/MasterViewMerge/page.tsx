@@ -10,132 +10,147 @@ import { SearchOutlined } from "@ant-design/icons";
 import caseData from "../../components/DummyData/caseData";
 import Popup from "@/app/components/popUp/popUp";
 import { useRouter } from "next/navigation";
-import { Modal } from 'antd';
+import { Modal } from "antd";
 
 import { Row, Col, Button } from "antd";
 
 const NewPage: React.FC = () => {
-  const percentage = ['100 ',"40 ",'20 ']
+  const percentage = ["100 ", "40 ", "20 "];
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
-const router=useRouter();
+  const router = useRouter();
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  // };
-
-  const [moverecordDetails, setmoverecordDetails] = useState<any[]>([]);
-  const [selectedFilters,setSelectedFilters] = useState<any[]>([]) 
+  const [moverecordR2LDetails, setmoverecordR2LDetails] = useState<any[]>([]);
+  const [moverecordL2RDetails, setmoverecordL2RDetails] = useState<any[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<any[]>([]);
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
   const [comparableRecord, setComparableRecord] = useState<any[]>([]);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const record = sessionStorage.getItem("record");
-        const parsedRecord = JSON.parse(record);
-        setPrimaryRecord(parsedRecord.secondaryRecord || []); 
-        setComparableRecord(parsedRecord.comparableRecord || []);
-      
+      const parsedRecord = JSON.parse(record);
+      setPrimaryRecord(parsedRecord.secondaryRecord || []);
+      setComparableRecord(parsedRecord.comparableRecord || []);
     }
   }, []);
-  
 
-  function checkHandler(key) {
+  function checkHandler(key,btn) {
     console.log("key :>> ", key);
-    setmoverecordDetails((previtems) => [...previtems, key]);
+    if(btn==='Right'){
+      setmoverecordR2LDetails((previtems) => [...previtems, key]);
+    }
+    else if(btn =='Left'){
+      setmoverecordL2RDetails((previtems) => [...previtems, key])
+    }
   }
-  function checkremoveHandler(key) {
-    const updatedmoverecordDetails = moverecordDetails.filter(
+  function checkremoveHandler(key,btn) {
+    if(btn==='Right'){
+    const updatedmoverecordDetails = moverecordR2LDetails.filter(
       (item) => item !== key
     );
-    setmoverecordDetails((previtems) => [...updatedmoverecordDetails]);
+    setmoverecordR2LDetails((previtems) => [...updatedmoverecordDetails]);
+  }
+  else if(btn =='Left'){
+    const updatedmoverecordDetails = moverecordL2RDetails.filter(
+      (item) => item !== key
+    );
+    setmoverecordL2RDetails((previtems) => [...updatedmoverecordDetails]);
+  }
   }
 
-  // console.log("moverecordDetails :>> ", moverecordDetails);
-  // for(let i = 1;i<=moverecordDetails.length;i++) { 
-  //     if (moverecordDetails.length > 0) {
-  //   const moveditem = caseData.find(
-  //     (record) =>
-  //       record.caseNumber === moverecordDetails[moverecordDetails.length - i]
-  //   );
-  //   setPrimaryRecord((previtems) => [...previtems, moveditem]);
-  // }}
-  // let updatedComparableRecords = [...comparableRecord];
-  // for (let i = 1; i <= moverecordDetails.length; i++) {
-  //   updatedComparableRecords = updatedComparableRecords.filter(
-  //     (item) => item.caseNumber !== String(moverecordDetails[moverecordDetails.length - i])
-  //   );
-  // }
-  // console.log(updatedComparableRecords,comparableRecord);
-  // setComparableRecord(updatedComparableRecords);
-  // setmoverecordDetails([])
   function handleButtonRightToLeft() {
-    
-      // Step 1: Update primaryRecord by appending the moved items
-      setPrimaryRecord((prevPrimary) => {
-        const movedItems = comparableRecord
-          .flat() // Flatten the array of arrays to make filtering easier
-          .filter((record) => moverecordDetails.includes(record.caseNumber));
-    
-        return [...prevPrimary, ...movedItems];
-      });
-    
-      // Step 2: Remove the moved items from comparableRecord
-      setComparableRecord((prevComparable) =>
-        prevComparable.map((comparableArray) =>
-          comparableArray.filter(
-            (record) => !moverecordDetails.includes(record.caseNumber)
-          )
-        )
-      );
-    
-      // Step 3: Clear moverecordDetails (if needed elsewhere in the code)
-      setmoverecordDetails([]);
-      if (typeof window !== "undefined") {
-        const updatedRecord = {
-          secondaryRecord: primaryRecord,
-          comparableRecord: comparableRecord,
-        };
-        sessionStorage.setItem("record", JSON.stringify(updatedRecord));
-      }
-    };
-    
-    // useEffect to sync session storage whenever state changes
-    
-  
+    setPrimaryRecord((prevPrimary) => {
+      const movedItems = comparableRecord
+        .flat()
+        .filter((record) => moverecordR2LDetails.includes(record.caseNumber));
+      return [...prevPrimary, ...movedItems];
+    });
 
+    setComparableRecord((prevComparable) =>
+      prevComparable.map((comparableArray) =>
+        comparableArray.filter(
+          (record) => !moverecordR2LDetails.includes(record.caseNumber)
+        )
+      )
+    );
+
+    setmoverecordR2LDetails([]);
+
+    if (typeof window !== "undefined") {
+      const updatedRecord = {
+        secondaryRecord: primaryRecord,
+        comparableRecord: comparableRecord,
+      };
+      sessionStorage.setItem("record", JSON.stringify(updatedRecord));
+    }
+  }
+
+
+  function handleButtonLeftToRight() {
+    setPrimaryRecord((prevPrimary) => 
+      prevPrimary.filter(
+          (record) => !moverecordL2RDetails.includes(record.caseNumber)
+        )
+  );
+
+    setComparableRecord((prevComparable) =>{
+      const movedItems = comparableRecord
+      .flat()
+      .filter((record) => moverecordR2LDetails.includes(record.caseNumber));
+    }
+
+    );
+
+    setmoverecordR2LDetails([]);
+
+    if (typeof window !== "undefined") {
+      const updatedRecord = {
+        secondaryRecord: primaryRecord,
+        comparableRecord: comparableRecord,
+      };
+      sessionStorage.setItem("record", JSON.stringify(updatedRecord));
+    }
+  }
+
+ 
   function handlefilters(selectedFilters: any) {
-    console.log('selectedFilters :>> ', selectedFilters);
+    console.log("selectedFilters :>> ", selectedFilters);
     setSelectedFilters(selectedFilters);
   }
 
   function newSearchHandler() {
     console.log("New search pressed");
   }
-  
 
-  function handlePopup(){
-
-router.push("/pages/ManualSearch")
+  function handlePopup() {
+    router.push("/pages/ManualSearch");
   }
-  function handleCancel(){
+
+  function handleCancel() {
     setIsModalOpen(false);
-    console.log("clicked")
+    console.log("clicked");
   }
+
   return (
     <div>
       <h3>Master Name Index</h3>
       <Row gutter={8} style={{ display: "flex", justifyContent: "end" }}>
         <Col
           style={{ display: "flex", justifyContent: "end", alignItems: "end" }}
-        > <a  onClick={showModal}>Manual Search</a>
-            <Modal title="Manual Search" open={isModalOpen} onOk={handlePopup} onCancel={handleCancel}>
-              <p>Are you sure you should like to create a manual search? </p>
-            </Modal>
-
-
+        >
+          {" "}
+          <a onClick={showModal}>Manual Search</a>
+          <Modal
+            title="Manual Search"
+            open={isModalOpen}
+            onOk={handlePopup}
+            onCancel={handleCancel}
+          >
+            <p>Are you sure you should like to create a manual search? </p>
+          </Modal>
         </Col>
         <Col span={3}>
           <MainButton handleClick={newSearchHandler} icon={<SearchOutlined />}>
@@ -190,15 +205,16 @@ router.push("/pages/ManualSearch")
             <h5 style={{ marginBottom: "5px" }}>Primary Master Name Record</h5>
           </Row>
           {primaryRecord.length > 0 ? (
-            <CaseCard data={primaryRecord[0]} value={''}>
+            <CaseCard data={primaryRecord[0]} value={""}>
               {primaryRecord.slice(1).map((item) => (
                 <CaseRow
+                  direction = 'Left'
                   key={item.id}
                   {...item}
                   checkHandler={checkHandler}
                   checkremoveHandler={checkremoveHandler}
-                  filterData = {selectedFilters}
-                  value ={''}
+                  filterData={selectedFilters}
+                  value={""}
                 />
               ))}
             </CaseCard>
@@ -208,7 +224,7 @@ router.push("/pages/ManualSearch")
         </Col>
 
         <Col flex="none">
-          <VerticalLineWithDrawer rightbutton={handleButtonRightToLeft}/>
+          <VerticalLineWithDrawer rightbutton={handleButtonRightToLeft} leftbutton={handleButtonLeftToRight} style={{paddingTop:"25px"}} />
         </Col>
         <Col flex="auto" style={{ maxWidth: "48%" }}>
           <Row>
@@ -217,15 +233,20 @@ router.push("/pages/ManualSearch")
           {comparableRecord.length > 0 ? (
             comparableRecord.map((record, index) =>
               record ? (
-                <CaseCard key={index} data={record[0]} value = {percentage[index]} >
+                <CaseCard
+                  key={index}
+                  data={record[0]}
+                  value={percentage[index]}
+                >
                   {record.slice(1).map((item) => (
                     <CaseRow
-                      key={item.id}
-                      {...item}
+                    key={item.id}
+                    {...item}
+                    direction = 'Right'
                       checkHandler={checkHandler}
                       checkremoveHandler={checkremoveHandler}
                       filterData={selectedFilters}
-                      value = {percentage[index]}
+                      value={percentage[index]}
                     />
                   ))}
                 </CaseCard>

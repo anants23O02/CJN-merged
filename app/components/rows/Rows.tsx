@@ -1,19 +1,5 @@
 "use client";
 
-// 'Last Name',
-// 'First Name',
-// 'Middle Name',
-// 'Suffix',
-// 'DOB',
-// 'Sex',
-// 'Race',
-// 'Height',
-// 'Weight',
-// 'ID',
-// 'Phone Number',
-// 'Address',
-
-
 
 import React from "react";
 import { Row, Col, Checkbox, Typography, Space } from "antd";
@@ -21,6 +7,7 @@ import {useState, useEffect} from 'react';
 const { Text } = Typography;
 
 interface RowData {
+  direction:string;
   caseNumber: string;
   date: string;
   firstName: string;
@@ -38,6 +25,7 @@ interface RowData {
 }
 
 const CaseRow: React.FC<RowData> = ({
+  direction,
   filterData,
   checkremoveHandler,
   checkHandler,
@@ -59,29 +47,31 @@ const CaseRow: React.FC<RowData> = ({
 }) => {
   const [isClicked,setIsClicked] = useState(false);
   const [localSelectedFilters, setLocalSelectedFilters] = useState(filterData);
-  function handleCheckbox(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleCheckbox(e: React.ChangeEvent<HTMLInputElement>,btn) {
     const isChecked = e.target.checked;
     setIsClicked(isChecked);
-    console.log('isClicked :>> ', isChecked);
-    if (isChecked ){
-      checkHandler(caseNumber);
+    console.log('isClicked :>> ', isChecked,direction);
+    if (isChecked ){        
+      checkHandler(caseNumber,direction);
     }
     else{
-      checkremoveHandler(caseNumber);
+      checkremoveHandler(caseNumber,direction);
     }
     console.log('filterData :>> ', localSelectedFilters);
   }
 
 
   useEffect(() => {
-    // Sync the state with prop changes (if the prop changes over time)
+  
     setLocalSelectedFilters(filterData);
   }, [filterData]); 
+
+
   return (
     <>
       <div
         style={{
-          overflowX: "auto", // Enable horizontal scrolling
+          overflowX: "auto", 
           padding: "8px",
         }}
       >
@@ -105,9 +95,8 @@ const CaseRow: React.FC<RowData> = ({
           align="middle"
           style={{
             marginBottom: "16px",
-            whiteSpace: "nowrap", // Prevent wrapping
+            whiteSpace: "nowrap", 
             width: "max-content",
-         
           }}
         >
           <Space size="large">

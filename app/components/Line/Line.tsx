@@ -13,14 +13,13 @@ const VerticalLineWithDrawer: React.FC<{ rightbutton: () => void }> = ({ rightbu
     setIsModalVisible(true);
   };
 
-  // Handler for closing the modal (passed as a prop to CustomModal)
   const handleModalClose = () => {
     setIsModalVisible(false);
   };
 
   return (
     <div style={{ display: "flex", alignItems: "center", height: "100vh" }}>
-      {/* Vertical dashed line */}
+
       <div style={{ position: "relative", height: "100%", width: "2px", background: "transparent" }}>
         <Divider
           type="vertical"
@@ -31,7 +30,7 @@ const VerticalLineWithDrawer: React.FC<{ rightbutton: () => void }> = ({ rightbu
           }}
         />
 
-        {/* Left Button to Open Modal */}
+
         <Button
           type="primary"
           icon={<LeftOutlined />}
@@ -46,10 +45,9 @@ const VerticalLineWithDrawer: React.FC<{ rightbutton: () => void }> = ({ rightbu
             transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
-          onClick={handleModalOpen} // Open modal on button click
+          onClick={handleModalOpen}
         />
 
-        {/* Right Button (optional, with no functionality in this example) */}
         <Button
           type="primary"
           icon={<RightOutlined />}
@@ -67,10 +65,10 @@ const VerticalLineWithDrawer: React.FC<{ rightbutton: () => void }> = ({ rightbu
         />
       </div>
 
-      {/* Render the modal */}
+
       <CustomModal
         visible={isModalVisible}
-        handleClose={handleModalClose} // Pass `handleClose` correctly
+        handleClose={handleModalClose} 
         rightbutton={rightbutton}
       >
         <p>Confirm merging these records</p>
