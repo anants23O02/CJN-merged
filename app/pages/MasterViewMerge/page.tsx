@@ -1,53 +1,141 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import FilterPopup from "@/app/components/Modal2/Modal";
 import CaseCard from "../../components/casecard/casecard";
 import styles from "./masterviewmerge.module.css";
 import MainButton from "../../components/mainButton/button";
 import VerticalLineWithDrawer from "@/app/components/Line/Line";
 import CaseRow from "../../components/rows/Rows";
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from "@ant-design/icons";
+import caseData from "../../components/DummyData/caseData";
+import Popup from "@/app/components/popUp/popUp";
+import { useRouter } from "next/navigation";
+import { Modal } from "antd";
 
 import { Row, Col, Button } from "antd";
 
-const caseData = {
-  caseNumber: "25-000123",
-  date: "01/07/2025",
-  firstName: "Timothy",
-  middleName: "James",
-  lastName: "Taylor",
-  suffix: null,
-  dob: "12/13/1989",
-  cases: 2,
-  sex: "M",
-  race: "W",
-  height: "5'11\"",
-  weight: "160",
-  id: "DL12345678910",
-  phoneNumber: "123-456-7890",
-  address: "1234 August Ave St. Paul, MN 55104",
-};
-
 const NewPage: React.FC = () => {
-  const data = {
-    caseNumber: "25-000123",
-    date: "01/07/2025",
-    firstName: "Timothy",
-    middleName: "James",
-    lastName: "Taylor",
-    suffix: null,
-    dob: "12/13/1989",
-    sex: "M",
-    race: "W",
-    height: "5'11\"",
-    weight: "160",
-    id: "DL12345678910",
-    phoneNumber: "123-456-7890",
-    address: "1234 August Ave St. Paul MN 55104",
+  const percentage = ["100 ", "40 ", "20 "];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [moverecordDetails, setmoverecordDetails] = useState<any[]>([]);
+  const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
+  const [comparableRecord, setComparableRecord] = useState<any[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<any[]>([]);
+  const router = useRouter();
+
+  const showModal = () => {
+    setIsModalOpen(true);
   };
 
-  function newSearchHandler() {
-    console.log("new search pressed");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const record = sessionStorage.getItem("record");
+      
+        const parsedRecord = JSON.parse(record);
+        console.log(parsedRecord);
+        setPrimaryRecord(parsedRecord.secondaryRecord || []); 
+        setComparableRecord(parsedRecord.comparableRecord || []);
+      
+    }
+  }, []);
+
+  function checkHandler(key,btn) {
+    console.log("key :>> ", key);
+    if(btn==='Right'){
+      setmoverecordDetails((previtems) => [...previtems, key]);
+    }
+    else if(btn =='Left'){
+      setmoverecordDetails((previtems) => [...previtems, key])
+    }
   }
+  function checkremoveHandler(key,btn) {
+    if(btn==='Right'){
+    const updatedmoverecordDetails = moverecordDetails.filter(
+      (item) => item !== key
+    );
+    setmoverecordDetails((previtems) => [...updatedmoverecordDetails]);
+  }
+  else if(btn =='Left'){
+    const updatedmoverecordDetails = moverecordDetails.filter(
+      (item) => item !== key
+    );
+    setmoverecordDetails((previtems) => [...updatedmoverecordDetails]);
+  }
+  }
+
+  function handleButtonRightToLeft() {
+    setPrimaryRecord((prevPrimary) => {
+      const movedItems = comparableRecord
+        .flat()
+        .filter((record) => moverecordDetails.includes(record.caseNumber));
+      return [...prevPrimary, ...movedItems];
+    });
+
+    setComparableRecord((prevComparable) =>
+      prevComparable.map((comparableArray) =>
+        comparableArray.filter(
+          (record) => !moverecordDetails.includes(record.caseNumber)
+        )
+      )
+    );
+
+    setmoverecordDetails([]);
+
+    if (typeof window !== "undefined") {
+      const updatedRecord = {
+        secondaryRecord: primaryRecord,
+        comparableRecord: comparableRecord,
+      };
+      sessionStorage.setItem("record", JSON.stringify(updatedRecord));
+    }
+  }
+
+
+  function handleButtonLeftToRight() {
+    setPrimaryRecord((prevPrimary) => 
+      prevPrimary.filter(
+          (record) => !moverecordDetails.includes(record.caseNumber)
+        )
+  );
+
+    setComparableRecord((prevComparable) =>{
+      const movedItems = comparableRecord
+      .flat()
+      .filter((record) => moverecordDetails.includes(record.caseNumber));
+    }
+
+    );
+
+    setmoverecordDetails([]);
+
+    if (typeof window !== "undefined") {
+      const updatedRecord = {
+        secondaryRecord: primaryRecord,
+        comparableRecord: comparableRecord,
+      };
+      sessionStorage.setItem("record", JSON.stringify(updatedRecord));
+    }
+  }
+
+ 
+  function handlefilters(selectedFilters: any) {
+    console.log("selectedFilters :>> ", selectedFilters);
+    setSelectedFilters(selectedFilters);
+  };
+ 
+  function newSearchHandler() {
+    console.log("New search pressed");
+  }
+
+  function handlePopup() {
+    router.push("/pages/ManualSearch");
+  }
+
+  function handleCancel() {
+    setIsModalOpen(false);
+    console.log("clicked");
+  }
+
   return (
     <div>
       <h3>Master Name Index</h3>
@@ -55,87 +143,86 @@ const NewPage: React.FC = () => {
         <Col
           style={{ display: "flex", justifyContent: "end", alignItems: "end" }}
         >
-          <a href="/pages/ManualSearch">Manual Search</a>
+          {" "}
+          <a onClick={showModal}>Manual Search</a>
+          <Modal
+            title="Manual Search"
+            open={isModalOpen}
+            onOk={handlePopup}
+            onCancel={handleCancel}
+          >
+            <p>Are you sure you should like to create a manual search? </p>
+          </Modal>
         </Col>
         <Col span={3}>
-          <MainButton handleClick={newSearchHandler} icon={<SearchOutlined/>}>New Search</MainButton>
+          <MainButton icon={<SearchOutlined />}>New Search</MainButton>
         </Col>
       </Row>
 
-      <Row
-        style={{
-          display: "flex",
-          alignItems: "middle",
-          justifyContent: "space-between",
-          "margin-top": "5px",
-          "margin-right": "5px",
-        }}
-      >
+      <Row style={{ marginTop: "5px", marginRight: "5px" }}>
         <Col flex="auto">
-          <FilterPopup />
+          <FilterPopup handlefilters={handlefilters} />
         </Col>
-        <Col
-          span={3}
-          style={{
-            display: "flex",
-            alignItems: "middle",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <Button
-            className={styles.mergeButton}
-            type="default"
-            style={{
-              border: "2px solid #678594",
-              backgroundColor: "transparent",
-              color: "#678594",
-            }}
-          >
+        <Col span={3} style={{ display: "flex", justifyContent: "space-evenly" }}>
+          <Button className={styles.mergeButton} type="default">
             Merge Together
           </Button>
         </Col>
       </Row>
 
-      <Row
-        style={{
-          display: "flex",
-          alignItems: "top",
-          justifyContent: "space-between",
-        }}
-      >
+      <Row style={{ marginTop: "10px" }}>
         <Col flex="auto" style={{ maxWidth: "48%" }}>
-          <Row>
-            <h5 style={{ marginBottom: "5px" }}>Primary Master Name Record</h5>
-          </Row>
-          <CaseCard
-            firstName="Timothy"
-            middleName="James"
-            lastName="Taylor"
-            suffix={null}
-            dob="12/13/1989"
-            cases={2}
-          >
-            <CaseRow {...caseData}> </CaseRow>
-          </CaseCard>
+          <h5>Primary Master Name Record</h5>
+          {primaryRecord.length > 0 ? (
+            <CaseCard data={primaryRecord[0]} value={""}>
+              {primaryRecord.slice(1).map((item) => (
+                <CaseRow
+                  direction = 'Left'
+                  key={item.id}
+                  {...item}
+                  checkHandler={checkHandler}
+                  checkremoveHandler={checkremoveHandler}
+                  filterData={selectedFilters}
+                  value={""}
+                />
+              ))}
+            </CaseCard>
+          ) : (
+            <p>No Primary Record Found</p>
+          )}
         </Col>
+
         <Col flex="none">
-          <VerticalLineWithDrawer />
+          <VerticalLineWithDrawer rightbutton={handleButtonRightToLeft} leftbutton={handleButtonLeftToRight} style={{paddingTop:"25px"}} />
         </Col>
+
         <Col flex="auto" style={{ maxWidth: "48%" }}>
-          <Row>
-            <h5 style={{ marginBottom: "5px" }}>Comparable Record</h5>
-          </Row>
-          <CaseCard
-            firstName="Timothy"
-            middleName="James"
-            lastName="Taylor"
-            suffix={null}
-            dob="12/13/1989"
-            cases={2}
-          >
-            <CaseRow {...caseData}> </CaseRow>
-            <CaseRow {...caseData}> </CaseRow>
-          </CaseCard>
+          <h5>Comparable Record</h5>
+          {comparableRecord.length > 0 ? (
+            comparableRecord.map((record, index) =>
+              record ? (
+                <CaseCard
+                  key={index}
+                  data={record[0]}
+                  value={percentage[index]}
+                >
+                  {record.slice(1).map((item) => (
+                    <CaseRow
+                    key={item.id}
+                    {...item}
+                    direction = 'Right'
+                      checkHandler={checkHandler}
+                      checkremoveHandler={checkremoveHandler}
+                      filterData={selectedFilters}
+                      value={percentage[index]}
+                    />
+                  ))}
+                </CaseCard>
+              ) : null
+            )
+          ) : (
+            <p>No Comparable Records Found</p>
+          )}
         </Col>
       </Row>
     </div>

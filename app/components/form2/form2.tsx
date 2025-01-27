@@ -1,8 +1,10 @@
 'use client'; // Add this to mark the component as a client-side component
 import './form2.css';
 import React, { useState } from 'react';
+import {useRouter} from 'next/navigation';
 import Button1 from '../button/button';
-
+import MainButton from '../mainButton/button'
+import { SearchOutlined } from '@ant-design/icons';
 // Define the form values types
 interface FormValues {
   email: string;
@@ -64,6 +66,11 @@ const Form1: React.FC = () => {
       console.log('Form Submitted', formValues);
     }
   };
+  const router = useRouter();
+  function handlePage() {
+    console.log(' :>> ', );
+    router.push('/pages/MasterTablePage');
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -295,9 +302,12 @@ const Form1: React.FC = () => {
       </div>
 
       <div className='button-container'>
-      <Button1/>
+      <MainButton handleClick={handlePage} icon={<SearchOutlined/>}>
+        search
+      </MainButton>
       </div>
     </form>
+
   );
 };
 

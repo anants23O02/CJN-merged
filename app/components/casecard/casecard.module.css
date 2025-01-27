@@ -1,6 +1,7 @@
-.textContent{
- font-size: 10px;
-}
-/* .ant-space-item{
-    margin-right: 5px;
-} */
+.cardstyle {
+    padding: 0px !important;
+  }
+  
+  .cardstyle .ant-card-body {
+    padding: 0px !important;
+  }

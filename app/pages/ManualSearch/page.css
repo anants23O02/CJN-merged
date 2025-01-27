@@ -1,8 +1,9 @@
 
     .form{
         background-color: #fff;
-        width: 90%;
+        width: 100%;
         padding: 4px;
+        border-radius: 4px;
     }
     .main{
       display: flex;
@@ -21,10 +22,10 @@
       font-weight: 700;
     }
     .table{
-      width: 90%;
+      width: 98% !important;
     }
     .table-head{
-      padding: 4px;
+      padding: 2px;
       width: 50%;
     }
     .table-heading{

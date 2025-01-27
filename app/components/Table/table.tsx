@@ -1,12 +1,13 @@
 "use client";
 
-import mainButton from "../mainButton/button"
 import React, { useState } from "react";
 import { Table, Button, Select } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import styles from "./Button.module.css";
 import { useRouter } from "next/navigation";
-import initialData from '../DummyData/searchResult';
+import initialData from "../DummyData/searchResult";
+import { DataType } from "./table.types";
+import caseData from "../DummyData/caseData";
 const { Option } = Select;
 
 const initialColumns: ColumnsType<DataType> = [
@@ -26,12 +27,14 @@ const initialColumns: ColumnsType<DataType> = [
     title: "Middle Name",
     dataIndex: "middleName",
     key: "middleName",
+    sorter: (a, b) => (a.middleName || "").localeCompare(b.middleName || ""),
     render: (middleName) => (middleName ? middleName : "---"),
   },
   {
     title: "Suffix",
     dataIndex: "suffix",
     key: "suffix",
+    sorter: (a, b) => (a.suffix || "").localeCompare(b.suffix || ""),
     render: (suffix) => (suffix ? suffix : "---"),
   },
   {
@@ -50,16 +53,22 @@ const initialColumns: ColumnsType<DataType> = [
     title: "Address",
     dataIndex: "address",
     key: "address",
+    sorter: (a, b) => (a.address || "").localeCompare(b.address || ""),
+    render: (address) => address || "---",
   },
   {
     title: "City",
     dataIndex: "city",
     key: "city",
+    sorter: (a, b) => (a.city || "").localeCompare(b.city || ""),
+    render: (city) => city || "---",
   },
   {
     title: "State",
     dataIndex: "state",
     key: "state",
+    sorter: (a, b) => (a.state || "").localeCompare(b.state || ""),
+    render: (state) => state || "---",
   },
 ];
 
@@ -67,38 +76,55 @@ const CustomTable: React.FC = () => {
   const [dataSource, setDataSource] = useState(initialData);
   const [buttons, setButtons] = useState(false);
   const [columns, setColumns] = useState(initialColumns);
-  const [secondaryRecord,setSecondaryRecord] = useState();
-  const [ComparableRecord,setComparableRecord] = useState();
+  const [secondaryRecord, setSecondaryRecord] = useState<any[]>([]);
+  const [comparableRecord, setComparableRecord] = useState<any[]>([]);
   const router = useRouter();
 
   const handleSelectChange = (value: string, record: DataType) => {
-    console.log('handleselectcalled :>> ');
     const updatedData = dataSource.map((row) =>
       row.key === record.key
         ? {
-          ...row, // Preserve the existing row properties
-          recordValue:
-            value === "Secondary"
-              ? "secondaryRow"
-              : value === "Comparable"
-              ? "comparableRow"
-              : ""
+            ...row,
+            recordValue:
+              value === "Secondary"
+                ? "secondaryRow"
+                : value === "Comparable"
+                ? "comparableRow"
+                : "",
           }
         : row
     );
-    console.log('dataSource :>> ', updatedData);
+
+    if (value === "Secondary") {
+      let primaryrecordDetails = [record]
+      const primarycaserecords = caseData.filter(
+        (obj1) =>
+          String(obj1.Fkey) === String(record.key)
+      );
+      primaryrecordDetails = [...primaryrecordDetails, ...primarycaserecords];
+      setSecondaryRecord(primaryrecordDetails);
+    }
+
+    if (value === "Comparable") {
+      const primarycaserecords = caseData.filter(
+        (obj1) =>
+          String(obj1.Fkey) === String(record.key)
+      );
+      const primaryrecordDetails = [record, ...primarycaserecords];
+      setComparableRecord((prevrecords) => [...prevrecords,primaryrecordDetails]);
+    }
+
     setDataSource(updatedData);
-    setButtons(!buttons);
-    value === 'Secondary' ? setSecondaryRecord(record) : setComparableRecord(record);
+    setButtons(true);
   };
 
   const handleCancelTableEdit = () => {
     setColumns(initialColumns);
-    setButtons(!buttons);
+    setButtons(false);
   };
 
   const handleTableEdit = () => {
-    const columnExists = columns.some((col) => col.key === "select"); //check if dropdown exist or not
+    const columnExists = columns.some((col) => col.key === "select");
     if (!columnExists) {
       setColumns([
         {
@@ -122,6 +148,14 @@ const CustomTable: React.FC = () => {
   };
 
   const handleViewMerge = () => {
+    if (typeof window !== "undefined") {
+      const data = {
+        secondaryRecord: secondaryRecord,
+        comparableRecord: comparableRecord,
+      };
+      sessionStorage.setItem("record", JSON.stringify(data));
+    }
+    console.log(secondaryRecord,comparableRecord);
     router.push("/pages/MasterViewMerge");
   };
 
@@ -177,9 +211,9 @@ const CustomTable: React.FC = () => {
         pagination={{ pageSize: 4 }}
         bordered
         rowClassName={(record) => {
-          if(record.recordValue == "secondaryRow") 
-            {console.log('record :>> ', record); return "lightblue"};
-          if(record.recordValue == "comparableRow") return "lightcyan"
+          if (record.recordValue === "secondaryRow") return "lightblue";
+          if (record.recordValue === "comparableRow") return "lightcyan";
+          return "";
         }}
       />
     </div>
