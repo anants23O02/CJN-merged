@@ -1,22 +1,18 @@
 'use client'; // Add this to mark the component as a client-side component
 import './form.css';
-import React, { useState } from 'react';
-import MainButton from "../mainButton/button"
-import {useRouter} from "next/navigation"
-import { CheckCircleOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import MainButton from '../mainButton/button';
 import { SearchOutlined } from '@ant-design/icons';
-import caseData from '../DummyData/caseData';
-// Define the form values types
 
-const caseDataArray = Object.entries(caseData);
-console.log(caseDataArray)
 interface FormValues {
+  Fkey: number;
   caseNumber: string;
   date: string;
   firstName: string;
   middleName: string;
   lastName: string;
-  suffix: string ;
+  suffix: null;
   dob: string;
   cases: number;
   sex: string;
@@ -26,120 +22,90 @@ interface FormValues {
   id: string;
   phoneNumber: string;
   address: string;
-  zip:string;
-  country:string;
 }
 
-// Define the component
-const Form1: React.FC = () => {
+interface Form1Props {
+  isShown: boolean;
+  setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSearchClick: () => void;
+}
 
-
+const Form1: React.FC<Form1Props> = ({ isShown, setIsShown, handleSearchClick }) => {
+  const router = useRouter();
+  const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
   const [formValues, setFormValues] = useState<FormValues>({
-    caseNumber: '',
-    date: '',
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    suffix: '',
-    dob: '',
-    cases: 0,
-    sex: '',
-    race: '',
-    height: '',
-    weight: '',
-    id:'',
-    phoneNumber: '',
-    address: '',
-    zip:'',
-    country:''
+    Fkey: 1,
+    caseNumber: "",
+    date: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    suffix: null,
+    dob: "",
+    cases: 2,
+    sex: "",
+    race: "",
+    height: "",
+    weight: "",
+    id: "",
+    phoneNumber: "",
+    address: "",
   });
 
-  //const [errors, setErrors] = useState<Partial<FormValues>>({});
+  const [errors, setErrors] = useState<Partial<FormValues>>({});
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const record = sessionStorage.getItem("record");
+      if (record) {
+        const parsedRecord = JSON.parse(record);
+        setPrimaryRecord(parsedRecord.secondaryRecord || []);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (primaryRecord && primaryRecord.length > 0) {
+      const record = primaryRecord[0]; // Assuming you want to fill the form with the first record
+      setFormValues({
+        Fkey: record.Fkey,
+        caseNumber: record.caseNumber,
+        date: record.date,
+        firstName: record.firstName,
+        middleName: record.middleName,
+        lastName: record.lastName,
+        suffix: record.suffix,
+        dob: record.dob,
+        cases: record.cases,
+        sex: record.sex,
+        race: record.race,
+        height: record.height,
+        weight: record.weight,
+        id: record.id,
+        phoneNumber: record.phoneNumber,
+        address: record.address,
+      });
+    }
+  }, [primaryRecord]); // This will run whenever primaryRecord changes
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target; // Destructure name and value from the event target
+    const { name, value } = e.target;
     setFormValues({
-      ...formValues,       // Spread the existing state
-      [name]: value,       // Update the specific field with the new value
+      ...formValues,
+      [name]: value,
     });
   };
-  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Form validation
-    // const newErrors: Partial<FormValues> = {};
-    // if (!formValues.email) newErrors.email = 'Please input your email.';
-    // if (!formValues.password) newErrors.password = 'Please input your password.';
-    // if (formValues.password !== formValues.confirm) newErrors.confirm = 'Passwords do not match.';
-    // if (!formValues.nickname) newErrors.nickname = 'Please input your nickname.';
-    // if (!formValues.phone) newErrors.phone = 'Please input your phone number.';
-    // // if (formValues.donation <= 0) newErrors.donation = 'Please input a valid donation amount.';
-    // if (!formValues.website) newErrors.website = 'Please input your website.';
-    // if (!formValues.intro) newErrors.intro = 'Please provide an intro.';
-    // if (!formValues.gender) newErrors.gender = 'Please select a gender.';
-    // if (!formValues.agreement) newErrors.agreement = 'You must agree to the terms.';
-
-    // setErrors(newErrors);
-
-  //   if (Object.keys(newErrors).length === 0) {
-  //     console.log('Form Submitted', formValues);
-  //   }
+    console.log("Form Submitted"); // Placeholder logic
+    handleSearchClick(); // Execute search click logic
   };
-  console.log('Form Submitted', formValues);
 
-  const router = useRouter();
-
-  function changePage() {
-      router.push('/pages/MasterTablePage');
-      console.log(formValues);
-  }
-  const handleSearch = () => {
-    let matches = []; // Initialize an empty array to store the matched entries
-  
-    // Iterate over each form value and find the corresponding match in caseDataArray
-    Object.entries(formValues).forEach(([key, formValue]) => {
-      if (formValue) {
-        // Filter matches based on the current key and value from the form
-        const filteredMatches = caseDataArray.filter(([dataKey, dataValue]) => {
-          return dataKey === key && dataValue.toString().toLowerCase() === formValue.toString().toLowerCase();
-        });
-  
-        // Add unique matches to the matches array
-        filteredMatches.forEach((match) => {
-          if (!matches.some((m) => m[0] === match[0])) { // Compare based on the key
-            matches.push(match);
-          }
-        });
-      }
-    });
-  
-    // Now, extract the IDs from the filtered matches
-    let idArr = []; // This will hold the unique ids
-  
-    // Loop through the matches to extract the ID
-    matches.forEach(([matchKey, matchValue]) => {
-      // Find the id key-value pair in the caseDataArray
-      const caseIdEntry = caseDataArray.find(([key, value]) => key === 'id');
-      
-      // If the ID is found and it's not already in idArr, add it
-      if (caseIdEntry && !idArr.includes(caseIdEntry[1])) {
-        idArr.push(caseIdEntry[1]); // caseIdEntry[1] is the value of 'id'
-      }
-    });
-    router.push('/pages/MasterTablePage');
-    console.log(formValues);
-    sessionStorage.setItem('idArr', JSON.stringify(idArr));
-    console.log(idArr); // Log the array of IDs
-  
-    // Add further logic after extracting the ids, if needed
-  };
-  
-  
- 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="form form-search">
-        <p className='search'>Search</p>
+        <p className="search">Search</p>
       </div>
 
       <div className="form wildcard">
@@ -147,8 +113,8 @@ const Form1: React.FC = () => {
         <input
           className="input"
           type="text"
-          name="Id"
-          //value={}
+          name="Fkey"
+          value={formValues.Fkey}
           onChange={handleChange}
         />
       </div>
@@ -190,7 +156,7 @@ const Form1: React.FC = () => {
             className="input"
             type="text"
             name="suffix"
-            value={formValues.suffix}
+            value={formValues.suffix || ""}
             onChange={handleChange}
           />
         </div>
@@ -222,7 +188,7 @@ const Form1: React.FC = () => {
           <input
             className="input"
             type="text"
-            name="PhoneNumber"
+            name="phoneNumber"
             value={formValues.phoneNumber}
             onChange={handleChange}
           />
@@ -233,18 +199,28 @@ const Form1: React.FC = () => {
         <div className="sex-race flex space-x-6">
           <div className="form sex flex-1">
             <label className="label">Sex</label>
-            <select className='select'>
-                <option>
-
-                </option>
+            <select
+              className="select"
+              name="sex"
+              value={formValues.sex}
+              onChange={handleChange}
+            >
+              <option value="">Select</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
             </select>
           </div>
           <div className="form race flex-1">
             <label className="label">Race</label>
-            <select className='select'>
-                <option>
-
-                </option>
+            <select
+              className="select"
+              name="race"
+              value={formValues.race}
+              onChange={handleChange}
+            >
+              <option value="">Select</option>
+              <option value="W">White</option>
+              <option value="B">Black</option>
             </select>
           </div>
         </div>
@@ -270,63 +246,17 @@ const Form1: React.FC = () => {
             />
           </div>
         </div>
-        
       </div>
       <p className='search'>Address</p>
 
-      <div className='address'>
-        <div className='form street'>
-        <label className="label">Street Number</label>
-            <input
-              className="input2"
-              type="text"
-              name="address"
-              value={formValues.address}
-              onChange={handleChange}
-            />
-
-        </div>
-        <div className='form street'>
-        <label className="label">Street Prefix</label>
-            <select className='select'> 
-              <option>
-
-              </option>
-            </select>
-
-        </div>
-        <div className='form street'>
-        <label className="label">Street</label>
-            <input
-              className="input2"
-              type="text"
-              name="address"
-              value={formValues.address}
-              onChange={handleChange}
-            />
-
-        </div>
-        <div className='form street'>
-        <label className="label">Street Suffix</label>
-            <input
-              className="input2"
-              type="text"
-              name="address"
-              value={formValues.address}
-              onChange={handleChange}
-            />
-
-        </div>
-
-      </div>
       <div className='address'>
         <div className='form street'>
         <label className="label">City</label>
             <input
               className="input2"
               type="text"
-              name="address"
-              value={formValues.address}
+              name="Id"
+              value=""
               onChange={handleChange}
             />
 
@@ -345,8 +275,8 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="zip"
-              value={formValues.zip}
+              name="Id"
+              value=""
               onChange={handleChange}
             />
 
@@ -356,8 +286,53 @@ const Form1: React.FC = () => {
             <input
               className="input2"
               type="text"
-              name="country"
-              value={formValues.country}
+              name="Id"
+              value=""
+              onChange={handleChange}
+            />
+
+        </div>
+
+      </div>
+      <div className='address'>
+        <div className='form street'>
+        <label className="label">City</label>
+            <input
+              className="input2"
+              type="text"
+              name="Id"
+              value=""
+              onChange={handleChange}
+            />
+
+        </div>
+        <div className='form street'>
+        <label className="label">State</label>
+            <select className='select'> 
+              <option>
+
+              </option>
+            </select>
+
+        </div>
+        <div className='form street'>
+        <label className="label">Zip Code</label>
+            <input
+              className="input2"
+              type="text"
+              name="Id"
+              value=""
+              onChange={handleChange}
+            />
+
+        </div>
+        <div className='form street'>
+        <label className="label">Country</label>
+            <input
+              className="input2"
+              type="text"
+              name="Id"
+              value=""
               onChange={handleChange}
             />
 
@@ -365,20 +340,14 @@ const Form1: React.FC = () => {
 
       </div>
 
-      <div className='button-container'>
 
-
-<<<<<<< HEAD
-      <MainButton handleClick = {changePage} icon={<SearchOutlined/>}>
-=======
-      <MainButton handleClick = {handleSearch} icon={<SearchOutlined/>}>
->>>>>>> d7edef7d864a7ebff1afb954b12d2e596ba68631
-        <span className="button-icon"></span> Search
-      </MainButton>
-
-      
+      <div className="button-container">
+        <MainButton handleClick={handleSearchClick} icon={<SearchOutlined />}>
+          search
+        </MainButton>
       </div>
     </form>
   );
 };
+
 export default Form1;

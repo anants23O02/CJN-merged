@@ -1,42 +1,75 @@
 'use client'; // Add this to mark the component as a client-side component
 import './form2.css';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {useRouter} from 'next/navigation';
 import Button1 from '../button/button';
 import MainButton from '../mainButton/button'
 import { SearchOutlined } from '@ant-design/icons';
+import caseData from '../DummyData/caseData2';
 // Define the form values types
 interface FormValues {
-  email: string;
-  password: string;
-  confirm: string;
-  nickname: string;
-  phone: string;
-  donation: number;
-  website: string;
-  intro: string;
-  gender: string;
-  agreement: boolean;
+  Fkey:number, 
+  caseNumber: string,
+  date: string,
+  firstName: string,
+  middleName: string,
+  lastName: string,
+  suffix: null,
+  dob: string,
+  cases: number,
+  sex: string,
+  race: string,
+  height: string,
+  weight: string,
+  id: string,
+  phoneNumber: string,
+  address: string,
+}
+interface Form1Props {
+  handleSearchClick: () => void; // Define the prop for handling search button click
 }
 
 // Define the component
-const Form1: React.FC = () => {
+const Form1: React.FC<Form1Props> = ({ handleSearchClick }) => {
    const router=useRouter();
     function changePage() {
       router.push('/pages/Merge');
   }
-   
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   handleSearchClick();
+  //   router.push('/pages/MasterTablePage'); // Trigger the toggle to MasterTable
+  // }
+  const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
+  const [comparableRecord, setComparableRecord] = useState<any[]>([]);
+// useEffect(() => {
+//   if (typeof window !== "undefined") {
+//     const record = sessionStorage.getItem("record");
+    
+//       const parsedRecord = JSON.parse(record);
+//       console.log(parsedRecord);
+//       setPrimaryRecord(parsedRecord.secondaryRecord || []); 
+//       setComparableRecord(parsedRecord.comparableRecord || []);
+    
+//   }
+// }, []);
   const [formValues, setFormValues] = useState<FormValues>({
-    email: '',
-    password: '',
-    confirm: '',
-    nickname: '',
-    phone: '',
-    donation: 0,
-    website: '',
-    intro: '',
-    gender: '',
-    agreement: false,
+    Fkey:1, 
+    caseNumber: "25-000123",
+    date: "01/07/2025",
+    firstName: "Timothy",
+    middleName: "James",
+    lastName: "Taylor",
+    suffix: null,
+    dob: "12/13/1989",
+    cases: 2,
+    sex: "M",
+    race: "W",
+    height: "5'11\"",
+    weight: "160",
+    id: "DL12345678910",
+    phoneNumber: "123-456-7890",
+    address: "1234 August Ave St. Paul, MN 55104",
   });
 
   const [errors, setErrors] = useState<Partial<FormValues>>({});
@@ -51,32 +84,17 @@ const Form1: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+     {handleSearchClick}
     // Form validation
-    const newErrors: Partial<FormValues> = {};
-    if (!formValues.email) newErrors.email = 'Please input your email.';
-    if (!formValues.password) newErrors.password = 'Please input your password.';
-    if (formValues.password !== formValues.confirm) newErrors.confirm = 'Passwords do not match.';
-    if (!formValues.nickname) newErrors.nickname = 'Please input your nickname.';
-    if (!formValues.phone) newErrors.phone = 'Please input your phone number.';
-    // if (formValues.donation <= 0) newErrors.donation = 'Please input a valid donation amount.';
-    if (!formValues.website) newErrors.website = 'Please input your website.';
-    if (!formValues.intro) newErrors.intro = 'Please provide an intro.';
-    if (!formValues.gender) newErrors.gender = 'Please select a gender.';
-    // if (!formValues.agreement) newErrors.agreement = 'You must agree to the terms.';
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      console.log('Form Submitted', formValues);
-    }
   };
 
   function handlePage() {
-    console.log(' :>> ', );
+    
+   
     router.push('/pages/MasterTablePage');
+    {handleSearchClick}
   }
-
+ 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="form form-search">
@@ -89,7 +107,7 @@ const Form1: React.FC = () => {
           className="input"
           type="text"
           name="Id"
-          value={formValues.password}
+          value={formValues.Fkey}
           onChange={handleChange}
         />
       </div>
@@ -101,7 +119,7 @@ const Form1: React.FC = () => {
             className="input"
             type="text"
             name="Id"
-            value={formValues.password}
+            value={formValues.lastName}
             onChange={handleChange}
           />
         </div>
@@ -111,7 +129,7 @@ const Form1: React.FC = () => {
             className="input"
             type="text"
             name="Id"
-            value={formValues.password}
+            value={formValues.firstName}
             onChange={handleChange}
           />
         </div>
@@ -121,7 +139,7 @@ const Form1: React.FC = () => {
             className="input"
             type="text"
             name="Id"
-            value={formValues.password}
+            value={formValues.middleName}
             onChange={handleChange}
           />
         </div>
@@ -131,7 +149,7 @@ const Form1: React.FC = () => {
             className="input"
             type="text"
             name="Id"
-            value={formValues.password}
+            value={formValues.suffix}
             onChange={handleChange}
           />
         </div>
@@ -141,7 +159,7 @@ const Form1: React.FC = () => {
             className="input"
             type="text"
             name="Id"
-            value={formValues.password}
+            value={formValues.dob}
             onChange={handleChange}
           />
         </div>
@@ -154,7 +172,7 @@ const Form1: React.FC = () => {
             className="input"
             type="text"
             name="Id"
-            value={formValues.password}
+            value={formValues.id}
             onChange={handleChange}
           />
         </div>
@@ -164,7 +182,7 @@ const Form1: React.FC = () => {
             className="input"
             type="text"
             name="Phone"
-            value={formValues.password}
+            value={formValues.phoneNumber}
             onChange={handleChange}
           />
         </div>
@@ -196,7 +214,7 @@ const Form1: React.FC = () => {
               className="input2"
               type="text"
               name="Id"
-              value={formValues.password}
+              value={formValues.height}
               onChange={handleChange}
             />
           </div>
@@ -206,7 +224,7 @@ const Form1: React.FC = () => {
               className="input2"
               type="text"
               name="Id"
-              value={formValues.password}
+              value={formValues.weight}
               onChange={handleChange}
             />
           </div>
@@ -222,7 +240,7 @@ const Form1: React.FC = () => {
               className="input2"
               type="text"
               name="Id"
-              value={formValues.password}
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -242,7 +260,7 @@ const Form1: React.FC = () => {
               className="input2"
               type="text"
               name="Id"
-              value={formValues.password}
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -253,7 +271,7 @@ const Form1: React.FC = () => {
               className="input2"
               type="text"
               name="Id"
-              value={formValues.password}
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -267,7 +285,7 @@ const Form1: React.FC = () => {
               className="input2"
               type="text"
               name="Id"
-              value={formValues.password}
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -287,7 +305,7 @@ const Form1: React.FC = () => {
               className="input2"
               type="text"
               name="Id"
-              value={formValues.password}
+              value={formValues.address}
               onChange={handleChange}
             />
 
@@ -298,7 +316,7 @@ const Form1: React.FC = () => {
               className="input2"
               type="text"
               name="Id"
-              value={formValues.password}
+              value={formValues.address}
               onChange={handleChange}
             />
 
