@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation";
 import VerticalLineWithDrawer from '@/app/components/Line/Line';
 import Button1 from "@/app/components/buttonSelect/buttonSelect";
 import MainButton from "@/app/components/mainButton/button";
-import { SearchOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, SearchOutlined } from '@ant-design/icons';
+
 
 export default function Home() {
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
@@ -88,7 +89,7 @@ export default function Home() {
             <MasterTable filters={selectedFilters} />
           </div>
           <div className="button-container">
-          <MainButton handleClick={handlePage} icon={<SearchOutlined />}>
+          <MainButton handleClick={handlePage} icon={<CheckCircleOutlined />}>
           Select
         </MainButton>
       </div>
