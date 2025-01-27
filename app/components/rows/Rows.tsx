@@ -69,118 +69,71 @@ const CaseRow: React.FC<RowData> = ({
 
   return (
     <>
-      <div
-        style={{
-          overflowX: "auto", 
-          padding: "8px",
-        }}
-      >
-        <Row justify="start" align="middle" style={{ marginBottom: "8px" }}>
-          <Space size="large">
-            <Checkbox onChange={handleCheckbox}></Checkbox>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "700" }}>Case:</Text>
-              <Text>
-                <a href="./CaseView">{" " + caseNumber}</a>
-              </Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "700" }}>Date:</Text>
-              <Text>{" " + date} </Text>
-            </Col>
-          </Space>
-        </Row>
-        <Row
-          justify="start"
-          align="middle"
+  <div
+    style={{
+      overflowX: "auto",
+      padding: "5px 24px",
+    }}
+  >
+    <Row
+      justify="start"
+      align="middle"
+      gutter={[0, 16]}
+      style={{ marginBottom: "8px" }}
+    >
+      <Checkbox onChange={handleCheckbox}></Checkbox>
+      <Col style={{paddingLeft:'24px'}} >
+        <Text style={{ color: "#556d7a", fontWeight: "700" }}>Case:</Text>
+        <Text>
+          <a href="./CaseView">{" " + caseNumber}</a>
+        </Text>
+      </Col>
+      <Col style={{paddingLeft:'24px'}}>
+        <Text style={{ color: "#556d7a", fontWeight: "700" }}>Date:</Text>
+        <Text>{" " + date}</Text>
+      </Col>
+    </Row>
+    <Row
+      justify="start"
+      align="middle"
+      gutter={[0, 0]} // Remove all gutter space
+      style={{
+        marginBottom: "16px",
+        whiteSpace: "nowrap",
+        width: "max-content",
+      }}
+    >
+      {[
+        { label: "First Name", value: firstName, highlight: true },
+        { label: "Middle Name", value: middleName, highlight: true },
+        { label: "Last Name", value: lastName, highlight: true },
+        { label: "Suffix", value: suffix || "---" },
+        { label: "DOB", value: dob, highlight: true },
+        { label: "Sex", value: sex },
+        { label: "Race", value: race },
+        { label: "Height", value: height },
+        { label: "ID", value: id },
+        { label: "Phone No.", value: phoneNumber },
+        { label: "Address", value: address },
+      ].map(({ label, value, highlight }, index) => (
+        <Col
+          key={index}
           style={{
-            marginBottom: "16px",
-            whiteSpace: "nowrap", 
-            width: "max-content",
+            background: highlight ? "#b1ffc6" : "transparent",
+            padding: "0 15px", // Ensure no padding
+            margin: "0", // Ensure no margin
           }}
         >
-          <Space size="large">
-           
-            <Col style={{background: '#b1ffc6' }}>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                First Name
-              </Text>
-              <br />
-              <Text>{firstName}</Text>
-            </Col>
-            <Col style={{background: '#b1ffc6' }}>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Middle Name
-              </Text>
-              <br />
-              <Text>{middleName}</Text>
-            </Col>
-            <Col style={{background: '#b1ffc6' }}>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Last Name
-              </Text>
-              <br />
-              <Text>{lastName}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                suffix
-              </Text>
-              <br />
-              <Text>{suffix ? suffix : "---"}</Text>
-            </Col>
-            <Col style={{background: '#b1ffc6' }}>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>DOB</Text>
-              <br />
-              <Text>{dob}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Last Name
-              </Text>
-              <br />
-              <Text>{lastName}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>Sex</Text>
-              <br />
-              <Text>{sex}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>Race</Text>
-              <br />
-              <Text>{race}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Height
-              </Text>
-              <br />
-              <Text>{height}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>ID</Text>
-              <br />
-              <Text>{id}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Phone No.
-              </Text>
-              <br />
-              <Text>{phoneNumber}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a", fontWeight: "600" }}>
-                Address
-              </Text>
-              <br />
-              <Text>{address}</Text>
-            </Col>
-          </Space>
-        </Row>
-      </div>
-    </>
+          <Text style={{ color: "#556d7a", fontWeight: "600" }}>{label}</Text>
+          <br />
+          <Text>{value}</Text>
+        </Col>
+      ))}
+    </Row>
+  </div>
+</>
+
+  
   );
 };
 
