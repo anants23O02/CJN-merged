@@ -128,7 +128,7 @@ const NewPage: React.FC = () => {
   }
 
   function handlePopup() {
-    router.push("/pages/ManualSearch");
+    router.push("/pages/MasterNameIndex");
   }
 
   function handleCancel() {
@@ -151,7 +151,7 @@ const NewPage: React.FC = () => {
             onOk={handlePopup}
             onCancel={handleCancel}
           >
-            <p>Are you sure you should like to create a manual search? </p>
+            <p>Are you sure you should like to create a Automated search? </p>
           </Modal>
         </Col>
         <Col span={3}>
