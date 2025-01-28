@@ -32,30 +32,33 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
 
   useEffect(() => {
     const data = {
-      secondaryRecord: selectedRows, 
-      comparableRecord: selectedRows.length ? [selectedRows] : [], 
+      secondaryRecord: selectedRows,
+      comparableRecord: selectedRows.length ? [selectedRows] : [],
     };
     sessionStorage.setItem("record", JSON.stringify(data));
   }, [selectedRows]);
 
   const handleCheckboxChange = (checked: boolean, record: DataType) => {
     if (checked) {
-      
       setSelectedKeys((prevKeys) => [...prevKeys, record.key]);
       setSelectedRows((prevRows) => [...prevRows, record]);
     } else {
-      
-      setSelectedKeys((prevKeys) => prevKeys.filter((key) => key !== record.key));
+      setSelectedKeys((prevKeys) =>
+        prevKeys.filter((key) => key !== record.key)
+      );
       setSelectedRows((prevRows) =>
         prevRows.filter((row) => row.key !== record.key)
       );
     }
   };
 
-  const filteredData = caseData.filter((record:any) => {
+  const filteredData = caseData.filter((record: any) => {
     return filters?.every((filter) => {
       const { key, value } = filter;
-      return record[key]?.toString().toLowerCase().includes(value.toLowerCase());
+      return record[key]
+        ?.toString()
+        .toLowerCase()
+        .includes(value.toLowerCase());
     });
   });
 
@@ -64,7 +67,7 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
       title: "",
       dataIndex: "checkbox",
       key: "checkbox",
-      render: (_:any, record:any) => (
+      render: (_: any, record: any) => (
         <Checkbox
           checked={selectedKeys.includes(record.key)}
           onChange={(e) => handleCheckboxChange(e.target.checked, record)}
@@ -78,14 +81,14 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
       title: "Middle Name",
       dataIndex: "middleName",
       key: "middleName",
-      render: (middleName:any) => (middleName ? middleName : "---"),
+      render: (middleName: any) => (middleName ? middleName : "---"),
     },
     { title: "Last Name", dataIndex: "lastName", key: "lastName" },
     {
       title: "Suffix",
       dataIndex: "suffix",
       key: "suffix",
-      render: (suffix:any) => (suffix ? suffix : "---"),
+      render: (suffix: any) => (suffix ? suffix : "---"),
     },
     { title: "DOB", dataIndex: "dob", key: "dob" },
     { title: "Age", dataIndex: "age", key: "age" },

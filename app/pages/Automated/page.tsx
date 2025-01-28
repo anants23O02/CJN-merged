@@ -124,7 +124,7 @@ const NewPage: React.FC = () => {
   }
 
   function handlePopup() {
-    router.push("/pages/MasterNameIndex");
+    router.push("/");
   }
 
   function handleCancel() {
