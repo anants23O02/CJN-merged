@@ -4,6 +4,7 @@ import { Table, Checkbox } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import "./MasterTable2.css";
 import caseData from "../DummyData/caseData2";
+import Card from "antd/es/card/Card";
 
 interface DataType {
   key: string;
@@ -106,18 +107,34 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
   ];
 
   return (
-    <Table
+    <Card
+    bordered
+    style={{
+      borderColor: "#727677",
+      borderWidth: "1px", // Explicitly set border width
+      borderStyle: "solid", // Ensure the border style is solid
+      borderRadius: "20px",
+      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+      marginBottom: "6px",
+      overflow: "hidden",
+    }}
+    bodyStyle={{
+      padding: "0px", // Ensure no padding inside the Card
+    }}>
+      <Table
       dataSource={filteredData}
       columns={columns}
       rowClassName={(record) =>
         selectedKeys.includes(record.key) ? "selected-row" : ""
       }
-      pagination={{ pageSize: 4 }}
+      pagination={{ pageSize: 6 }}
       bordered
       className="small-table"
       scroll={{ x: "max-content" }}
       rowKey="key"
     />
+    </Card>
+    
   );
 };
 

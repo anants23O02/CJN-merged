@@ -3,7 +3,8 @@
         background-color: #fff;
         width: 100%;
         padding: 4px;
-        border-radius: 4px;
+        border-radius: 6px;
+        border-color: rgb(73, 69, 69);
     }
     .main{
       display: flex;
