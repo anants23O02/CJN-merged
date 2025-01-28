@@ -91,7 +91,7 @@ const CaseCard: React.FC<CaseCardProps> = ({
                   background: backgroundColor,
                 }}
               >
-                {value}
+                {value} 
               </Text>
             </Col>
             <Col>

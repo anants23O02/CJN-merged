@@ -14,7 +14,7 @@ import { Modal } from "antd";
 import { Row, Col, Button } from "antd";
 
 const NewPage: React.FC = () => {
-  const percentage = ["100 ", "40 ", "20 "];
+  const percentage = ["100", "40", "20"];
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -211,7 +211,7 @@ const NewPage: React.FC = () => {
             <h5 style={{ marginBottom: "5px" }}>Primary Master Name Record</h5>
           </Row>
           {primaryRecord.length > 0 ? (
-            <CaseCard data={primaryRecord[0]} value={""} type={'primary'}>
+            <CaseCard data={primaryRecord[0]} value={""} type={"primary"}>
               {primaryRecord.slice(1).map((item) => (
                 <CaseRow
                   direction="Left"
@@ -246,7 +246,7 @@ const NewPage: React.FC = () => {
                   key={index}
                   data={record[0]}
                   value={percentage[index]}
-                  type = {"comparable"}
+                  type={"comparable"}
                 >
                   {record.slice(1).map((item: any) => (
                     <CaseRow
