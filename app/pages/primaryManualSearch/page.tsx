@@ -1,6 +1,6 @@
 "use client";
 
-import { Breadcrumb } from "antd";
+import { Breadcrumb,Col } from "antd";
 import Link from "next/link";
 import Form1 from "../../components/form2/form2";
 import FilterPopup from "../../components/Modal2/Modal";
@@ -19,7 +19,9 @@ export default function Home() {
     <div className="merge-page">
       <p className="heading">Master Name Index</p>
       <h3 className="sub-heading">Master Name Record Merge</h3>
+      <Col flex="auto">
       <FilterPopup  />
+      </Col>
       <p className="form-heading">Primary Master Name Record</p>
       <div className="sub-container">
         <div className="form">

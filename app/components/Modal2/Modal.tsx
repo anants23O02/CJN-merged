@@ -58,6 +58,9 @@ const FilterPopup: React.FC<{handlefilters?:(selectedFilters:any)=>void}> = ({ha
             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
             marginBottom: "16px",
           }}
+          bodyStyle={{
+            padding:'0'
+          }}
         >
     <div className='popup' style={{backgroundColor:"#fff",width:"100%",}}>
       <SlidersOutlined  onClick={() => setIsModalVisible(true)} style={{margin:"12px"}}/>

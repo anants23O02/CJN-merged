@@ -25,7 +25,9 @@ export default function Home() {
       
       <div className="part">
       <div className="left-part">
+        <Col flex="auto">
       <FilterPopup handlefilters={handlefilters} />
+        </Col>
       <p className="form-heading">Primary Master Name Record</p>
       <p className="table-heading">Select Name</p>
       <div className="table">
