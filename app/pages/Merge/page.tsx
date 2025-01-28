@@ -47,6 +47,7 @@ export default function Home() {
               dob: "12/13/1989",
               cases: 2,
             }}
+            type = {'primary'}
           >
             <CaseRow {...caseData}/> 
           </CaseCard>

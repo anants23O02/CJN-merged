@@ -35,7 +35,9 @@ const CaseCard: React.FC<CaseCardProps> = ({
 
   const router = useRouter();
   function handleChange() {
-    router.push('/pages/primaryManualSearch')
+    if(type === 'primary'){
+      router.push('/pages/primaryManualSearch')
+    }
   }
   return (
     <Row
@@ -97,35 +99,35 @@ const CaseCard: React.FC<CaseCardProps> = ({
                 First:
               </Text>{" "}
               <br />
-              <Text>{data.firstName}</Text>
+              <Text>{data ? data.firstName:'---' }</Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a" }} strong>
                 Middle:
               </Text>{" "}
               <br />
-              <Text>{data.middleName ? data.middleName : "---"}</Text>
+              <Text>{data ? (data.middleName?data.middleName:"---")  : "---"}</Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a" }} strong>
                 Last:
               </Text>{" "}
               <br />
-              <Text>{data.lastName}</Text>
+              <Text>{data ? data.lastName:"---" }</Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a" }} strong>
                 Suffix:
               </Text>{" "}
               <br />
-              <Text>{data.suffix || "---"}</Text>
+              <Text>{data ? data.suffix ? data.suffix: "---":"---"}</Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a" }} strong>
                 DOB:
               </Text>{" "}
               <br />
-              <Text>{data.dob}</Text>
+              <Text>{data ? data.dob:"---"}</Text>
             </Col>
             <Col>
               <UserOutlined

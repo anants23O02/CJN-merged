@@ -52,7 +52,7 @@ export default function Home() {
         <div className="left-part">
           <p className="table-heading">Primary Master Name</p>
           {primaryRecord.length > 0 ? (
-            <CaseCard data={primaryRecord[0]} value={''}>
+            <CaseCard data={primaryRecord[0]} value={''} type={'primary'}>
               {primaryRecord.slice(1).map((item) => (
                 <CaseRow
                   key={item.id}
