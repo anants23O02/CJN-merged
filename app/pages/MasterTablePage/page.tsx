@@ -5,30 +5,18 @@ import MainButton from "../../components/mainButton/button";
 import MasterTable from "../../components/MasterTable2/MasterTable2";
 import VerticalLineWithDrawer from "@/app/components/Line/Line";
 import { useState } from "react";
-<<<<<<< HEAD
 import {useRouter} from 'next/navigation';
-=======
-import { useRouter } from "next/navigation";
->>>>>>> 8cf313f1b25bb531ddd7d5cc2d53fe3add4849fd
 export default function Home() {
     const [selectedFilters,setSelectedFilters] = useState<any[]>([]) 
   function handlefilters(selectedFilters: any) {
     console.log('selectedFilters :>> ', selectedFilters);
     setSelectedFilters(selectedFilters);
   }
-<<<<<<< HEAD
-
-  const router = useRouter();
-  function handleclick(){
-    console.log(' searched :>> ', );
-    router.push('/pages/ManualSearch');
-=======
   const router=useRouter();
   function handleclick(){
     router.push("/pages/MasterViewMerge");
 
 
->>>>>>> 8cf313f1b25bb531ddd7d5cc2d53fe3add4849fd
   }
   return (
     <div className="merge-page">
