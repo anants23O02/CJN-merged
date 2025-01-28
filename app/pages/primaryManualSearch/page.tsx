@@ -2,11 +2,11 @@
 
 import { Breadcrumb } from "antd";
 import Link from "next/link";
-import Form1 from "./components/form2/form2";
-import FilterPopup from "./components/Modal2/Modal";
+import Form1 from "../../components/form2/form2";
+import FilterPopup from "../../components/Modal2/Modal";
 import "./page.css";
 import { useRouter } from "next/navigation";
-import VerticalLineWithDrawer from "./components/Line/Line";
+import VerticalLineWithDrawer from "../../components/Line/Line";
 
 export default function Home() {
   const router = useRouter();
