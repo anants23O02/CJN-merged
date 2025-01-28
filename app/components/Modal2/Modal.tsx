@@ -5,7 +5,7 @@ import { Modal, Button, Checkbox, Row, Col,Card } from 'antd';
 import {SlidersOutlined,CloseOutlined} from '@ant-design/icons';
 
 
-const FilterPopup: React.FC = () => {
+const FilterPopup: React.FC<{handlefilters?:(selectedFilters:any)=>void}> = ({handlefilters}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([
     'Last Name',

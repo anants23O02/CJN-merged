@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Divider } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import CustomModal from "./CustomModal"; 
-import {VerticalLineProps} from './VerticalLineProps.types'
+import CustomModal from "./CustomModal";
+import { VerticalLineProps } from "./VerticalLineProps.types";
 
-
-const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({ rightbutton,leftbutton }) => {
+const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({
+  rightbutton,
+  leftbutton,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [button,setButton] = useState('');
+  const [button, setButton] = useState("");
 
-  const handleModalOpen = (value:string) => {
+  const handleModalOpen = (value: string) => {
+    console.log('value', value);
     setButton(value);
     setIsModalVisible(true);
   };
@@ -20,10 +23,22 @@ const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({ rightbutton,leftb
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    if (rightbutton) {
+      // rightbutton();
+    }
+  }, []);
+
   return (
     <div style={{ display: "flex", alignItems: "center", height: "100vh" }}>
-
-      <div style={{ position: "relative", height: "100%", width: "2px", background: "transparent" }}>
+      <div
+        style={{
+          position: "relative",
+          height: "100%",
+          width: "2px",
+          background: "transparent",
+        }}
+      >
         <Divider
           type="vertical"
           style={{
@@ -32,7 +47,6 @@ const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({ rightbutton,leftb
             margin: 0,
           }}
         />
-
 
         <Button
           type="primary"
@@ -48,7 +62,7 @@ const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({ rightbutton,leftb
             transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
-          onClick={() => handleModalOpen('Right') }
+          onClick={() => handleModalOpen("Right")}
         />
 
         <Button
@@ -65,20 +79,21 @@ const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({ rightbutton,leftb
             transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
-          onClick={() => handleModalOpen('Left')}
+          onClick={() => handleModalOpen("Left")}
         />
       </div>
 
-
-      <CustomModal
-        visible={isModalVisible}
-        handleClose={handleModalClose} 
-        value = {button}
-        rightbutton={rightbutton}
-        leftbutton = {leftbutton}
-      >
-        <p>Confirm merging these records</p>
-      </CustomModal>
+      {rightbutton && leftbutton && (
+        <CustomModal
+          visible={isModalVisible}
+          handleClose={handleModalClose}
+          value={button}
+          rightbutton={rightbutton}
+          leftbutton={leftbutton}
+        >
+          <p>Confirm merging these records</p>
+        </CustomModal>
+      )}
     </div>
   );
 };

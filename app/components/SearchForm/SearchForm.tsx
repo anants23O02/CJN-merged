@@ -5,7 +5,7 @@ import { Form, Input, Button, Row, Col } from "antd";
 import styles from './SearchForm.module.css'
 
 
-const SearchForm: React.FC = () => {
+export const SearchForm: React.FC = () => {
   const onFinish = (values: any) => {
     console.log("Form values:", values);
   };
@@ -55,4 +55,3 @@ const SearchForm: React.FC = () => {
   );
 };
 
-export default SearchForm;

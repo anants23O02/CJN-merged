@@ -3,14 +3,17 @@ import { Button } from "antd";
 
 interface MainButtonProps {
   children: React.ReactNode;
-  handleClick: () => void;
+  handleClick?: () => void;
   icon?: React.ReactNode;
   
 }
 
 const MainButton: React.FC<MainButtonProps> = ({ children, handleClick,icon }) => {
   function handler (){
-    handleClick();
+    if(handleClick){
+
+      handleClick();
+    }
   };
 
   return (

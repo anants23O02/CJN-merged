@@ -15,13 +15,9 @@ import { CheckCircleOutlined, SearchOutlined } from '@ant-design/icons';
 export default function Home() {
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
   const [comparableRecord, setComparableRecord] = useState<any[]>([]);
-  const [showMasterTable, setShowMasterTable] = useState(false); // State to toggle between Form1 and MasterTable
   const [isShown, setIsShown] = useState(false);
   const [selectedFilters,setSelectedFilters] = useState<any[]>([]) 
-  function handlefilters(selectedFilters: any) {
-    console.log('selectedFilters :>> ', selectedFilters);
-    setSelectedFilters(selectedFilters);
-  }
+ 
 
   const handleSearchClick = () => {
     setIsShown(!isShown); // Toggle visibility state
@@ -78,7 +74,7 @@ export default function Home() {
               <p className="table-heading">Comparable Record</p>
               <div className="form">
                 {/* Conditionally render Form1 or MasterTable based on showMasterTable */}
-                <Form1 isShown={isShown} setIsShown={setIsShown} handleSearchClick={handleSearchClick} />
+                <Form1   handleSearchClick={handleSearchClick} />
               </div>
             </div>
             ) : (

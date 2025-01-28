@@ -30,40 +30,40 @@ const NewPage: React.FC = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const record = sessionStorage.getItem("record");
-      
+      if (record) {
         const parsedRecord = JSON.parse(record);
         console.log(parsedRecord);
-        setPrimaryRecord(parsedRecord.secondaryRecord || []); 
+        setPrimaryRecord(parsedRecord.secondaryRecord || []);
         setComparableRecord(parsedRecord.comparableRecord || []);
-      
+      }
     }
   }, []);
 
-  function checkHandler(key,btn) {
+  function checkHandler(key: any, btn: any) {
     console.log("key :>> ", key);
-    if(btn==='Right'){
+    if (btn === "Right") {
+      setmoverecordDetails((previtems) => [...previtems, key]);
+    } else if (btn == "Left") {
       setmoverecordDetails((previtems) => [...previtems, key]);
     }
-    else if(btn =='Left'){
-      setmoverecordDetails((previtems) => [...previtems, key])
+  }
+  function checkremoveHandler(key: any, btn: any) {
+    if (btn === "Right") {
+      const updatedmoverecordDetails = moverecordDetails.filter(
+        (item) => item !== key
+      );
+      setmoverecordDetails((previtems) => [...updatedmoverecordDetails]);
+    } else if (btn == "Left") {
+      const updatedmoverecordDetails = moverecordDetails.filter(
+        (item) => item !== key
+      );
+      setmoverecordDetails((previtems) => [...updatedmoverecordDetails]);
     }
-  }
-  function checkremoveHandler(key,btn) {
-    if(btn==='Right'){
-    const updatedmoverecordDetails = moverecordDetails.filter(
-      (item) => item !== key
-    );
-    setmoverecordDetails((previtems) => [...updatedmoverecordDetails]);
-  }
-  else if(btn =='Left'){
-    const updatedmoverecordDetails = moverecordDetails.filter(
-      (item) => item !== key
-    );
-    setmoverecordDetails((previtems) => [...updatedmoverecordDetails]);
-  }
   }
 
   function handleButtonRightToLeft() {
+
+    console.log('kjsdfhjks')
     setPrimaryRecord((prevPrimary) => {
       const movedItems = comparableRecord
         .flat()
@@ -74,7 +74,7 @@ const NewPage: React.FC = () => {
     setComparableRecord((prevComparable) =>
       prevComparable.map((comparableArray) =>
         comparableArray.filter(
-          (record) => !moverecordDetails.includes(record.caseNumber)
+          (record: any) => !moverecordDetails.includes(record.caseNumber)
         )
       )
     );
@@ -90,20 +90,17 @@ const NewPage: React.FC = () => {
     }
   }
 
-
   function handleButtonLeftToRight() {
-    setPrimaryRecord((prevPrimary) => 
+    setPrimaryRecord((prevPrimary) =>
       prevPrimary.filter(
-          (record) => !moverecordDetails.includes(record.caseNumber)
-        )
-  );
+        (record) => !moverecordDetails.includes(record.caseNumber)
+      )
+    );
 
-    setComparableRecord((prevComparable) =>{
-      const movedItems = comparableRecord
-      .flat()
-      .filter((record) => moverecordDetails.includes(record.caseNumber));
-    }
-
+    setComparableRecord(
+      comparableRecord
+        .flat()
+        .filter((record) => moverecordDetails.includes(record.caseNumber))
     );
 
     setmoverecordDetails([]);
@@ -117,12 +114,11 @@ const NewPage: React.FC = () => {
     }
   }
 
- 
   function handlefilters(selectedFilters: any) {
     console.log("selectedFilters :>> ", selectedFilters);
     setSelectedFilters(selectedFilters);
-  };
- 
+  }
+
   function newSearchHandler() {
     console.log("New search pressed");
   }
@@ -163,7 +159,10 @@ const NewPage: React.FC = () => {
         <Col flex="auto">
           <FilterPopup handlefilters={handlefilters} />
         </Col>
-        <Col span={3} style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <Col
+          span={3}
+          style={{ display: "flex", justifyContent: "space-evenly" }}
+        >
           <Button className={styles.mergeButton} type="default">
             Merge Together
           </Button>
@@ -177,7 +176,7 @@ const NewPage: React.FC = () => {
             <CaseCard data={primaryRecord[0]} value={""}>
               {primaryRecord.slice(1).map((item) => (
                 <CaseRow
-                  direction = 'Left'
+                  direction="Left"
                   key={item.id}
                   {...item}
                   checkHandler={checkHandler}
@@ -192,8 +191,11 @@ const NewPage: React.FC = () => {
           )}
         </Col>
 
-        <Col flex="none">
-          <VerticalLineWithDrawer rightbutton={handleButtonRightToLeft} leftbutton={handleButtonLeftToRight} style={{paddingTop:"25px"}} />
+        <Col style={{ paddingTop: "25px" }} flex="none">
+          <VerticalLineWithDrawer
+            rightbutton={handleButtonRightToLeft}
+            leftbutton={handleButtonLeftToRight}
+          />
         </Col>
 
         <Col flex="auto" style={{ maxWidth: "48%" }}>
@@ -206,11 +208,11 @@ const NewPage: React.FC = () => {
                   data={record[0]}
                   value={percentage[index]}
                 >
-                  {record.slice(1).map((item) => (
+                  {record.slice(1).map((item: any) => (
                     <CaseRow
-                    key={item.id}
-                    {...item}
-                    direction = 'Right'
+                      key={item.id}
+                      {...item}
+                      direction="Right"
                       checkHandler={checkHandler}
                       checkremoveHandler={checkremoveHandler}
                       filterData={selectedFilters}

@@ -1,9 +1,9 @@
-'use client'; // Add this to mark the component as a client-side component
-import './form2.css';
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import MainButton from '../mainButton/button';
-import { SearchOutlined } from '@ant-design/icons';
+"use client"; // Add this to mark the component as a client-side component
+import "./form2.css";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import MainButton from "../mainButton/button";
+import { SearchOutlined } from "@ant-design/icons";
 
 interface FormValues {
   Fkey: number;
@@ -27,7 +27,7 @@ interface FormValues {
 interface Form1Props {
   // isShown: boolean;
   // setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
-  handleSearchClick: () => void;
+  handleSearchClick?: () => void;
 }
 
 const Form1: React.FC<Form1Props> = ({ handleSearchClick }) => {
@@ -51,8 +51,6 @@ const Form1: React.FC<Form1Props> = ({ handleSearchClick }) => {
     phoneNumber: "",
     address: "",
   });
-
- 
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -88,20 +86,24 @@ const Form1: React.FC<Form1Props> = ({ handleSearchClick }) => {
     }
   }, [primaryRecord]); // This will run whenever primaryRecord changes
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
       [name]: value,
     });
   };
-function  handlePage(){
-  router.push('/pages/MasterTablePage')
-}
+  function handlePage() {
+    router.push("/pages/MasterTablePage");
+  }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Submitted"); // Placeholder logic
-    handleSearchClick(); // Execute search click logic
+    if (handleSearchClick) {
+      handleSearchClick(); // Execute search click logic
+    }
   };
 
   return (
@@ -249,99 +251,84 @@ function  handlePage(){
           </div>
         </div>
       </div>
-      <p className='search'>Address</p>
+      <p className="search">Address</p>
 
-      <div className='address'>
-        <div className='form street'>
-        <label className="label">City</label>
-            <input
-              className="input2"
-              type="text"
-              name="Id"
-              value=""
-              onChange={handleChange}
-            />
-
+      <div className="address">
+        <div className="form street">
+          <label className="label">City</label>
+          <input
+            className="input2"
+            type="text"
+            name="Id"
+            value=""
+            onChange={handleChange}
+          />
         </div>
-        <div className='form street'>
-        <label className="label">State</label>
-            <select className='select'> 
-              <option>
-
-              </option>
-            </select>
-
+        <div className="form street">
+          <label className="label">State</label>
+          <select className="select">
+            <option></option>
+          </select>
         </div>
-        <div className='form street'>
-        <label className="label">Zip Code</label>
-            <input
-              className="input2"
-              type="text"
-              name="Id"
-              value=""
-              onChange={handleChange}
-            />
-
+        <div className="form street">
+          <label className="label">Zip Code</label>
+          <input
+            className="input2"
+            type="text"
+            name="Id"
+            value=""
+            onChange={handleChange}
+          />
         </div>
-        <div className='form street'>
-        <label className="label">Country</label>
-            <input
-              className="input2"
-              type="text"
-              name="Id"
-              value=""
-              onChange={handleChange}
-            />
-
+        <div className="form street">
+          <label className="label">Country</label>
+          <input
+            className="input2"
+            type="text"
+            name="Id"
+            value=""
+            onChange={handleChange}
+          />
         </div>
-
       </div>
-      <div className='address'>
-        <div className='form street'>
-        <label className="label">City</label>
-            <input
-              className="input2"
-              type="text"
-              name="Id"
-              value=""
-              onChange={handleChange}
-            />
-
+      <div className="address">
+        <div className="form street">
+          <label className="label">City</label>
+          <input
+            className="input2"
+            type="text"
+            name="Id"
+            value=""
+            onChange={handleChange}
+          />
         </div>
-        <div className='form street'>
-        <label className="label">State</label>
-            <select className='select'> 
-              <option>
-
-              </option>
-            </select>
-
+        <div className="form street">
+          <label className="label">State</label>
+          <select className="select">
+            <option></option>
+          </select>
         </div>
-        <div className='form street'>
-        <label className="label">Zip Code</label>
-            <input
-              className="input2"
-              type="text"
-              name="Id"
-              value=""
-              onChange={handleChange}
-            />
-
+        <div className="form street">
+          <label className="label">Zip Code</label>
+          <input
+            className="input2"
+            type="text"
+            name="Id"
+            value=""
+            onChange={handleChange}
+          />
         </div>
-        <div className='form street'>
-        <label className="label">Country</label>
-            <input
-              className="input2"
-              type="text"
-              name="Id"
-              value=""
-              onChange={handleChange}
-            />
-
+        <div className="form street">
+          <label className="label">Country</label>
+          <input
+            className="input2"
+            type="text"
+            name="Id"
+            value=""
+            onChange={handleChange}
+          />
         </div>
-
       </div>
-
 
       <div className="button-container">
         <MainButton handleClick={handlePage} icon={<SearchOutlined />}>

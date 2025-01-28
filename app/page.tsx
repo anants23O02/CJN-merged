@@ -19,11 +19,11 @@ export default function Home() {
     <div className="merge-page">
       <p className="heading">Master Name Index</p>
       <h3 className="sub-heading">Master Name Record Merge</h3>
-      <FilterPopup />
+      <FilterPopup  />
       <p className="form-heading">Primary Master Name Record</p>
       <div className="sub-container">
         <div className="form">
-          <Form1 changePage={changePage} />
+          <Form1  />
         </div>
         <VerticalLineWithDrawer />
       </div>

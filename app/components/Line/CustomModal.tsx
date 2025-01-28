@@ -14,6 +14,7 @@ interface CustomModalProps {
 
 const CustomModal: React.FC<CustomModalProps> = ({ visible, value,handleClose, children, rightbutton,leftbutton }) => {
   const buttonhandler = () => {
+    rightbutton();
     if(value === 'Right') {
       rightbutton();
       console.log('closing');

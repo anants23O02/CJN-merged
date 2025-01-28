@@ -96,7 +96,7 @@ const CustomTable: React.FC = () => {
     );
 
     if (value === "Secondary") {
-      let primaryrecordDetails = [record]
+      let primaryrecordDetails:any = [record]
       const primarycaserecords = caseData.filter(
         (obj1) =>
           String(obj1.Fkey) === String(record.key)
@@ -210,7 +210,7 @@ const CustomTable: React.FC = () => {
         columns={columns}
         pagination={{ pageSize: 4 }}
         bordered
-        rowClassName={(record) => {
+        rowClassName={(record:any) => {
           if (record.recordValue === "secondaryRow") return "lightblue";
           if (record.recordValue === "comparableRow") return "lightcyan";
           return "";

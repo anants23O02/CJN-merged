@@ -74,35 +74,35 @@ const CaseCard: React.FC<CaseCardProps> = ({ value, data, children, actions }) =
                 First:
               </Text>{" "}
               <br />
-              <Text>{data.firstName}</Text>
+              <Text>{data?.firstName}</Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a" }} strong>
                 Middle:
               </Text>{" "}
               <br />
-              <Text>{data.middleName? data.middleName:'---'}</Text>
+              <Text>{data?.middleName? data?.middleName:'---'}</Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a" }} strong>
                 Last:
               </Text>{" "}
               <br />
-              <Text>{data.lastName}</Text>
+              <Text>{data?.lastName}</Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a" }} strong>
                 Suffix:
               </Text>{" "}
               <br />
-              <Text>{data.suffix || "---"}</Text>
+              <Text>{data?.suffix || "---"}</Text>
             </Col>
             <Col>
               <Text style={{ color: "#556d7a" }} strong>
                 DOB:
               </Text>{" "}
               <br />
-              <Text>{data.dob}</Text>
+              <Text>{data?.dob}</Text>
             </Col>
             <UserOutlined style={{ fontSize: "16px", cursor: "pointer" }} />
             <Checkbox />

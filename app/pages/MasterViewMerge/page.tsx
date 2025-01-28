@@ -30,57 +30,59 @@ const NewPage: React.FC = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const record = sessionStorage.getItem("record");
-      const parsedRecord = JSON.parse(record);
-      setPrimaryRecord(parsedRecord.secondaryRecord || []);
-      setComparableRecord(parsedRecord.comparableRecord || []);
+      if (record) {
+        const parsedRecord = JSON.parse(record);
+        setPrimaryRecord(parsedRecord.secondaryRecord || []);
+        setComparableRecord(parsedRecord.comparableRecord || []);
+      }
     }
   }, []);
 
-  function checkHandler(key,btn) {
+  function checkHandler(key: any, btn: any) {
     console.log("key :>> ", key);
-    if(btn==='Right'){
+    if (btn === "Right") {
       setmoverecordR2LDetails((previtems) => [...previtems, key]);
+    } else if (btn == "Left") {
+      setmoverecordL2RDetails((previtems) => [...previtems, key]);
     }
-    else if(btn =='Left'){
-      setmoverecordL2RDetails((previtems) => [...previtems, key])
+  }
+
+  function checkremoveHandler(key: any, btn: any) {
+    if (btn === "Right") {
+      const updatedmoverecordDetails = moverecordR2LDetails.filter(
+        (item) => item !== key
+      );
+      setmoverecordR2LDetails((previtems) => [...updatedmoverecordDetails]);
+    } else if (btn == "Left") {
+      const updatedmoverecordDetails = moverecordL2RDetails.filter(
+        (item) => item !== key
+      );
+      setmoverecordL2RDetails((previtems) => [...updatedmoverecordDetails]);
     }
   }
-
-
-  function checkremoveHandler(key,btn) {
-    if(btn==='Right'){
-    const updatedmoverecordDetails = moverecordR2LDetails.filter(
-      (item) => item !== key
-    );
-    setmoverecordR2LDetails((previtems) => [...updatedmoverecordDetails]);
-  }
-  else if(btn =='Left'){
-    const updatedmoverecordDetails = moverecordL2RDetails.filter(
-      (item) => item !== key
-    );
-    setmoverecordL2RDetails((previtems) => [...updatedmoverecordDetails]);
-  }
-  }
-
-
 
   function handleButtonRightToLeft() {
-
-    const updatedprimaryRecord = 
-    setPrimaryRecord((prevPrimary) => {
-      const movedItems = comparableRecord
-        .flat()
-        .filter((record) => moverecordR2LDetails.includes(record.caseNumber));
-      return [...prevPrimary, ...movedItems];
-    });
+    console.log("skdfhksjdfhkjsd");
+    const record = sessionStorage.getItem("record");
+    if (record) {
+      const parsedRecord = JSON.parse(record);
+      console.log(
+        parsedRecord.comparableRecord.map((comparableArray:any) =>
+          comparableArray.filter(
+            (record: any) => !moverecordR2LDetails.includes(record?.caseNumber)
+          )
+        )
+      );
+    } 
     setComparableRecord((prevComparable) =>
       prevComparable.map((comparableArray) =>
         comparableArray.filter(
-          (record) => !moverecordR2LDetails.includes(record.caseNumber)
+          (record: any) => !moverecordR2LDetails.includes(record?.caseNumber)
         )
-      ));
+      )
+    );
     setmoverecordR2LDetails([]);
-    
+
     if (typeof window !== "undefined") {
       const updatedRecord = {
         secondaryRecord: primaryRecord,
@@ -89,22 +91,29 @@ const NewPage: React.FC = () => {
       sessionStorage.setItem("record", JSON.stringify(updatedRecord));
     }
   }
+
   function handleButtonLeftToRight() {
+    console.log("setuuuuuuu");
     setPrimaryRecord((prevPrimary) =>
-      prevPrimary.filter((record) => !moverecordL2RDetails.includes(record.caseNumber))
+      prevPrimary.filter(
+        (record) => !moverecordL2RDetails.includes(record.caseNumber)
+      )
     );
-  
+
     setComparableRecord((prevComparable) => {
       const movedItems = primaryRecord.filter((item) =>
         moverecordL2RDetails.includes(item.caseNumber)
       );
       const uniqueItems = movedItems.filter(
-        (item) => !prevComparable[0].some((existing) => existing.caseNumber === item.caseNumber)
+        (item) =>
+          !prevComparable[0].some(
+            (existing: any) => existing.caseNumber === item.caseNumber
+          )
       );
       prevComparable[0].push(...uniqueItems);
       return prevComparable;
     });
-  
+
     setmoverecordL2RDetails([]);
 
     if (typeof window !== "undefined") {
@@ -116,7 +125,6 @@ const NewPage: React.FC = () => {
     }
   }
 
- 
   function handlefilters(selectedFilters: any) {
     console.log("selectedFilters :>> ", selectedFilters);
     setSelectedFilters(selectedFilters);
@@ -141,7 +149,6 @@ const NewPage: React.FC = () => {
         <Col
           style={{ display: "flex", justifyContent: "end", alignItems: "end" }}
         >
-
           <a onClick={showModal}>Manual Search</a>
           <Modal
             title="Manual Search"
@@ -153,7 +160,7 @@ const NewPage: React.FC = () => {
           </Modal>
         </Col>
         <Col span={3}>
-          <MainButton handleClick={newSearchHandler} icon={<SearchOutlined />} >
+          <MainButton handleClick={newSearchHandler} icon={<SearchOutlined />}>
             New Search
           </MainButton>
         </Col>
@@ -208,7 +215,7 @@ const NewPage: React.FC = () => {
             <CaseCard data={primaryRecord[0]} value={""}>
               {primaryRecord.slice(1).map((item) => (
                 <CaseRow
-                  direction = 'Left'
+                  direction="Left"
                   key={item.id}
                   {...item}
                   checkHandler={checkHandler}
@@ -223,8 +230,11 @@ const NewPage: React.FC = () => {
           )}
         </Col>
 
-        <Col flex="none">
-          <VerticalLineWithDrawer rightbutton={handleButtonRightToLeft} leftbutton={handleButtonLeftToRight} style={{paddingTop:"25px"}} />
+        <Col style={{ paddingTop: "25px" }} flex="none">
+          <VerticalLineWithDrawer
+            rightbutton={handleButtonRightToLeft}
+            leftbutton={handleButtonLeftToRight}
+          />
         </Col>
         <Col flex="auto" style={{ maxWidth: "48%" }}>
           <Row>
@@ -238,11 +248,11 @@ const NewPage: React.FC = () => {
                   data={record[0]}
                   value={percentage[index]}
                 >
-                  {record.slice(1).map((item) => (
+                  {record.slice(1).map((item: any) => (
                     <CaseRow
-                    key={item.id}
-                    {...item}
-                    direction = 'Right'
+                      key={item.id}
+                      {...item}
+                      direction="Right"
                       checkHandler={checkHandler}
                       checkremoveHandler={checkremoveHandler}
                       filterData={selectedFilters}

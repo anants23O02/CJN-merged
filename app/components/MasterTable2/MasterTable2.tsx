@@ -23,7 +23,7 @@ interface DataType {
 }
 
 interface MasterTableProps {
-  filters: { key: keyof DataType; value: string }[];
+  filters?: { key: keyof DataType; value: string }[];
 }
 
 const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
@@ -52,19 +52,19 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
     }
   };
 
-  const filteredData = caseData.filter((record) => {
-    return filters.every((filter) => {
+  const filteredData = caseData.filter((record:any) => {
+    return filters?.every((filter) => {
       const { key, value } = filter;
       return record[key]?.toString().toLowerCase().includes(value.toLowerCase());
     });
   });
 
-  const columns: ColumnsType<DataType> = [
+  const columns: any = [
     {
       title: "",
       dataIndex: "checkbox",
       key: "checkbox",
-      render: (_, record) => (
+      render: (_:any, record:any) => (
         <Checkbox
           checked={selectedKeys.includes(record.key)}
           onChange={(e) => handleCheckboxChange(e.target.checked, record)}
@@ -78,14 +78,14 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
       title: "Middle Name",
       dataIndex: "middleName",
       key: "middleName",
-      render: (middleName) => (middleName ? middleName : "---"),
+      render: (middleName:any) => (middleName ? middleName : "---"),
     },
     { title: "Last Name", dataIndex: "lastName", key: "lastName" },
     {
       title: "Suffix",
       dataIndex: "suffix",
       key: "suffix",
-      render: (suffix) => (suffix ? suffix : "---"),
+      render: (suffix:any) => (suffix ? suffix : "---"),
     },
     { title: "DOB", dataIndex: "dob", key: "dob" },
     { title: "Age", dataIndex: "age", key: "age" },
