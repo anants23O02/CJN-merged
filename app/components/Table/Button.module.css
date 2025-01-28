@@ -1,0 +1,18 @@
+.mergeButton{
+    margin-bottom: 10px !important;
+    padding: 10px 20px !important;
+   
+}
+.alignRight{
+    display: flex;
+    justify-content: flex-end;
+}
+
+tr.lightblue {
+    background-color: #77ff00 !important; /* Light green */
+  }
+  
+tr.lightcyan {
+    background-color: #bae7ff !important; /* Light blue */
+  }
+  

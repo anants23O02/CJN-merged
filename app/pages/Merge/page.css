@@ -1,0 +1,62 @@
+.main{
+    display: flex;
+    padding: 4px;
+    
+}
+.merge-page{
+    width: 100% !important;
+}
+.heading{
+    color: rgb(122, 145, 161);
+    font-weight: 600;
+  }
+  .sub-heading{
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .table{
+    width: 90%;
+  }
+  .table-head{
+    padding: 4px;
+    width: 50%;
+  }
+.table-heading{
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-block-start: 10px;
+}
+.button-container{
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+    
+    
+    }
+
+    .select{
+        color: rgb(122, 145, 161);
+    font-size: 12px;
+    font-weight: 600;
+    }
+    .button-container{
+        width: 90%;
+        display: flex;
+        justify-content: flex-end;
+        
+        
+        }
+
+        .left-part{
+          width: 50%;
+        }
+        
+    .part{
+      width: 100%;
+      margin-top: 5%;
+      display: flex;
+    }
+    .line{
+      padding: 4px;
+    }

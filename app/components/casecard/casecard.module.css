@@ -1,0 +1,7 @@
+.cardstyle {
+    padding: 0px !important;
+  }
+  
+  .cardstyle .ant-card-body {
+    padding: 0 !important;
+  }
