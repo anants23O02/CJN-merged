@@ -32,7 +32,7 @@ export default function Home() {
       <p className="table-heading">Select Name</p>
       <div className="table">
     
-      <MasterTable filters={selectedFilters} />
+      <MasterTable filters={selectedFilters} type={'primary'} />
 
       </div>
       <div className="button-container">

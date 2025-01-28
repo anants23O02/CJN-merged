@@ -38,7 +38,7 @@ export default function Home() {
   }, []);
 
   function  handlePage(){
-    router.push('/pages/Automated')
+    router.push('/pages/MasterViewMerge')
   }
 
  
@@ -82,7 +82,7 @@ export default function Home() {
           <p className="table-heading">Comparable Record</p>
           <div className="table">
             {/* Conditionally render Form1 or MasterTable based on showMasterTable */}
-            <MasterTable filters={selectedFilters} />
+            <MasterTable filters={selectedFilters} type ={'comparable'} />
           </div>
           <div className="button-container">
           <MainButton handleClick={handlePage} icon={<CheckCircleOutlined />}>

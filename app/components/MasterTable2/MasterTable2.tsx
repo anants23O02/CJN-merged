@@ -1,14 +1,13 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Table, Checkbox } from "antd";
-import type { ColumnsType } from "antd/es/table";
 import "./MasterTable2.css";
-import caseData from "../DummyData/caseData2";
 import Card from "antd/es/card/Card";
+import initialData from "../DummyData/searchResult";
+import caseData from "../DummyData/caseData";
 
 interface DataType {
   key: string;
-  Fkey: number;
   lastName: string;
   firstName: string;
   middleName: string | null;
@@ -16,52 +15,110 @@ interface DataType {
   dob: string;
   age: number;
   address: string;
-  phoneNumber: string;
-  sex: string;
   city: string;
   state: string;
-  id: number;
+  rowColor?: string;
+  recordValue?: string;
 }
 
 interface MasterTableProps {
   filters?: { key: keyof DataType; value: string }[];
+  type?: string; // Determines behavior of checkbox selection
 }
 
-const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-  const [selectedRows, setSelectedRows] = useState<DataType[]>([]);
+const MasterTable: React.FC<MasterTableProps> = ({ filters, type }) => {
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]); // Stores selected keys
+  const [selectedRows, setSelectedRows] = useState<DataType[]>([]); // Stores selected rows
+  const [primaryRecord,setprimaryRecord] = useState<any[]>([]);
+  const [comparableRecord,setcomparableRecord] = useState<any[]>([]);
+  const isMounted = useRef(false);
+  
 
   useEffect(() => {
-    const data = {
-      secondaryRecord: selectedRows,
-      comparableRecord: selectedRows.length ? [selectedRows] : [],
-    };
-    sessionStorage.setItem("record", JSON.stringify(data));
-  }, [selectedRows]);
+    if (!isMounted.current) {
+      // Skip this useEffect on initial render
+      isMounted.current = true;
+      return;
+    }
+    if(type === 'primary'){
+      console.log('object :>> ', );
+      const currentData = JSON.parse(sessionStorage.getItem("record") || "{}");
+      const data = {
+        ...currentData,
+        secondaryRecord: primaryRecord,
+      };
+      sessionStorage.setItem("record", JSON.stringify(data));
+    }
+    else{
+      return;
+    }
+  },[primaryRecord]);
+
+  useEffect(() => {
+    if (!isMounted.current) {
+      // Skip this useEffect on initial render
+      isMounted.current = true;
+      return;
+    }
+    if(type === 'comparable'){
+      console.log('called :>> ');
+      const currentData = JSON.parse(sessionStorage.getItem("record") || "{}");
+      const data = {
+        ...currentData,
+        comparableRecord: comparableRecord,
+      };
+      sessionStorage.setItem("record", JSON.stringify(data));
+    }
+    else{
+      return;
+    }
+},[comparableRecord]);
+
 
   const handleCheckboxChange = (checked: boolean, record: DataType) => {
-    if (checked) {
-      setSelectedKeys((prevKeys) => [...prevKeys, record.key]);
-      setSelectedRows((prevRows) => [...prevRows, record]);
-    } else {
-      setSelectedKeys((prevKeys) =>
-        prevKeys.filter((key) => key !== record.key)
-      );
-      setSelectedRows((prevRows) =>
-        prevRows.filter((row) => row.key !== record.key)
-      );
+    console.log(type);
+
+    if (type === "primary") {
+      // Allow only one checkbox to be selected
+      if (checked) {
+        setSelectedKeys([record.key]);
+        setSelectedRows([record]);
+        let primaryRecordDetails: any = [record];
+        const primaryCaseRecords = caseData.filter(
+          (obj1) => String(obj1.Fkey) === String(record.key)
+        );
+        primaryRecordDetails = [...primaryRecordDetails, ...primaryCaseRecords];
+        setprimaryRecord(primaryRecordDetails);
+      } else {
+        setSelectedKeys([]);
+        setSelectedRows([]);
+      }
+    } 
+    
+    else if (type === "comparable") {
+      // Allow multiple checkboxes to be selected
+      if (checked) {
+        const recordRows = [...selectedRows,record];
+        setSelectedKeys((prevKeys) => [...prevKeys, record.key]);
+        setSelectedRows((prevRows) => [...prevRows, record]);
+        const comparablecaserecords = caseData.filter(
+          (obj1) =>
+            String(obj1.Fkey) === String(record.key)
+        );
+        const comparablerecordDetails = [record, ...comparablecaserecords];
+        setcomparableRecord((prevrecords) => [...prevrecords,comparablerecordDetails]);
+      } else {
+        setSelectedKeys((prevKeys) =>
+          prevKeys.filter((key) => key !== record.key)
+        );
+        setSelectedRows((prevRows) =>
+          prevRows.filter((row) => row.key !== record.key)
+        );
+      }
     }
   };
 
-  const filteredData = caseData.filter((record: any) => {
-    return filters?.every((filter) => {
-      const { key, value } = filter;
-      return record[key]
-        ?.toString()
-        .toLowerCase()
-        .includes(value.toLowerCase());
-    });
-  });
+  const filteredData = initialData;
 
   const columns: any = [
     {
@@ -108,33 +165,33 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
 
   return (
     <Card
-    bordered
-    style={{
-      borderColor: "#727677",
-      borderWidth: "1px", // Explicitly set border width
-      borderStyle: "solid", // Ensure the border style is solid
-      borderRadius: "20px",
-      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-      marginBottom: "6px",
-      overflow: "hidden",
-    }}
-    bodyStyle={{
-      padding: "0px", // Ensure no padding inside the Card
-    }}>
-      <Table
-      dataSource={filteredData}
-      columns={columns}
-      rowClassName={(record) =>
-        selectedKeys.includes(record.key) ? "selected-row" : ""
-      }
-      pagination={{ pageSize: 6 }}
       bordered
-      className="small-table"
-      scroll={{ x: "max-content" }}
-      rowKey="key"
-    />
+      style={{
+        borderColor: "#727677",
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderRadius: "20px",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+        marginBottom: "6px",
+        overflow: "hidden",
+      }}
+      bodyStyle={{
+        padding: "0px", // Ensure no padding inside the Card
+      }}
+    >
+      <Table
+        dataSource={filteredData}
+        columns={columns}
+        rowClassName={(record) =>
+          selectedKeys.includes(record.key) ? "selected-row" : ""
+        }
+        pagination={{ pageSize: 6 }}
+        bordered
+        className="small-table"
+        scroll={{ x: "max-content" }}
+        rowKey="key"
+      />
     </Card>
-    
   );
 };
 
