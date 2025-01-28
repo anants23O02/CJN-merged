@@ -13,5 +13,6 @@ export interface CaseCardProps {
   };
   children?: ReactNode; 
   actions?: MenuProps['items']; 
+  type:string;
 }
 

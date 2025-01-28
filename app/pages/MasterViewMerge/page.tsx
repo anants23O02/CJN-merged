@@ -66,14 +66,21 @@ const NewPage: React.FC = () => {
       const movedItems = comparableRecord
         .flat()
         .filter((record) => moverecordR2LDetails.includes(record.caseNumber));
-      return [...prevPrimary, ...movedItems];
+      const uniqueItems = movedItems.filter(
+        (item) =>
+          !prevPrimary.some(
+            (existing: any) => existing.caseNumber === item.caseNumber
+          )
+      );
+      return [...prevPrimary, ...uniqueItems];
     });
     setComparableRecord((prevComparable) =>
       prevComparable.map((comparableArray) =>
         comparableArray.filter(
-          (record:any) => !moverecordR2LDetails.includes(record.caseNumber)
+          (record: any) => !moverecordR2LDetails.includes(record.caseNumber)
         )
-      ));
+      )
+    );
     setmoverecordR2LDetails([]);
 
     if (typeof window !== "undefined") {
@@ -86,7 +93,6 @@ const NewPage: React.FC = () => {
   }
 
   function handleButtonLeftToRight() {
-    console.log("setuuuuuuu");
     setPrimaryRecord((prevPrimary) =>
       prevPrimary.filter(
         (record) => !moverecordL2RDetails.includes(record.caseNumber)

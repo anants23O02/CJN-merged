@@ -8,7 +8,7 @@ import {CaseCardProps} from './CaseCard.types'
 const { Text } = Typography;
 
 
-const CaseCard: React.FC<CaseCardProps> = ({ value, data, children, actions }) => {
+const CaseCard: React.FC<CaseCardProps> = ({ value, data, children, actions,type }) => {
 
   useEffect(() => {
     const cardBody = document.querySelector('.ant-card-body');
@@ -32,6 +32,7 @@ const CaseCard: React.FC<CaseCardProps> = ({ value, data, children, actions }) =
       padding: "0",
       width: "100%",
       display: "flex",
+      overflow:'visible'
     }}
   >
     <Col
@@ -40,76 +41,88 @@ const CaseCard: React.FC<CaseCardProps> = ({ value, data, children, actions }) =
         width: "50%",
         padding: "0",
         margin: "0",
-        
+        overflow:'visible'
       }}
     >
       <Card
         bordered
         style={{
-          borderColor: "#d9d9d9",
+          borderColor: "#727677",
+          borderWidth: "1px", // Explicitly set border width
+          borderStyle: "solid", // Ensure the border style is solid
           borderRadius: "20px",
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
           marginBottom: "16px",
+          overflow: "hidden",
         }}
         bodyStyle={{
           padding: "0px", // Ensure no padding inside the Card
         }}
       >
-        <Row justify="end"  align="middle" style={{ padding:'24px', backgroundColor:'#f0f4fc',columnGap:'40px' }}>
-          <Space size="middle">
-            <Col>
-              <Text
-                style={{
-                  fontSize: "20px",
-                  marginRight: "15px",
-                  padding: "10px",
-                  background: backgroundColor,
-                }}
-              >
-                {value}
-              </Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a" }} strong>
-                First:
-              </Text>{" "}
-              <br />
-              <Text>{data?.firstName}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a" }} strong>
-                Middle:
-              </Text>{" "}
-              <br />
-              <Text>{data?.middleName? data?.middleName:'---'}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a" }} strong>
-                Last:
-              </Text>{" "}
-              <br />
-              <Text>{data?.lastName}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a" }} strong>
-                Suffix:
-              </Text>{" "}
-              <br />
-              <Text>{data?.suffix || "---"}</Text>
-            </Col>
-            <Col>
-              <Text style={{ color: "#556d7a" }} strong>
-                DOB:
-              </Text>{" "}
-              <br />
-              <Text>{data?.dob}</Text>
-            </Col>
-            <UserOutlined style={{ fontSize: "16px", cursor: "pointer" }} />
-            <Checkbox />
-            
-          </Space>
-        </Row>
-  
+        <Row
+  justify="space-between" 
+  align="middle"
+  style={{
+    padding: '24px',
+    backgroundColor: '#f0f4fc',
+    
+  }}
+>
+  <Col>
+    <Text
+      style={{
+        fontSize: "20px",
+        marginRight: "15px",
+        padding: "10px",
+        background: backgroundColor,
+      }}
+    >
+      {value}
+    </Text>
+  </Col>
+  <Col>
+    <Text style={{ color: "#556d7a" }} strong>
+      First:
+    </Text>{" "}
+    <br />
+    <Text>{data.firstName}</Text>
+  </Col>
+  <Col>
+    <Text style={{ color: "#556d7a" }} strong>
+      Middle:
+    </Text>{" "}
+    <br />
+    <Text>{data.middleName ? data.middleName : '---'}</Text>
+  </Col>
+  <Col>
+    <Text style={{ color: "#556d7a" }} strong>
+      Last:
+    </Text>{" "}
+    <br />
+    <Text>{data.lastName}</Text>
+  </Col>
+  <Col>
+    <Text style={{ color: "#556d7a" }} strong>
+      Suffix:
+    </Text>{" "}
+    <br />
+    <Text>{data.suffix || "---"}</Text>
+  </Col>
+  <Col>
+    <Text style={{ color: "#556d7a" }} strong>
+      DOB:
+    </Text>{" "}
+    <br />
+    <Text>{data.dob}</Text>
+  </Col>
+  <Col>
+    <UserOutlined style={{ fontSize: "16px", cursor: "pointer" }} onClick={primaryrecorddisturebed}/>
+  </Col>
+  <Col>
+    <Checkbox />
+  </Col>
+</Row>
+
     
         <div
           style={{

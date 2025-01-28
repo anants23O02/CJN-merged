@@ -5,14 +5,18 @@ import MainButton from "../../components/mainButton/button";
 import MasterTable from "../../components/MasterTable2/MasterTable2";
 import VerticalLineWithDrawer from "@/app/components/Line/Line";
 import { useState } from "react";
+import {useRouter} from 'next/navigation';
 export default function Home() {
     const [selectedFilters,setSelectedFilters] = useState<any[]>([]) 
   function handlefilters(selectedFilters: any) {
     console.log('selectedFilters :>> ', selectedFilters);
     setSelectedFilters(selectedFilters);
   }
+
+  const router = useRouter();
   function handleclick(){
     console.log(' searched :>> ', );
+    router.push('/pages/ManualSearch');
   }
   return (
     <div className="merge-page">
