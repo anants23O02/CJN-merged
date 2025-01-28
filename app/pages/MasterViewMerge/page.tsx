@@ -65,6 +65,8 @@ const NewPage: React.FC = () => {
 
 
   function handleButtonRightToLeft() {
+
+    const updatedprimaryRecord = 
     setPrimaryRecord((prevPrimary) => {
       const movedItems = comparableRecord
         .flat()
@@ -87,8 +89,6 @@ const NewPage: React.FC = () => {
       sessionStorage.setItem("record", JSON.stringify(updatedRecord));
     }
   }
-
-
   function handleButtonLeftToRight() {
     setPrimaryRecord((prevPrimary) =>
       prevPrimary.filter((record) => !moverecordL2RDetails.includes(record.caseNumber))

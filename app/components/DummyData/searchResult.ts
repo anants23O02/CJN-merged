@@ -1,4 +1,4 @@
-import {DataType} from '../../Table/table.types.ts'
+import {DataType} from './DataInterface.types';
 const initialData: DataType[] = [
   {
     key: "1",

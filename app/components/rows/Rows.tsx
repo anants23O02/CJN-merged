@@ -2,7 +2,7 @@
 
 
 import React from "react";
-import { Row, Col, Checkbox, Typography, Space } from "antd";
+import { Row, Col, Checkbox, Typography } from "antd";
 import {useState, useEffect} from 'react';
 const { Text } = Typography;
 
@@ -29,7 +29,6 @@ const CaseRow: React.FC<RowData> = ({
   filterData,
   checkremoveHandler,
   checkHandler,
-  Fkey,
   caseNumber,
   date,
   firstName,
@@ -40,7 +39,6 @@ const CaseRow: React.FC<RowData> = ({
   sex,
   race,
   height,
-  weight,
   id,
   phoneNumber,
   address,
@@ -96,7 +94,7 @@ const CaseRow: React.FC<RowData> = ({
     <Row
       justify="start"
       align="middle"
-      gutter={[0, 0]} // Remove all gutter space
+      gutter={[0, 0]} 
       style={{
         marginBottom: "16px",
         whiteSpace: "nowrap",
@@ -120,8 +118,8 @@ const CaseRow: React.FC<RowData> = ({
           key={index}
           style={{
             background: highlight ? "#b1ffc6" : "transparent",
-            padding: "0 15px", // Ensure no padding
-            margin: "0", // Ensure no margin
+            padding: "0 15px", 
+            margin: "0", 
           }}
         >
           <Text style={{ color: "#556d7a", fontWeight: "600" }}>{label}</Text>

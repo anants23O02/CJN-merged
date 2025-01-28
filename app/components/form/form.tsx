@@ -1,7 +1,7 @@
 'use client'; // Add this to mark the component as a client-side component
 import './form.css';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import MainButton from '../mainButton/button';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -25,13 +25,13 @@ interface FormValues {
 }
 
 interface Form1Props {
-  isShown: boolean;
-  setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
+  // isShown: boolean;
+  // setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
   handleSearchClick: () => void;
 }
 
-const Form1: React.FC<Form1Props> = ({ isShown, setIsShown, handleSearchClick }) => {
-  const router = useRouter();
+const Form1: React.FC<Form1Props> = ({  handleSearchClick }) => {
+  // const router = useRouter();
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
   const [formValues, setFormValues] = useState<FormValues>({
     Fkey: 1,
@@ -52,7 +52,7 @@ const Form1: React.FC<Form1Props> = ({ isShown, setIsShown, handleSearchClick })
     address: "",
   });
 
-  const [errors, setErrors] = useState<Partial<FormValues>>({});
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {

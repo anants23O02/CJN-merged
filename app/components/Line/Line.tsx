@@ -3,13 +3,15 @@
 import React, { useState } from "react";
 import { Button, Divider } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import CustomModal from "./CustomModal"; // Import the new modal component
+import CustomModal from "./CustomModal"; 
+import {VerticalLineProps} from './VerticalLineProps.types'
 
-const VerticalLineWithDrawer: React.FC<{ rightbutton: () => void }> = ({ rightbutton,leftbutton }) => {
+
+const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({ rightbutton,leftbutton }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [button,setButton] = useState('');
-  // Handler for opening the modal
-  const handleModalOpen = (value) => {
+
+  const handleModalOpen = (value:string) => {
     setButton(value);
     setIsModalVisible(true);
   };

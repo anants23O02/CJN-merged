@@ -1,7 +1,7 @@
 "use client"
 import FilterPopup from "@/app/components/Modal2/Modal";
 import "./page.css";
-import Button1 from "../../components/buttonSelect/buttonSelect";
+import MainButton from "../../components/mainButton/button";
 import MasterTable from "../../components/MasterTable2/MasterTable2";
 import VerticalLineWithDrawer from "@/app/components/Line/Line";
 import { useState } from "react";
@@ -10,6 +10,9 @@ export default function Home() {
   function handlefilters(selectedFilters: any) {
     console.log('selectedFilters :>> ', selectedFilters);
     setSelectedFilters(selectedFilters);
+  }
+  function handleclick(){
+    console.log(' searched :>> ', );
   }
   return (
     <div className="merge-page">
@@ -27,7 +30,9 @@ export default function Home() {
 
       </div>
       <div className="button-container">
-        <Button1 />
+        <MainButton handleClick={handleclick} >
+          Search
+        </MainButton>
       </div>
       </div>
       <div className="right-part">

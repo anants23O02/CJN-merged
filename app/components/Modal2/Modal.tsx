@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { Modal, Button, Checkbox, Row, Col,Card } from 'antd';
-import { SettingOutlined ,SlidersOutlined,CloseOutlined} from '@ant-design/icons';
-import { SlidersFilled } from '@ant-design/icons';
+import {SlidersOutlined,CloseOutlined} from '@ant-design/icons';
+
 
 const FilterPopup: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

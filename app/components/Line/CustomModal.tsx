@@ -4,10 +4,12 @@ import React from "react";
 import { Modal, Button } from "antd";
 
 interface CustomModalProps {
+  value:string;
   visible: boolean;
   handleClose: () => void; 
   children: React.ReactNode;
   rightbutton: () => void; 
+  leftbutton:()=>void;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({ visible, value,handleClose, children, rightbutton,leftbutton }) => {

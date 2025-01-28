@@ -25,12 +25,12 @@ interface FormValues {
 }
 
 interface Form1Props {
-  isShown: boolean;
-  setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
+  // isShown: boolean;
+  // setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
   handleSearchClick: () => void;
 }
 
-const Form1: React.FC<Form1Props> = ({ isShown, setIsShown, handleSearchClick }) => {
+const Form1: React.FC<Form1Props> = ({ handleSearchClick }) => {
   const router = useRouter();
   const [primaryRecord, setPrimaryRecord] = useState<any[]>([]);
   const [formValues, setFormValues] = useState<FormValues>({
@@ -52,7 +52,7 @@ const Form1: React.FC<Form1Props> = ({ isShown, setIsShown, handleSearchClick })
     address: "",
   });
 
-  const [errors, setErrors] = useState<Partial<FormValues>>({});
+ 
 
   useEffect(() => {
     if (typeof window !== "undefined") {

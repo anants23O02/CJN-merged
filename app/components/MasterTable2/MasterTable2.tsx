@@ -32,19 +32,19 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters }) => {
 
   useEffect(() => {
     const data = {
-      secondaryRecord: selectedRows, // Store selected rows as an array
-      comparableRecord: selectedRows.length ? [selectedRows] : [], // Group selected rows into a nested array
+      secondaryRecord: selectedRows, 
+      comparableRecord: selectedRows.length ? [selectedRows] : [], 
     };
     sessionStorage.setItem("record", JSON.stringify(data));
   }, [selectedRows]);
 
   const handleCheckboxChange = (checked: boolean, record: DataType) => {
     if (checked) {
-      // Add the record to the selected arrays
+      
       setSelectedKeys((prevKeys) => [...prevKeys, record.key]);
       setSelectedRows((prevRows) => [...prevRows, record]);
     } else {
-      // Remove the record from the selected arrays
+      
       setSelectedKeys((prevKeys) => prevKeys.filter((key) => key !== record.key));
       setSelectedRows((prevRows) =>
         prevRows.filter((row) => row.key !== record.key)

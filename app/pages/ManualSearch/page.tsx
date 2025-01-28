@@ -7,7 +7,7 @@ import Form1 from '../../components/form/form';
 import CaseCard from '../../components/casecard/casecard';
 import { useRouter } from "next/navigation";
 import VerticalLineWithDrawer from '@/app/components/Line/Line';
-import Button1 from "@/app/components/buttonSelect/buttonSelect";
+// import Button1 from "@/app/components/buttonSelect/buttonSelect";
 import MainButton from "@/app/components/mainButton/button";
 import { CheckCircleOutlined, SearchOutlined } from '@ant-design/icons';
 
