@@ -170,7 +170,7 @@ const NewPage: React.FC = () => {
       </Row>
 
       <Row style={{ marginTop: "10px" }}>
-        <Col flex="auto" style={{ maxWidth: "48%" }}>
+        <Col flex="auto" style={{ maxWidth: "48%", padding:"5px" }}>
           <h5>Primary Master Name Record</h5>
           {primaryRecord.length > 0 ? (
             <CaseCard data={primaryRecord[0]} value={""}>
@@ -191,14 +191,14 @@ const NewPage: React.FC = () => {
           )}
         </Col>
 
-        <Col style={{ paddingTop: "25px" }} flex="none">
+        <Col style={{ paddingTop: "25px", padding:"2px" }} flex="none">
           <VerticalLineWithDrawer
             rightbutton={handleButtonRightToLeft}
             leftbutton={handleButtonLeftToRight}
           />
         </Col>
 
-        <Col flex="auto" style={{ maxWidth: "48%" }}>
+        <Col flex="auto" style={{ maxWidth: "48%",padding:"5px" }}>
           <h5>Comparable Record</h5>
           {comparableRecord.length > 0 ? (
             comparableRecord.map((record, index) =>

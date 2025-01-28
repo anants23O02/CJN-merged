@@ -43,14 +43,14 @@ const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({
           type="vertical"
           style={{
             height: "100%",
-            borderLeft: "2px dashed black",
+            borderLeft: "1px dashed black",
             margin: 0,
           }}
         />
 
         <Button
           type="primary"
-          icon={<LeftOutlined />}
+          icon={<LeftOutlined style={{fontSize:"10px"}}/>}
           style={{
             position: "absolute",
             top: "40%",
@@ -58,7 +58,7 @@ const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({
             border: "none",
             borderRadius: "20px",
             height: "40px",
-            width: "20px",
+            width: "10px",
             transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
@@ -67,7 +67,7 @@ const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({
 
         <Button
           type="primary"
-          icon={<RightOutlined />}
+          icon={<RightOutlined  style={{fontSize:"10px"}}/>}
           style={{
             position: "absolute",
             top: "60%",
@@ -75,7 +75,7 @@ const VerticalLineWithDrawer: React.FC<VerticalLineProps> = ({
             border: "none",
             borderRadius: "20px",
             height: "40px",
-            width: "20px",
+            width: "10px",
             transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
