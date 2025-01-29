@@ -23,12 +23,12 @@ interface DataType {
 
 interface MasterTableProps {
   filters?: { key: keyof DataType; value: string }[];
-  type?: string; // Determines behavior of checkbox selection
+  type?: string;
 }
 
 const MasterTable: React.FC<MasterTableProps> = ({ filters, type }) => {
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]); // Stores selected keys
-  const [selectedRows, setSelectedRows] = useState<DataType[]>([]); // Stores selected rows
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]); 
+  const [selectedRows, setSelectedRows] = useState<DataType[]>([]); 
   const [primaryRecord,setprimaryRecord] = useState<any[]>([]);
   const [comparableRecord,setcomparableRecord] = useState<any[]>([]);
   const isMounted = useRef(false);
@@ -36,7 +36,7 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters, type }) => {
 
   useEffect(() => {
     if (!isMounted.current) {
-      // Skip this useEffect on initial render
+      
       isMounted.current = true;
       return;
     }
@@ -56,7 +56,7 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters, type }) => {
 
   useEffect(() => {
     if (!isMounted.current) {
-      // Skip this useEffect on initial render
+     
       isMounted.current = true;
       return;
     }
@@ -79,7 +79,7 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters, type }) => {
     console.log(type);
 
     if (type === "primary") {
-      // Allow only one checkbox to be selected
+      
       if (checked) {
         setSelectedKeys([record.key]);
         setSelectedRows([record]);
@@ -96,7 +96,7 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters, type }) => {
     } 
     
     else if (type === "comparable") {
-      // Allow multiple checkboxes to be selected
+     
       if (checked) {
         const recordRows = [...selectedRows,record];
         setSelectedKeys((prevKeys) => [...prevKeys, record.key]);
@@ -176,7 +176,7 @@ const MasterTable: React.FC<MasterTableProps> = ({ filters, type }) => {
         overflow: "hidden",
       }}
       bodyStyle={{
-        padding: "0px", // Ensure no padding inside the Card
+        padding: "0px", 
       }}
     >
       <Table
